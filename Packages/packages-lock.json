@@ -1,18 +1,11 @@
 {
   "dependencies": {
-    "com.jbruening.mvvm": {
-      "version": "git@github.com:KleioSim/UnityPackage.MvvmFramework.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "3e4081769edc3ccc489452351dea2bb7f1994130"
-    },
     "com.kleiosim.tilemapobservable": {
       "version": "git@github.com:KleioSim/UnityPackage.TilemapObservable.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "7555ca351aad93a76ca3639f2b56c6d16bf65f43"
+      "hash": "a950c35931253d3ccc412bd7a1129eb549472eb6"
     },
     "com.kleiosim.ui.cameracontrol": {
       "version": "git@github.com:KleioSim/UnityPackage.UI.CameraControl.git",
@@ -20,6 +13,15 @@
       "source": "git",
       "dependencies": {},
       "hash": "1d51e6ef387b7647d576414310a30c1bd08a3444"
+    },
+    "com.noesis.noesisgui": {
+      "version": "git@github.com:KleioSim/UnityPackage.Noesis.NoesisGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.inputsystem": "1.0.2"
+      },
+      "hash": "6b8527905de0c84b3e194f8450f1aab238a04b38"
     },
     "com.unity.2d.animation": {
       "version": "8.0.2",
@@ -161,6 +163,15 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.cn"
+    },
+    "com.unity.inputsystem": {
+      "version": "1.3.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0"
+      },
       "url": "https://packages.unity.cn"
     },
     "com.unity.mathematics": {

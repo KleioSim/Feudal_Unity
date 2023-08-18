@@ -1,0 +1,23 @@
+<UserControl x:Class="Feudal.Scenes.Main.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d"
+    xmlns:local="clr-namespace:Feudal.Scenes.Main" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             FontFamily="./#Aero Matics"
+    FontSize="36">
+    <UserControl.Resources>
+        <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Viewbox>
+        <Canvas Height="1080" Width="1920" Background="#00F0F8FF">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDown" >
+                    <i:InvokeCommandAction Command="{Binding CreateMapItemDetail}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Button  Content="Button" Canvas.Left="930" Canvas.Top="500" Visibility="{Binding MapItemDetail, Converter={StaticResource NullToVisibilityConverter}}"/>
+        </Canvas>
+    </Viewbox>
+</UserControl>

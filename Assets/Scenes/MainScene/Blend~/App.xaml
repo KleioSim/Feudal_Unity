@@ -1,0 +1,9 @@
+﻿<Application x:Class="Feudal.Scenes.Main.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Feudal.Scenes.Main"
+             StartupUri="/Feudal.Scenes.Main;component/MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
