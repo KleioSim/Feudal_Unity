@@ -15,13 +15,13 @@
       "hash": "1d51e6ef387b7647d576414310a30c1bd08a3444"
     },
     "com.noesis.noesisgui": {
-      "version": "git@github.com:KleioSim/UnityPackage.Noesis.NoesisGUI.git",
+      "version": "https://github.com/KleioSim/UnityPackage.Noesis.NoesisGUI.git#IsHitted_3.1",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.inputsystem": "1.0.2"
       },
-      "hash": "6b8527905de0c84b3e194f8450f1aab238a04b38"
+      "hash": "3cf40c5790d0209f71f10d8472631975cc5e5dd1"
     },
     "com.unity.2d.animation": {
       "version": "8.0.2",
