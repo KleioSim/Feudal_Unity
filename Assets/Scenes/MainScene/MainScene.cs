@@ -14,7 +14,13 @@ namespace Feudal.Scenes.Main
         // Start is called before the first frame update
         void Start()
         {
-            noesisView.Content.DataContext = new MainViewModel();
+            var viewMode = new MainViewModel();
+            viewMode.OnBackgroundClick = () =>
+            {
+                Debug.Log(Input.mousePosition);
+            };
+
+            noesisView.Content.DataContext = viewMode;
         }
 
         // Update is called once per frame
@@ -25,12 +31,7 @@ namespace Feudal.Scenes.Main
 
         public void OnTerrainMapClick(DataItem item)
         {
-            var _root = (Visual)VisualTreeHelper.GetRoot(noesisView.Content);
-
-            Vector3 mousePos = Input.mousePosition;
-            Point point = _root.PointFromScreen(new Point(mousePos.x, Screen.height - mousePos.y));
-            HitTestResult hit = VisualTreeHelper.HitTest(_root, point);
-            if (hit.VisualHit == null)
+            if (!noesisView.IsHitted)
             {
                 Debug.Log($"{item.Position} {item.TileKey}");
 
