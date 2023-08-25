@@ -11,7 +11,8 @@
     <UserControl.Resources>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
-    <Viewbox>
+    
+    <Viewbox Stretch="UniformToFill">
         <DockPanel Height="1080" Width="1920">
             <Grid DockPanel.Dock="Top" Height="200">
                 <Grid.ColumnDefinitions>
@@ -85,23 +86,98 @@
             </Grid>
             <Grid DockPanel.Dock="Right" Width="300"></Grid>
             <Grid DockPanel.Dock="Bottom" Height="220">
-                <ItemsControl Background="LightGray">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="15" Rows="2" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Content="{Binding}" Margin="0,0,5,5" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <system:String>Item #1</system:String>
-                    <system:String>Item #2</system:String>
-                    <system:String>Item #3</system:String>
-                    <system:String>Item #4</system:String>
-                    <system:String>Item #5</system:String>
-                </ItemsControl>
+                <ScrollViewer>
+                    <ItemsControl Background="LightGray">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding}" Width="70" Height="100" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #5</system:String>
+                        <system:String>Item #1</system:String>
+                        <system:String>Item #2</system:String>
+                        <system:String>Item #3</system:String>
+                        <system:String>Item #4</system:String>
+                        <system:String>Item #5</system:String>
+                    </ItemsControl>
+                </ScrollViewer>
             </Grid>
             <Grid></Grid>
         </DockPanel>
