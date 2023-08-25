@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "com.kleiosim.tilemapobservable": {
-      "version": "git@github.com:KleioSim/UnityPackage.TilemapObservable.git",
+      "version": "https://github.com/KleioSim/UnityPackage.TilemapObservable.git#dev",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "a950c35931253d3ccc412bd7a1129eb549472eb6"
+      "hash": "552389e6728085421ccba723cf28c404b0d6024e"
     },
     "com.kleiosim.ui.cameracontrol": {
       "version": "git@github.com:KleioSim/UnityPackage.UI.CameraControl.git",

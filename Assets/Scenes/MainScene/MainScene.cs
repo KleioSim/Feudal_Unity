@@ -1,5 +1,5 @@
 using KleioSim.Tilemaps;
-using Noesis;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +7,7 @@ using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 
 namespace Feudal.Scenes.Main
 {
-    public class MainScene : MonoBehaviour
+    class MainScene : MonoBehaviour
     {
         public UnityEvent OnRefresh;
 
@@ -15,7 +15,8 @@ namespace Feudal.Scenes.Main
 
         public TilemapObservable terrainMap;
 
-        private MainViewModelUnity mainViewMode;
+        internal MainViewModelUnity mainViewMode;
+
 
         // Start is called before the first frame update
         void Awake()
@@ -36,7 +37,7 @@ namespace Feudal.Scenes.Main
 
                 mainViewMode.CreateMapItemDetail.Execute(null);
 
-                for(int x=item.Position.x-1; x <= item.Position.x +1; x++)
+                for (int x=item.Position.x-1; x <= item.Position.x +1; x++)
                 {
                     for (int y = item.Position.y - 1; y <= item.Position.y + 1; y++)
                     {
@@ -45,7 +46,7 @@ namespace Feudal.Scenes.Main
                             continue;
                         }
 
-                        mainViewMode.TerrainItems.Add(new DataItem() { Position = new Vector3Int(x, y), TileKey = Terrain.Plain.ToString() });
+                        mainViewMode.TerrainItems.Add(new DataItem() { Position = new Vector3Int(x, y), TileKey = Terrain.Plain });
                     }
                 }
 

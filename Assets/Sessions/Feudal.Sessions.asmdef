@@ -1,11 +1,7 @@
 {
-    "name": "Feudal.Scenes",
+    "name": "Feudal.Sessions",
     "rootNamespace": "",
     "references": [
-        "Noesis.NoesisGUI",
-        "KleioSim.TilemapObservable",
-        "KleioSim.UI.CameraControl",
-        "Feudal.Sessions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

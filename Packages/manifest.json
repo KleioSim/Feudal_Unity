@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.kleiosim.tilemapobservable": "git@github.com:KleioSim/UnityPackage.TilemapObservable.git",
+    "com.kleiosim.tilemapobservable": "https://github.com/KleioSim/UnityPackage.TilemapObservable.git#dev",
     "com.kleiosim.ui.cameracontrol": "git@github.com:KleioSim/UnityPackage.UI.CameraControl.git",
     "com.noesis.noesisgui": "https://github.com/KleioSim/UnityPackage.Noesis.NoesisGUI.git#IsHitted_3.1",
     "com.unity.collab-proxy": "1.15.18",

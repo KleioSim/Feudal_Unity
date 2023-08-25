@@ -461,6 +461,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainMap: {fileID: 705292195}
   tileImage: {fileID: 21300000, guid: 4fdc85fea2681dd40b636fc5c4d3ecb4, type: 3}
+--- !u!114 &300761330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Sprite: {fileID: 7482667652216324306, guid: d7aa0b09aa3c22f4c9e89a52d11bc6fb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Transform:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  m_InstancedGameObject: {fileID: 0}
+  m_Flags: 1
+  m_ColliderType: 1
 --- !u!1 &539106205
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,7 +641,7 @@ GameObject:
   - component: {fileID: 705292192}
   - component: {fileID: 705292195}
   - component: {fileID: 705292194}
-  - component: {fileID: 705292193}
+  - component: {fileID: 705292196}
   m_Layer: 0
   m_Name: TilemapTerrain
   m_TagString: Untagged
@@ -630,32 +664,6 @@ Transform:
   m_Father: {fileID: 657566234}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &705292193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 705292191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 890c207fb7f7bf44bb87628b466fda3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileSets:
-  - key: Plain
-    tile: {fileID: 2090731036}
-  - key: Hill
-    tile: {fileID: 1243184549}
-  tileSetEnumType: Terrain
-  OnClickTile:
-    m_PersistentCalls:
-      m_Calls: []
-  itemsForSerialized:
-  - position: {x: 0, y: 0, z: 0}
-    tileKey: Plain
-  - position: {x: 0, y: 1, z: 0}
-    tileKey: Plain
 --- !u!483693784 &705292194
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -737,7 +745,7 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 2
-    m_Data: {fileID: 2090731036}
+    m_Data: {fileID: 987008020}
   m_TileSpriteArray:
   - m_RefCount: 2
     m_Data: {fileID: 7482667652216324306, guid: d7aa0b09aa3c22f4c9e89a52d11bc6fb, type: 3}
@@ -787,6 +795,34 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &705292196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705292191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890c207fb7f7bf44bb87628b466fda3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileSets:
+  - key: Plain
+    tile: {fileID: 987008020}
+  - key: Hill
+    tile: {fileID: 300761330}
+  tileSetEnumType: Terrain
+  OnClickTile:
+    m_PersistentCalls:
+      m_Calls: []
+  itemsForSerialized:
+  - position: {x: 0, y: 0, z: 0}
+    tileKeyStr: Plain
+    tileKeyEnumType: Terrain
+  - position: {x: 0, y: 1, z: 0}
+    tileKeyStr: Plain
+    tileKeyEnumType: Terrain
 --- !u!1 &807482568
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,6 +908,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &987008020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Sprite: {fileID: 7482667652216324306, guid: d7aa0b09aa3c22f4c9e89a52d11bc6fb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Transform:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  m_InstancedGameObject: {fileID: 0}
+  m_Flags: 1
+  m_ColliderType: 1
 --- !u!1 &1107424588
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,7 +987,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   noesisView: {fileID: 60480114}
-  terrainMap: {fileID: 705292193}
+  terrainMap: {fileID: 705292196}
 --- !u!4 &1107424590
 Transform:
   m_ObjectHideFlags: 0
@@ -933,40 +1003,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1243184549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 7482667652216324306, guid: d7aa0b09aa3c22f4c9e89a52d11bc6fb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Transform:
-    e00: 1
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 1
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 1
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 1
-  m_InstancedGameObject: {fileID: 0}
-  m_Flags: 1
-  m_ColliderType: 1
 --- !u!1 &1451737469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,37 +1353,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2090731036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 7482667652216324306, guid: d7aa0b09aa3c22f4c9e89a52d11bc6fb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Transform:
-    e00: 1
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 1
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 1
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 1
-  m_InstancedGameObject: {fileID: 0}
-  m_Flags: 1
-  m_ColliderType: 1
