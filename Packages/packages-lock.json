@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "1d51e6ef387b7647d576414310a30c1bd08a3444"
+      "hash": "41ee1201c7643862732dee2ac021cb17fd1ad0ef"
     },
     "com.noesis.noesisgui": {
       "version": "https://github.com/KleioSim/UnityPackage.Noesis.NoesisGUI.git#IsHitted_3.1",

@@ -1,12 +1,15 @@
 using KleioSim.Tilemaps;
 using Noesis;
 using UnityEngine;
+using UnityEngine.Events;
 using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 
 namespace Feudal.Scenes.Main
 {
     public class MainScene : MonoBehaviour
     {
+        public UnityEvent<Camera> RefreshMaskMap;
+
         public NoesisView noesisView;
 
         private MainViewModel mainViewMode => noesisView.Content.DataContext as MainViewModel;
@@ -14,19 +17,12 @@ namespace Feudal.Scenes.Main
         // Start is called before the first frame update
         void Start()
         {
-            var viewMode = new MainViewModel();
-            viewMode.OnBackgroundClick = () =>
-            {
-                Debug.Log(Input.mousePosition);
-            };
-
-            noesisView.Content.DataContext = viewMode;
+            noesisView.Content.DataContext = new MainViewModel();
         }
 
         // Update is called once per frame
         void Update()
         {
-
         }
 
         public void OnTerrainMapClick(DataItem item)
@@ -37,6 +33,16 @@ namespace Feudal.Scenes.Main
 
                 mainViewMode.CreateMapItemDetail.Execute(null);
             }
+        }
+
+        public void OnCameraMoved(Camera camera, Vector3 offset)
+        {
+            RefreshMaskMap.Invoke(camera);
+        }
+
+        public void OnCameraUpdown(Camera camera, float offset)
+        {
+            RefreshMaskMap.Invoke(camera);
         }
     }
 }
