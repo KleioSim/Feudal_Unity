@@ -45,6 +45,7 @@ namespace Feudal.Scenes.Initial
         public static void Update(this MainViewModel viewModel, Session session)
         {
             Update(viewModel.TerrainItems, session.terrainItems);
+            Update(viewModel.Tasks, session.tasks);
         }
 
         public static void Update(this ObservableCollection<DataItem> dataItems, IEnumerable<TerrainItem> terrainItems)
@@ -80,6 +81,37 @@ namespace Feudal.Scenes.Initial
                 default:
                     throw new Exception();
             }
+        }
+
+        public static void Update(this ObservableCollection<TaskViewModel> viewModels, IEnumerable<Task> tasks)
+        {
+            var taskDict = tasks.ToDictionary(k => k.taskId, v => v);
+            var viewModelDict = viewModels.ToDictionary(k => k.taskId, v => v);
+
+            var needRemoveIds = viewModelDict.Keys.Except(taskDict.Keys).ToArray();
+            var needAddIds = taskDict.Keys.Except(viewModelDict.Keys).ToArray();
+
+            foreach(var id in needRemoveIds)
+            {
+                viewModels.Remove(viewModelDict[id]);
+            }
+
+            foreach(var id in needAddIds)
+            {
+                var newViewModel = new TaskViewModel(id);
+                viewModels.Add(newViewModel);
+            }
+
+            foreach(var viewModel in viewModels)
+            {
+                Update(viewModel, taskDict[viewModel.taskId]);
+            }
+        }
+
+        public static void Update(TaskViewModel viewModel, Task task)
+        {
+            viewModel.Desc = task.desc;
+            viewModel.Percent = task.percent;
         }
     }
 }

@@ -21,8 +21,8 @@ namespace Feudal.Scenes.Main
                 {
                     @default = new MainViewModel();
 
-                    @default.Tasks.Add(new TaskViewModel() { Desc = "Task Desc0", Percent = 33 });
-                    @default.Tasks.Add(new TaskViewModel() { Desc = "Task Desc1", Percent = 22 });
+                    @default.Tasks.Add(new TaskViewModel("ID0") { Desc = "Task Desc0", Percent = 33 });
+                    @default.Tasks.Add(new TaskViewModel("ID1") { Desc = "Task Desc1", Percent = 22 });
                 }
 
                 return @default;

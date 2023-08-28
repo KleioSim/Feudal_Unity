@@ -11,6 +11,8 @@ namespace Feudal.Scenes.Main
 {
     public class TaskViewModel : ViewModel
     {
+        public readonly string taskId;
+
         private string desc;
         public string Desc
         {
@@ -23,6 +25,11 @@ namespace Feudal.Scenes.Main
         {
             get => percent;
             set => SetProperty(ref percent, value);
+        }
+
+        public TaskViewModel(string taskId)
+        {
+            this.taskId = taskId;
         }
     }
 }
