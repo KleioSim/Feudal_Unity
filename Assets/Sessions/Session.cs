@@ -14,20 +14,29 @@ public class Session
         switch(uiCmd)
         {
             case DiscoverCommand command:
-                _tasks.Add(new DisCoverTask(command.position));
-                //for (int i = command.position.x-1; i <= command.position.x+1; i++)
-                //{
-                //    for (int j = command.position.y-1; j <= command.position.y +1; j++)
-                //    {
-                //        var pos = (i,j);
-                //        if (_terrainItems.ContainsKey(pos))
-                //        {
-                //            continue;
-                //        }
+                _tasks.Add(new Task(()=>
+                {
+                    for (int i = command.position.x - 1; i <= command.position.x + 1; i++)
+                    {
+                        for (int j = command.position.y - 1; j <= command.position.y + 1; j++)
+                        {
+                            var pos = (i, j);
+                            if (_terrainItems.ContainsKey(pos))
+                            {
+                                continue;
+                            }
 
-                //        _terrainItems.Add(pos, new TerrainItem(pos, Terrain.Hill));
-                //    }
-                //}
+                            _terrainItems.Add(pos, new TerrainItem(pos, Terrain.Hill));
+                        }
+                    }
+                }));
+                break;
+            case NexTurnCommand command:
+                foreach(var task in _tasks)
+                {
+                    task.Percent += 10;
+                }
+                _tasks.RemoveAll(x => x.Percent >= 100);
                 break;
             default:
                 throw new Exception();
@@ -48,25 +57,61 @@ public class Task
 
     public readonly string taskId;
     public string desc;
-    public int percent;
 
-    public Task()
+    private int percent;
+    public int Percent
+    {
+        get => percent;
+        set
+        {
+            percent = value;
+            if(percent >= 100)
+            {
+                finishAction?.Invoke();
+            }
+        }
+    }
+
+    private Action finishAction;
+
+    public Task(Action finishAction)
     {
         taskId = TaskId++.ToString();
 
         desc = taskId;
+
+        this.finishAction = finishAction;
     }
 }
 
-public class DisCoverTask : Task
-{
-    private (int x, int y) position;
+//public class DisCoverTask : Task
+//{
+//    private (int x, int y) position;
 
-    public DisCoverTask((int x, int y) position)
-    {
-        this.position = position;
-    }
-}
+//    private Session session;
+
+//    public DisCoverTask((int x, int y) position)
+//    {
+//        this.position = position;
+//    }
+
+//    protected override void OnFinished()
+//    {
+//        for (int i = position.x - 1; i <= position.x + 1; i++)
+//        {
+//            for (int j = position.y - 1; j <= position.y + 1; j++)
+//            {
+//                var pos = (i, j);
+//                if (session._terrainItems.ContainsKey(pos))
+//                {
+//                    continue;
+//                }
+
+//                session._terrainItems.Add(pos, new TerrainItem(pos, Terrain.Hill));
+//            }
+//        }
+//    }
+//}
 
 public class TerrainItem
 {

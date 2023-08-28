@@ -8,6 +8,11 @@ public class DiscoverCommand : UICommand
     }
 }
 
+public class NexTurnCommand : UICommand
+{
+
+}
+
 public class UICommand
 {
 

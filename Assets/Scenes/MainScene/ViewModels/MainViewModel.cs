@@ -16,6 +16,7 @@ namespace Feudal.Scenes.Main
     {
         public RelayCommand CreateMapItemDetail { get; }
         public RelayCommand RemoveMapItemDetail { get; }
+        public RelayCommand NexTurn { get; }
 
         private MapDetailViewModel mapItemDetail;
         public MapDetailViewModel MapItemDetail
@@ -39,6 +40,13 @@ namespace Feudal.Scenes.Main
             });
 
             Tasks = new ObservableCollection<TaskViewModel>();
+
+            NexTurn = new RelayCommand(() =>
+            {
+#if UNITY_5_3_OR_NEWER
+                ExecUICmd?.Invoke(new NexTurnCommand());
+#endif
+            });
 
 #if UNITY_5_3_OR_NEWER
             testClickTerrainItem = new RelayCommand<DataItem>((item) =>

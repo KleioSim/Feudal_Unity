@@ -111,7 +111,7 @@ namespace Feudal.Scenes.Initial
         public static void Update(TaskViewModel viewModel, Task task)
         {
             viewModel.Desc = task.desc;
-            viewModel.Percent = task.percent;
+            viewModel.Percent = task.Percent;
         }
     }
 }

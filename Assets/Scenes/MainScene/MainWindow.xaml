@@ -87,7 +87,11 @@
                 </StackPanel>
             </Grid>
             <Grid DockPanel.Dock="Right" Width="250">
-                <ScrollViewer VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Row="0" VerticalAlignment="Center">
                     <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding Tasks}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -106,6 +110,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
+                <Button Grid.Row="1" Command="{Binding NexTurn}"/>
             </Grid>
             <Grid DockPanel.Dock="Bottom" Height="220">
                 <ScrollViewer Margin="200,0">
