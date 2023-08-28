@@ -7,19 +7,21 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:Feudal.Scenes.Main" 
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             FontSize="25">
+    FontSize="25"
+    d:DataContext="{x:Static local:MainViewModel.Default}">
+
     <UserControl.Resources>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
-    
-    <Viewbox Stretch="UniformToFill">
+
+    <Viewbox Stretch="Fill">
         <DockPanel Height="1080" Width="1920">
-            <Grid DockPanel.Dock="Top" Height="200">
+            <Grid DockPanel.Dock="Top" Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="160"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"></Button>
+                <Button Grid.Column="0" Margin="0,0,0,-140"></Button>
                 <Grid Grid.Column="1" Height="60" Background="LightGray" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -73,7 +75,7 @@
                 </Grid>
             </Grid>
             <Grid DockPanel.Dock="Left" Width="300">
-                <StackPanel Background="LightGray" VerticalAlignment="Top" Margin="0,80,0,0" Visibility="{Binding MapItemDetail, Converter={StaticResource NullToVisibilityConverter}}">
+                <StackPanel Background="LightGray" VerticalAlignment="Top" Margin="0,200,0,0" Visibility="{Binding MapItemDetail, Converter={StaticResource NullToVisibilityConverter}}">
                     <Grid Height="40">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -84,9 +86,29 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-            <Grid DockPanel.Dock="Right" Width="300"></Grid>
+            <Grid DockPanel.Dock="Right" Width="250">
+                <ScrollViewer VerticalAlignment="Center">
+                    <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding Tasks}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="{Binding Desc}"></Label>
+                                        <Slider IsEnabled ="False" Value="{Binding Percent}" Height="25" Maximum="100"></Slider>
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
             <Grid DockPanel.Dock="Bottom" Height="220">
-                <ScrollViewer>
+                <ScrollViewer Margin="200,0">
                     <ItemsControl Background="LightGray">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

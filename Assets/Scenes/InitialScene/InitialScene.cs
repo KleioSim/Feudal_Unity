@@ -26,23 +26,23 @@ namespace Feudal.Scenes.Initial
 
             var session = new Session();
 
-            var mainViewMode = SceneManager.GetActiveScene().GetRootGameObjects()
+            var mainScene = SceneManager.GetActiveScene().GetRootGameObjects()
                 .Select(obj => obj.GetComponent<MainScene>())
-                .Single(x => x != null)
-                .mainViewMode;
+                .Single(x => x != null);
 
-            mainViewMode.Update(session);
-            mainViewMode.ExecUICmd = (obj) =>
+            mainScene.MainViewModel = new MainViewModel();
+            mainScene.MainViewModel.Update(session);
+            mainScene.MainViewModel.ExecUICmd = (obj) =>
             {
                 session.ExecUICmd(obj);
-                mainViewMode.Update(session);
+                mainScene.MainViewModel.Update(session);
             };
         }
     }
 
     static class MainViewModelExtensions
     {
-        public static void Update(this MainViewModelUnity viewModel, Session session)
+        public static void Update(this MainViewModel viewModel, Session session)
         {
             Update(viewModel.TerrainItems, session.terrainItems);
         }

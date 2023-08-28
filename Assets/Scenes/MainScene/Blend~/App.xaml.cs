@@ -13,9 +13,6 @@ namespace Feudal.Scenes.Main
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnActivated(EventArgs e)
-        {
-            MainWindow.DataContext = new MainViewModel();
-        }
+
     }
 }
