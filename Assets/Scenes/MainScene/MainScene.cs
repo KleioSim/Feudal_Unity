@@ -36,19 +36,20 @@ namespace Feudal.Scenes.Main
                 Debug.Log($"{item.Position} {item.TileKey}");
 
                 mainViewMode.CreateMapItemDetail.Execute(null);
+                mainViewMode.testClickTerrainItem.Execute(item);
 
-                for (int x=item.Position.x-1; x <= item.Position.x +1; x++)
-                {
-                    for (int y = item.Position.y - 1; y <= item.Position.y + 1; y++)
-                    {
-                        if(mainViewMode.TerrainItems.Any(i=> i.Position.x == x && i.Position.y == y))
-                        {
-                            continue;
-                        }
+                //for (int x=item.Position.x-1; x <= item.Position.x +1; x++)
+                //{
+                //    for (int y = item.Position.y - 1; y <= item.Position.y + 1; y++)
+                //    {
+                //        if(mainViewMode.TerrainItems.Any(i=> i.Position.x == x && i.Position.y == y))
+                //        {
+                //            continue;
+                //        }
 
-                        mainViewMode.TerrainItems.Add(new DataItem() { Position = new Vector3Int(x, y), TileKey = Terrain.Plain });
-                    }
-                }
+                //        mainViewMode.TerrainItems.Add(new DataItem() { Position = new Vector3Int(x, y), TileKey = Terrain.Plain });
+                //    }
+                //}
 
                 OnRefresh.Invoke();
             }
@@ -57,7 +58,7 @@ namespace Feudal.Scenes.Main
 }
 
 [TileSetEnum]
-public enum Terrain
+public enum TerrainDataType
 {
     Plain,
     Hill

@@ -5,6 +5,7 @@
         "Noesis.NoesisGUI",
         "KleioSim.TilemapObservable",
         "KleioSim.UI.CameraControl",
+        "Feudal.UICommands",
         "Feudal.Sessions"
     ],
     "includePlatforms": [],

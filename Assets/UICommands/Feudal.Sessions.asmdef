@@ -1,8 +1,7 @@
 {
-    "name": "Feudal.Sessions",
-    "rootNamespace": "",
+    "name": "Feudal.UICommands",
+    "rootNamespace": "Feudal.UICommands",
     "references": [
-        "Feudal.UICommands"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

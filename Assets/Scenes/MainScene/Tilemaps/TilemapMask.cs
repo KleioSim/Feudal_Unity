@@ -1,6 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using KleioSim.Tilemaps;
+using System.Collections.Specialized;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -9,7 +8,7 @@ using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 [RequireComponent(typeof(Tilemap))]
 public class TilemapMask : MonoBehaviour
 {
-    public Tilemap terrainMap;
+    public TilemapObservable terrainMap;
     public Sprite tileImage;
 
     private Tile _tile;
@@ -33,10 +32,37 @@ public class TilemapMask : MonoBehaviour
 
     Tilemap tilemap => GetComponent<Tilemap>();
 
-    private void Start()
+    void Start()
     {
+        terrainMap.Itemsource.CollectionChanged += TerrainMap_CollectionChanged;
+
         OnRefresh();
     }
+
+    private void OnDestroy()
+    {
+        terrainMap.Itemsource.CollectionChanged -= TerrainMap_CollectionChanged;
+    }
+
+    private void TerrainMap_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if(e.NewItems != null)
+        {
+            foreach (DataItem newItem in e.NewItems)
+            {
+                tilemap.SetTile(newItem.Position, null);
+            }
+        }
+
+        if(e.OldItems != null)
+        {
+            foreach (DataItem oldItem in e.OldItems)
+            {
+                tilemap.SetTile(oldItem.Position, tile);
+            }
+        }
+    }
+
 
     public void OnRefresh()
     {
@@ -58,18 +84,8 @@ public class TilemapMask : MonoBehaviour
             {
                 var pos = new Vector3Int(x, y);
 
-                tilemap.SetTile(pos, terrainMap.HasTile(pos) ? null : tile);
+                tilemap.SetTile(pos, terrainMap.GetComponent<Tilemap>().HasTile(pos) ? null : tile);
             }
         }
-    }
-
-    public void OnTerrainMapAddItem(DataItem dataItem)
-    {
-        tilemap.SetTile(dataItem.Position, null);
-    }
-
-    public void OnTerrainMapRemoveItem(DataItem dataItem)
-    {
-        tilemap.SetTile(dataItem.Position, null);
     }
 }
