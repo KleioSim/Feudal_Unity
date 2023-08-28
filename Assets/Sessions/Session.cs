@@ -1,13 +1,19 @@
+using Feudal.Interfaces;
+using Feudal.MessageBuses;
+using Feudal.Terrains;
 using System;
 using System.Collections.Generic;
 
 public class Session
 {
-    public IEnumerable<TerrainItem> terrainItems => _terrainItems.Values;
+    public IEnumerable<ITerrainItem> terrainItems => terrainMgr;
     public IEnumerable<Task> tasks => _tasks;
 
-    private Dictionary<(int x, int y), TerrainItem> _terrainItems = new Dictionary<(int x, int y), TerrainItem>();
+
     private List<Task> _tasks = new List<Task>();
+
+    private IMessageBus messageBus;
+    private TerrainManager terrainMgr;
 
     public void ExecUICmd(UICommand uiCmd)
     {
@@ -21,12 +27,12 @@ public class Session
                         for (int j = command.position.y - 1; j <= command.position.y + 1; j++)
                         {
                             var pos = (i, j);
-                            if (_terrainItems.ContainsKey(pos))
-                            {
-                                continue;
-                            }
+                            //if (_terrainItems.ContainsKey(pos))
+                            //{
+                            //    continue;
+                            //}
 
-                            _terrainItems.Add(pos, new TerrainItem(pos, Terrain.Hill));
+                            messageBus.PostMessage(new Message_AddTerrainItem(pos, Terrain.Hill));
                         }
                     }
                 }));
@@ -45,11 +51,13 @@ public class Session
 
     public Session()
     {
-        _terrainItems.Add((0, 0), new TerrainItem((0, 0), Terrain.Hill));
-        _terrainItems.Add((0, 1), new TerrainItem((0, 1), Terrain.Hill));
-        _terrainItems.Add((1, 0), new TerrainItem((1, 0), Terrain.Hill));
+        messageBus = new MessageBus();
+
+        terrainMgr = new TerrainManager(messageBus);
     }
 }
+
+
 
 public class Task
 {
@@ -113,20 +121,3 @@ public class Task
 //    }
 //}
 
-public class TerrainItem
-{
-    public readonly (int x, int y) position;
-    public Terrain terrain;
-
-    public TerrainItem((int, int) position, Terrain terrain)
-    {
-        this.position = position;
-        this.terrain = terrain;
-    }
-}
-
-public enum Terrain
-{
-    Plain,
-    Hill
-}

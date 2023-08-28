@@ -6,6 +6,7 @@
         "KleioSim.TilemapObservable",
         "KleioSim.UI.CameraControl",
         "Feudal.UICommands",
+        "Feudal.Interfaces",
         "Feudal.Sessions"
     ],
     "includePlatforms": [],

@@ -7,6 +7,7 @@ using Feudal.Scenes.Main;
 using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using Feudal.Interfaces;
 
 namespace Feudal.Scenes.Initial
 {
@@ -48,10 +49,10 @@ namespace Feudal.Scenes.Initial
             Update(viewModel.Tasks, session.tasks);
         }
 
-        public static void Update(this ObservableCollection<DataItem> dataItems, IEnumerable<TerrainItem> terrainItems)
+        public static void Update(this ObservableCollection<DataItem> dataItems, IEnumerable<ITerrainItem> terrainItems)
         {
-            var needRemoveItems = dataItems.Where(data => terrainItems.All(terrain => terrain.position != (data.Position.x, data.Position.y))).ToArray();
-            var needAddItems = terrainItems.Where(terrain => dataItems.All(data => terrain.position != (data.Position.x, data.Position.y))).ToArray();
+            var needRemoveItems = dataItems.Where(data => terrainItems.All(terrain => terrain.Position != (data.Position.x, data.Position.y))).ToArray();
+            var needAddItems = terrainItems.Where(terrain => dataItems.All(data => terrain.Position != (data.Position.x, data.Position.y))).ToArray();
 
             foreach(var item in needRemoveItems)
             {
@@ -60,23 +61,23 @@ namespace Feudal.Scenes.Initial
 
             foreach(var item in needAddItems)
             {
-                dataItems.Add(new DataItem() { Position = new Vector3Int(item.position.x, item.position.y), TileKey = item.GetTerrainDataType() });
+                dataItems.Add(new DataItem() { Position = new Vector3Int(item.Position.x, item.Position.y), TileKey = item.GetTerrainDataType() });
             }
 
             foreach(var item in dataItems)
             {
-                var terrain = terrainItems.Single(terrain => terrain.position == (item.Position.x, item.Position.y));
+                var terrain = terrainItems.Single(terrain => terrain.Position == (item.Position.x, item.Position.y));
                 item.TileKey = terrain.GetTerrainDataType();
             }
         }
 
-        public static TerrainDataType GetTerrainDataType(this TerrainItem terrainItem)
+        public static TerrainDataType GetTerrainDataType(this ITerrainItem terrainItem)
         {
-            switch(terrainItem.terrain)
+            switch(terrainItem.Terrain)
             {
-                case Terrain.Hill:
+                case Interfaces.Terrain.Hill:
                     return TerrainDataType.Hill;
-                case Terrain.Plain:
+                case Interfaces.Terrain.Plain:
                     return TerrainDataType.Plain;
                 default:
                     throw new Exception();
