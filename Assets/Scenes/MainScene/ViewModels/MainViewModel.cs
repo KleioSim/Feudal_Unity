@@ -9,14 +9,19 @@ using System.Windows.Data;
 
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Feudal.Scenes.Main
 {
     internal partial class MainViewModel : ViewModel
     {
-        public RelayCommand CreateMapItemDetail { get; }
+        public DetailPanelViewModel DetailPanel { get; } = new DetailPanelViewModel();
+
+        //public RelayCommand<DataItem> CreateMapItemDetail { get; }
         public RelayCommand RemoveMapItemDetail { get; }
         public RelayCommand NexTurn { get; }
+        public RelayCommand ShowLaborsPanel { get; }
+        public RelayCommand ShowMapItemPanel { get; }
 
         private MapDetailViewModel mapItemDetail;
         public MapDetailViewModel MapItemDetail
@@ -29,10 +34,11 @@ namespace Feudal.Scenes.Main
 
         public MainViewModel()
         {
-            CreateMapItemDetail = new RelayCommand(() =>
-            {
-                MapItemDetail = new MapDetailViewModel();
-            });
+            //CreateMapItemDetail = new RelayCommand<DataItem> ((dataItem) =>
+            //{
+            //    MapItemDetail = new MapDetailViewModel();
+            //    MapItemDetail.Position = (dataItem.Position.x, dataItem.Position.y);
+            //});
 
             RemoveMapItemDetail = new RelayCommand(() =>
             {
@@ -70,5 +76,35 @@ namespace Feudal.Scenes.Main
         public RelayCommand<DataItem> testClickTerrainItem { get; }
 #endif
 
+    }
+
+    public class DetailPanelViewModel : ViewModel
+    {
+        private List<ViewModel> list = new List<ViewModel>();
+
+        public RelayCommand ClosePanel { get; }
+
+        private ViewModel current;
+        public ViewModel Current
+        {
+            get => current;
+            set => SetProperty(ref current, value);
+        }
+
+        public DetailPanelViewModel()
+        {
+            ClosePanel = new RelayCommand(() => 
+            {
+                list.Clear();
+                Current = null;
+            });
+        }
+
+        internal void Add(ViewModel mapItemDetail)
+        {
+            list.Add(mapItemDetail);
+
+            Current = mapItemDetail;
+        }
     }
 }

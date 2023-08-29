@@ -12,6 +12,27 @@
 
     <UserControl.Resources>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+
+        <Style x:Key="ToggleButtonListBoxStyle" TargetType="{x:Type ListBox}">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ListBoxItem}" >
+                        <Setter Property="Margin" Value="2, 2, 2, 0" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border Background="Transparent">
+                                        <ToggleButton Content="{TemplateBinding ContentPresenter.Content}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
     </UserControl.Resources>
 
     <Viewbox Stretch="Fill">
@@ -29,16 +50,14 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Label>卿族</Label>
+                            <Label>氏族</Label>
                             <Label>2</Label>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Column="1">
+                    <Button Command="{Binding ShowLaborsPanel}" Grid.Column="1">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Label>人力</Label>
                             <Label>2</Label>
@@ -50,41 +69,50 @@
                             <Label>2</Label>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Column="3" FontSize="18">
-                        <UniformGrid Rows="1">
-                            <UniformGrid.Resources>
-                                <Style TargetType="{x:Type StackPanel}">
-                                    <Setter Property="Margin" Value="1,0"/>
-                                </Style>
-                            </UniformGrid.Resources>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Grid.Column="3" FontSize="18" HorizontalContentAlignment="Stretch">
+                        <UniformGrid Rows="1" Margin="20,0">
+                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Label>粮</Label>
                                 <Label>2</Label>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </WrapPanel>
+                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Label>铜</Label>
                                 <Label>2</Label>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </WrapPanel>
+                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Label>甲</Label>
                                 <Label>2</Label>
-                            </StackPanel>
+                            </WrapPanel>
                         </UniformGrid>
-
                     </Button>
                 </Grid>
             </Grid>
-            <Grid DockPanel.Dock="Left" Width="300">
-                <StackPanel Background="LightGray" VerticalAlignment="Top" Margin="0,200,0,0" Visibility="{Binding MapItemDetail, Converter={StaticResource NullToVisibilityConverter}}">
-                    <Grid Height="40">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="40"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0">title</Label>
-                        <Button Command="{Binding RemoveMapItemDetail}" Grid.Column="1">x</Button>
-                    </Grid>
-                </StackPanel>
+            <Grid DockPanel.Dock="Left" DataContext="{Binding DetailPanel}"  Margin="0,200,0,0" Visibility="{Binding Current, Converter={StaticResource NullToVisibilityConverter}}" Width="400">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Command="{Binding ClosePanel}" Grid.Column="1">x</Button>
+                <Grid Grid.RowSpan="2">
+                    <ContentPresenter Content="{Binding Current}">
+                        <ContentPresenter.Resources>
+                            <DataTemplate DataType="{x:Type local:MapDetailViewModel}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Background="LightGray" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ContentPresenter.Resources>
+                    </ContentPresenter>
+                    <ContentControl/>
+                </Grid>
             </Grid>
             <Grid DockPanel.Dock="Right" Width="250">
                 <Grid.RowDefinitions>
@@ -121,100 +149,6 @@
                     </ItemsControl>
                 </ScrollViewer>
                 <Button Grid.Row="1" Command="{Binding NexTurn}"/>
-            </Grid>
-            <Grid DockPanel.Dock="Bottom" Height="220">
-                <ScrollViewer Margin="200,0">
-                    <ItemsControl Background="LightGray">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button Content="{Binding}" Width="70" Height="100" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #5</system:String>
-                        <system:String>Item #1</system:String>
-                        <system:String>Item #2</system:String>
-                        <system:String>Item #3</system:String>
-                        <system:String>Item #4</system:String>
-                        <system:String>Item #5</system:String>
-                    </ItemsControl>
-                </ScrollViewer>
             </Grid>
             <Grid></Grid>
         </DockPanel>

@@ -47,6 +47,31 @@ namespace Feudal.Scenes.Initial
         {
             Update(viewModel.TerrainItems, session.terrainItems);
             Update(viewModel.Tasks, session.tasks);
+
+            Update(viewModel.DetailPanel, session);
+        }
+
+        public static void Update(this DetailPanelViewModel viewModel, Session session)
+        {
+            if(viewModel.Current == null)
+            {
+                return;
+            }
+
+            switch(viewModel.Current)
+            {
+                case MapDetailViewModel mapDetail:
+                    Update(mapDetail, session);
+                    break;
+                default:
+                    throw new Exception();
+            }
+        }
+
+        public static void Update(this MapDetailViewModel viewModel, Session session)
+        {
+            var terrainItem = session.terrainItems.Single(x => x.Position == viewModel.Position);
+            viewModel.Title = terrainItem.Terrain.ToString();
         }
 
         public static void Update(this ObservableCollection<DataItem> dataItems, IEnumerable<ITerrainItem> terrainItems)
