@@ -51,13 +51,13 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0">
+                    <Button Command="{Binding ShowClansPanel}" Grid.Column="0">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Label>氏族</Label>
                             <Label>2</Label>
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding ShowLaborsPanel}" Grid.Column="1">
+                    <Button Grid.Column="1">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Label>人力</Label>
                             <Label>2</Label>
@@ -106,7 +106,16 @@
                                         <RowDefinition Height="40"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Background="LightGray" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
+                                    <Label Grid.Row="0" Background="Black" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type local:ClansPanelViewModel}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Background="Black" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
                                 </Grid>
                             </DataTemplate>
                         </ContentPresenter.Resources>

@@ -39,12 +39,7 @@ namespace Feudal.Scenes.Main
             {
                 Debug.Log($"{item.Position} {item.TileKey}");
 
-                var mapItemDetail = new MapDetailViewModel();
-                mapItemDetail.Position = (item.Position.x, item.Position.y);
-
-                mainViewModel.DetailPanel.Add(mapItemDetail);
-
-                //mainViewModel.CreateMapItemDetail.Execute(null);
+                mainViewModel.ShowMapItemPanel.Execute(item);
                 mainViewModel.testClickTerrainItem.Execute(item);
             }
         }

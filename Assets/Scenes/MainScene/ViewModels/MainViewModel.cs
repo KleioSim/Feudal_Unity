@@ -9,7 +9,6 @@ using System.Windows.Data;
 
 using System;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
 
 namespace Feudal.Scenes.Main
 {
@@ -17,32 +16,21 @@ namespace Feudal.Scenes.Main
     {
         public DetailPanelViewModel DetailPanel { get; } = new DetailPanelViewModel();
 
-        //public RelayCommand<DataItem> CreateMapItemDetail { get; }
-        public RelayCommand RemoveMapItemDetail { get; }
         public RelayCommand NexTurn { get; }
-        public RelayCommand ShowLaborsPanel { get; }
-        public RelayCommand ShowMapItemPanel { get; }
+        public RelayCommand ShowClansPanel { get; }
 
-        private MapDetailViewModel mapItemDetail;
-        public MapDetailViewModel MapItemDetail
-        {
-            get => mapItemDetail;
-            private set => SetProperty(ref mapItemDetail, value);
-        }
+#if UNITY_5_3_OR_NEWER
+        public RelayCommand<DataItem> ShowMapItemPanel { get; }
+#endif
 
         public ObservableCollection<TaskViewModel> Tasks { get; }
 
         public MainViewModel()
         {
-            //CreateMapItemDetail = new RelayCommand<DataItem> ((dataItem) =>
-            //{
-            //    MapItemDetail = new MapDetailViewModel();
-            //    MapItemDetail.Position = (dataItem.Position.x, dataItem.Position.y);
-            //});
-
-            RemoveMapItemDetail = new RelayCommand(() =>
+            ShowClansPanel = new RelayCommand(() =>
             {
-                MapItemDetail = null;
+                var viewModel = new ClansPanelViewModel();
+                DetailPanel.Add(viewModel);
             });
 
             Tasks = new ObservableCollection<TaskViewModel>();
@@ -64,6 +52,14 @@ namespace Feudal.Scenes.Main
             {
                 ExecUICmd?.Invoke(new CancelTaskCommand(taskId));
             };
+            
+            ShowMapItemPanel = new RelayCommand<DataItem>((item) =>
+            {
+                var viewModel = new MapDetailViewModel();
+                viewModel.Position = (item.Position.x, item.Position.y);
+                
+                DetailPanel.Add(viewModel);
+            });
 #endif
         }
 
@@ -76,35 +72,5 @@ namespace Feudal.Scenes.Main
         public RelayCommand<DataItem> testClickTerrainItem { get; }
 #endif
 
-    }
-
-    public class DetailPanelViewModel : ViewModel
-    {
-        private List<ViewModel> list = new List<ViewModel>();
-
-        public RelayCommand ClosePanel { get; }
-
-        private ViewModel current;
-        public ViewModel Current
-        {
-            get => current;
-            set => SetProperty(ref current, value);
-        }
-
-        public DetailPanelViewModel()
-        {
-            ClosePanel = new RelayCommand(() => 
-            {
-                list.Clear();
-                Current = null;
-            });
-        }
-
-        internal void Add(ViewModel mapItemDetail)
-        {
-            list.Add(mapItemDetail);
-
-            Current = mapItemDetail;
-        }
     }
 }
