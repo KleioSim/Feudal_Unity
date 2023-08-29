@@ -41,7 +41,17 @@ namespace Feudal.Interfaces
 
     public class Message_NextTurn : Message
     {
-        public int a;
+
+    }
+
+    public class Message_CancelTask : Message
+    {
+        public readonly string taskId;
+
+        public Message_CancelTask(string taskId)
+        {
+            this.taskId = taskId;
+        }
     }
 
     public interface ITask

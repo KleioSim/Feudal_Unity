@@ -6,13 +6,18 @@ using System.Windows.Controls;
 using System.Windows.Data;
 #endif
 
+using System;
 
 namespace Feudal.Scenes.Main
 {
     public class TaskViewModel : ViewModel
     {
+        public static Action<string> CancelAction;
+
         public readonly string taskId;
 
+        public RelayCommand Cancel { get; }
+        
         private string desc;
         public string Desc
         {
@@ -30,6 +35,8 @@ namespace Feudal.Scenes.Main
         public TaskViewModel(string taskId)
         {
             this.taskId = taskId;
+
+            Cancel = new RelayCommand(() => CancelAction?.Invoke(taskId));
         }
     }
 }

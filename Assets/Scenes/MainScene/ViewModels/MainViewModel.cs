@@ -53,6 +53,11 @@ namespace Feudal.Scenes.Main
             {
                 ExecUICmd?.Invoke(new DiscoverCommand(item.Position.x, item.Position.y));
             });
+
+            TaskViewModel.CancelAction = (taskId) =>
+            {
+                ExecUICmd?.Invoke(new CancelTaskCommand(taskId));
+            };
 #endif
         }
 

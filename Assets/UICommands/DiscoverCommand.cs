@@ -13,6 +13,16 @@ public class NexTurnCommand : UICommand
 
 }
 
+public class CancelTaskCommand : UICommand
+{
+    public readonly string taskId;
+
+    public CancelTaskCommand(string taskId)
+    {
+        this.taskId = taskId;
+    }
+}
+
 public class UICommand
 {
 

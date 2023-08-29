@@ -7,7 +7,7 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:Feudal.Scenes.Main" 
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-    FontSize="25"
+    FontSize="20"
     d:DataContext="{x:Static local:MainViewModel.Default}">
 
     <UserControl.Resources>
@@ -101,10 +101,20 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="{Binding Desc}"></Label>
-                                        <Slider IsEnabled ="False" Value="{Binding Percent}" Height="25" Maximum="100"></Slider>
-                                    </StackPanel>
+                                    <Grid Height="90">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="30"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="{Binding Desc}" Grid.RowSpan="2"></Label>
+                                        <Slider Value="{Binding Percent}" IsEnabled ="False" Maximum="100" Grid.Row="2" VerticalAlignment="Center"></Slider>
+                                        <Button Command="{Binding Cancel}" Grid.Column="1" Content="X"/>
+                                    </Grid>
                                 </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

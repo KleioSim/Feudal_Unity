@@ -26,6 +26,9 @@ public class Session
             case NexTurnCommand command:
                 messageBus.PostMessage(new Message_NextTurn());
                 break;
+            case CancelTaskCommand command:
+                messageBus.PostMessage(new Message_CancelTask(command.taskId));
+                break;
             default:
                 throw new Exception();
         }

@@ -3,6 +3,7 @@ using Feudal.MessageBuses;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Feudal.Tasks
 {
@@ -40,6 +41,8 @@ namespace Feudal.Tasks
         }
 
         abstract protected void OnFinished();
+
+        abstract public void OnCancel();
     }
 
     public class DiscoverTask : Task
@@ -49,6 +52,11 @@ namespace Feudal.Tasks
         public DiscoverTask(object[] parameters)
         {
             position = (((int x, int y))parameters[0]);
+        }
+
+        public override void OnCancel()
+        {
+
         }
 
         protected override void OnFinished()
@@ -110,6 +118,15 @@ namespace Feudal.Tasks
                 }
                 list.RemoveAll(x => x.Percent >= 100);
             }
+        }
+
+        [MessageProcess]
+        public void OnMessage_CancelTask(Message_CancelTask message)
+        {
+            var task = list.Single(x => x.Id == message.taskId);
+            task.OnCancel();
+
+            list.Remove(task);
         }
     }
 }
