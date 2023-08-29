@@ -43,4 +43,11 @@ namespace Feudal.Interfaces
     {
         public int a;
     }
+
+    public interface ITask
+    {
+        public string Id { get; }
+        public string Desc { get; }
+        public int Percent { get; }
+    }
 }

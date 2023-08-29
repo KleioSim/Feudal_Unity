@@ -1,12 +1,9 @@
 {
-    "name": "Feudal.Sessions",
-    "rootNamespace": "",
+    "name": "Feudal.Tasks",
+    "rootNamespace": "Feudal.Tasks",
     "references": [
-        "Feudal.UICommands",
         "Feudal.MessageBuses",
-        "Feudal.Interfaces",
-        "Feudal.Terrains",
-        "Feudal.Tasks"
+        "Feudal.Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
