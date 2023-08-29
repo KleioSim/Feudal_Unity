@@ -84,9 +84,9 @@ namespace Feudal.Scenes.Initial
             }
         }
 
-        public static void Update(this ObservableCollection<TaskViewModel> viewModels, IEnumerable<Task> tasks)
+        public static void Update(this ObservableCollection<TaskViewModel> viewModels, IEnumerable<ITask> tasks)
         {
-            var taskDict = tasks.ToDictionary(k => k.taskId, v => v);
+            var taskDict = tasks.ToDictionary(k => k.Id, v => v);
             var viewModelDict = viewModels.ToDictionary(k => k.taskId, v => v);
 
             var needRemoveIds = viewModelDict.Keys.Except(taskDict.Keys).ToArray();
@@ -109,9 +109,9 @@ namespace Feudal.Scenes.Initial
             }
         }
 
-        public static void Update(TaskViewModel viewModel, Task task)
+        public static void Update(TaskViewModel viewModel, ITask task)
         {
-            viewModel.Desc = task.desc;
+            viewModel.Desc = task.Desc;
             viewModel.Percent = task.Percent;
         }
     }

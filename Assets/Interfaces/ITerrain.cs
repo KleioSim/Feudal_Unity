@@ -1,4 +1,5 @@
 using Feudal.MessageBuses;
+using System;
 
 namespace Feudal.Interfaces
 {
@@ -24,5 +25,22 @@ namespace Feudal.Interfaces
             this.position = position;
             this.terrainType = terrainType;
         }
+    }
+
+    public class Message_AddTask : Message
+    {
+        public readonly Type taskType;
+        public object[] parameters;
+
+        public Message_AddTask(Type taskType, object[] parameters)
+        {
+            this.taskType = taskType;
+            this.parameters = parameters;
+        }
+    }
+
+    public class Message_NextTurn : Message
+    {
+        public int a;
     }
 }

@@ -2,47 +2,28 @@ using Feudal.Interfaces;
 using Feudal.MessageBuses;
 using Feudal.Terrains;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Session
 {
     public IEnumerable<ITerrainItem> terrainItems => terrainMgr;
-    public IEnumerable<Task> tasks => _tasks;
-
-
-    private List<Task> _tasks = new List<Task>();
+    public IEnumerable<ITask> tasks => taskMgr;
 
     private IMessageBus messageBus;
+
     private TerrainManager terrainMgr;
+    private TaskManager taskMgr;
 
     public void ExecUICmd(UICommand uiCmd)
     {
         switch(uiCmd)
         {
             case DiscoverCommand command:
-                _tasks.Add(new Task(()=>
-                {
-                    for (int i = command.position.x - 1; i <= command.position.x + 1; i++)
-                    {
-                        for (int j = command.position.y - 1; j <= command.position.y + 1; j++)
-                        {
-                            var pos = (i, j);
-                            //if (_terrainItems.ContainsKey(pos))
-                            //{
-                            //    continue;
-                            //}
-
-                            messageBus.PostMessage(new Message_AddTerrainItem(pos, Terrain.Hill));
-                        }
-                    }
-                }));
+                messageBus.PostMessage(new Message_AddTask(typeof(DiscoverTask), new object[] { command.position }));
                 break;
             case NexTurnCommand command:
-                foreach(var task in _tasks)
-                {
-                    task.Percent += 10;
-                }
-                _tasks.RemoveAll(x => x.Percent >= 100);
+                messageBus.PostMessage(new Message_NextTurn());
                 break;
             default:
                 throw new Exception();
@@ -54,17 +35,73 @@ public class Session
         messageBus = new MessageBus();
 
         terrainMgr = new TerrainManager(messageBus);
+        taskMgr = new TaskManager(messageBus);
     }
 }
 
 
-
-public class Task
+public class TaskManager : IEnumerable<ITask>
 {
-    public static int TaskId = 0;
+    private List<Task> list = new List<Task>();
+    private IMessageBus messageBus;
 
-    public readonly string taskId;
-    public string desc;
+    public TaskManager(IMessageBus messageBus)
+    {
+        this.messageBus = messageBus;
+        messageBus.Register(this);
+    }
+
+    public IEnumerator<ITask> GetEnumerator()
+    {
+        return ((IEnumerable<Task>)list).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return ((IEnumerable)list).GetEnumerator();
+    }
+
+    [MessageProcess]
+    public void OnMessage_AddTask(Message_AddTask message)
+    {
+        var task = Activator.CreateInstance(message.taskType, new object[] { message.parameters }) as Task;
+        task.messageBus = messageBus;
+
+        list.Add(task);
+    }
+
+    [MessageProcess]
+    public void OnMessage_NextTurn(Message_NextTurn message)
+    {
+        if(message != null)
+        {
+            foreach (var task in list)
+            {
+                task.Percent += 10;
+            }
+            list.RemoveAll(x => x.Percent >= 100);
+        }
+    }
+}
+
+public interface ITask
+{
+    public string Id { get; }
+    public string Desc { get; }
+    public int Percent { get; }
+}
+
+abstract class Task : ITask
+{
+    public IMessageBus messageBus { get; set; }
+
+    private static int TaskId = 0;
+
+    private readonly string id;
+    public string Id => id;
+
+    private string desc;
+    public string Desc => desc;
 
     private int percent;
     public int Percent
@@ -75,49 +112,43 @@ public class Task
             percent = value;
             if(percent >= 100)
             {
-                finishAction?.Invoke();
+                OnFinished();
             }
         }
     }
 
-    private Action finishAction;
-
-    public Task(Action finishAction)
+    public Task()
     {
-        taskId = TaskId++.ToString();
-
-        desc = taskId;
-
-        this.finishAction = finishAction;
+        id = TaskId++.ToString();
+        desc = id;
     }
+
+    abstract protected void OnFinished();
 }
 
-//public class DisCoverTask : Task
-//{
-//    private (int x, int y) position;
+class DiscoverTask : Task
+{
+    (int x, int y) position;
 
-//    private Session session;
+    public DiscoverTask(object[] parameters)
+    {
+        position = (((int x, int y)) parameters[0]);
+    }
 
-//    public DisCoverTask((int x, int y) position)
-//    {
-//        this.position = position;
-//    }
+    protected override void OnFinished()
+    {
+        for (int i = position.x - 1; i <= position.x + 1; i++)
+        {
+            for (int j = position.y - 1; j <= position.y + 1; j++)
+            {
+                var pos = (i, j);
+                //if (_terrainItems.ContainsKey(pos))
+                //{
+                //    continue;
+                //}
 
-//    protected override void OnFinished()
-//    {
-//        for (int i = position.x - 1; i <= position.x + 1; i++)
-//        {
-//            for (int j = position.y - 1; j <= position.y + 1; j++)
-//            {
-//                var pos = (i, j);
-//                if (session._terrainItems.ContainsKey(pos))
-//                {
-//                    continue;
-//                }
-
-//                session._terrainItems.Add(pos, new TerrainItem(pos, Terrain.Hill));
-//            }
-//        }
-//    }
-//}
-
+                messageBus.PostMessage(new Message_AddTerrainItem(pos, Terrain.Hill));
+            }
+        }
+    }
+}
