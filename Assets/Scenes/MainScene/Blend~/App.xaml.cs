@@ -17,7 +17,7 @@ namespace Feudal.Scenes.Main
         {
             if(MainWindow.DataContext == null)
             {
-                MainWindow.DataContext = new MainViewModel();
+                MainWindow.DataContext = MainViewModel.Default;
             }
         }
     }

@@ -35,6 +35,16 @@
         </Style>
     </UserControl.Resources>
 
+    <!--<ListView  ItemsSource="{Binding Tasks}" Height="100" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+        <ListView.View>
+            <GridView>
+                <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Desc}" />
+                --><!--<GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}" />
+                                                <GridViewColumn Header="Mail" Width="150" DisplayMemberBinding="{Binding Mail}" />--><!--
+            </GridView>
+        </ListView.View>
+    </ListView>-->
+    
     <Viewbox Stretch="Fill">
         <DockPanel Height="1080" Width="1920">
             <Grid DockPanel.Dock="Top" Height="60">
@@ -112,7 +122,7 @@
                             <DataTemplate DataType="{x:Type local:ClansPanelViewModel}">
                                 <StackPanel VerticalAlignment="Top" Background="{DynamicResource Brush.Background.Normal}">
                                     <Label Height="40" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
-                                    <ListView ItemsSource="{Binding ClanItems}">
+                                    <ListView ItemsSource="{Binding ClanItems}" Height="500" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />

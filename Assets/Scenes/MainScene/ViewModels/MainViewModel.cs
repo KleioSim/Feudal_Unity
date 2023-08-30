@@ -31,6 +31,10 @@ namespace Feudal.Scenes.Main
             {
                 var viewModel = new ClansPanelViewModel();
                 DetailPanel.Add(viewModel);
+
+#if UNITY_5_3_OR_NEWER
+                ExecUICmd?.Invoke(new UpdateViewCommand());
+#endif
             });
 
             Tasks = new ObservableCollection<TaskViewModel>();
@@ -59,6 +63,8 @@ namespace Feudal.Scenes.Main
                 viewModel.Position = (item.Position.x, item.Position.y);
                 
                 DetailPanel.Add(viewModel);
+
+                ExecUICmd?.Invoke(new UpdateViewCommand());
             });
 #endif
         }

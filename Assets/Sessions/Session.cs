@@ -5,17 +5,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Feudal.Tasks;
+using Feudal.Clans;
 
 public class Session
 {
     public IEnumerable<ITerrainItem> terrainItems => terrainMgr;
     public IEnumerable<ITask> tasks => taskMgr;
-    public IEnumerable<IClan> clans;
+    public IEnumerable<IClan> clans => clanMgr;
 
     private IMessageBus messageBus;
 
     private TerrainManager terrainMgr;
     private TaskManager taskMgr;
+    private ClanManager clanMgr;
 
     public void ExecUICmd(UICommand uiCmd)
     {
@@ -24,11 +26,13 @@ public class Session
             case DiscoverCommand command:
                 messageBus.PostMessage(new Message_AddTask(typeof(DiscoverTask), new object[] { command.position }));
                 break;
-            case NexTurnCommand command:
+            case NexTurnCommand:
                 messageBus.PostMessage(new Message_NextTurn());
                 break;
             case CancelTaskCommand command:
                 messageBus.PostMessage(new Message_CancelTask(command.taskId));
+                break;
+            case UpdateViewCommand:
                 break;
             default:
                 throw new Exception();
@@ -41,5 +45,6 @@ public class Session
 
         terrainMgr = new TerrainManager(messageBus);
         taskMgr = new TaskManager(messageBus);
+        clanMgr = new ClanManager(messageBus);
     }
 }

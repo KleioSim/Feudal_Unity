@@ -23,6 +23,11 @@ public class CancelTaskCommand : UICommand
     }
 }
 
+public class UpdateViewCommand : UICommand
+{
+
+}
+
 public class UICommand
 {
 

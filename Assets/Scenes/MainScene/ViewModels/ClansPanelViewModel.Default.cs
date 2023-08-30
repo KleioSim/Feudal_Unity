@@ -18,9 +18,17 @@ namespace Feudal.Scenes.Main
                     @default = new ClansPanelViewModel();
                     @default.Title = "Clans";
 
+                    @default.ClanItems.Add(new ClanViewModel("ClanId0")
+                    {
+                        Name = "Clan0"
+                    });
                     @default.ClanItems.Add(new ClanViewModel("ClanId1")
                     {
                         Name = "Clan1"
+                    });
+                    @default.ClanItems.Add(new ClanViewModel("ClanId2")
+                    {
+                        Name = "Clan2"
                     });
                 }
 
