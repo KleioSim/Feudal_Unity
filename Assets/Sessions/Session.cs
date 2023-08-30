@@ -10,6 +10,7 @@ public class Session
 {
     public IEnumerable<ITerrainItem> terrainItems => terrainMgr;
     public IEnumerable<ITask> tasks => taskMgr;
+    public IEnumerable<IClan> clans;
 
     private IMessageBus messageBus;
 

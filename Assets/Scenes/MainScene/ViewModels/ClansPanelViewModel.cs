@@ -20,12 +20,20 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref title, value);
         }
 
-        public ObservableCollection<ClansItemViewModel> ClanItems { get; } = new ObservableCollection<ClansItemViewModel>();
+        public ObservableCollection<ClanViewModel> ClanItems { get; } = new ObservableCollection<ClanViewModel>();
     }
 
-    class ClansItemViewModel : ViewModel
+    class ClanViewModel : ViewModel
     {
+        public readonly string clanId;
+
         private string name;
+
+        public ClanViewModel(string id)
+        {
+            clanId = id;
+        }
+
         public string Name
         {
             get => name;
