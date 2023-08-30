@@ -22,7 +22,7 @@ namespace Feudal.Scenes.Main
                     @default = new MainViewModel();
 
                     @default.DetailPanel.Add(new MapDetailViewModel());
-                    @default.DetailPanel.Add(new ClansPanelViewModel());
+                    @default.DetailPanel.Add(ClansPanelViewModel.Default);
 
                     @default.Tasks.Add(new TaskViewModel("ID0") { Desc = "Task Desc0", Percent = 33 });
                     @default.Tasks.Add(new TaskViewModel("ID1") { Desc = "Task Desc1", Percent = 22 });

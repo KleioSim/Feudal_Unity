@@ -4,15 +4,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
+    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:Feudal.Scenes.Main" 
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
     FontSize="20"
     d:DataContext="{x:Static local:MainViewModel.Default}">
 
+
     <UserControl.Resources>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
-
         <Style x:Key="ToggleButtonListBoxStyle" TargetType="{x:Type ListBox}">
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="ItemContainerStyle">
@@ -32,7 +33,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
     </UserControl.Resources>
 
     <Viewbox Stretch="Fill">
@@ -106,7 +106,7 @@
                                         <RowDefinition Height="40"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Background="Black" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
+                                    <Label Grid.Row="0" Background="{DynamicResource Brush.Background.Normal}" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
                                 </Grid>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type local:ClansPanelViewModel}">
@@ -115,7 +115,16 @@
                                         <RowDefinition Height="40"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Background="Black" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
+                                    <Label Grid.Row="0" Background="{DynamicResource Brush.Background.Normal}" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
+                                    <ListView Grid.Row="2" ItemsSource="{Binding ClanItems}">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
+                                                <!--<GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}" />
+                                                <GridViewColumn Header="Mail" Width="150" DisplayMemberBinding="{Binding Mail}" />-->
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
                                 </Grid>
                             </DataTemplate>
                         </ContentPresenter.Resources>
