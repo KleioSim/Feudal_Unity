@@ -59,7 +59,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Margin="0,0,0,-140"></Button>
-                <Grid Grid.Column="1" Height="60" Background="LightGray" VerticalAlignment="Top">
+                <Grid Grid.Column="1" Height="60" Background="{DynamicResource Brush.Background.Normal}" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -117,16 +117,10 @@
                     <ContentPresenter Content="{Binding Current}">
                         <ContentPresenter.Resources>
                             <DataTemplate DataType="{x:Type local:MapDetailViewModel}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="40"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Background="{DynamicResource Brush.Background.Normal}" Content="{Binding Title}" HorizontalContentAlignment="Center"/>
-                                </Grid>
+                                <views:MapItemPanelView/>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type local:ClansPanelViewModel}">
-                                <views:ClansPanelView></views:ClansPanelView>
+                                <views:ClansPanelView/>
                             </DataTemplate>
                         </ContentPresenter.Resources>
                     </ContentPresenter>

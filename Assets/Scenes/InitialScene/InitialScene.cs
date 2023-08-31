@@ -73,7 +73,7 @@ namespace Feudal.Scenes.Initial
 
         public static void Update(this MapDetailViewModel viewModel, Session session)
         {
-            var terrainItem = session.terrainItems.Single(x => x.Position == viewModel.Position);
+            var terrainItem = session.terrainItems[viewModel.Position];
             viewModel.Title = terrainItem.Terrain.ToString();
         }
 
@@ -113,26 +113,28 @@ namespace Feudal.Scenes.Initial
             viewModel.Name = clan.Name;
         }
 
-        public static void Update(this ObservableCollection<DataItem> dataItems, IEnumerable<ITerrainItem> terrainItems)
+        public static void Update(this ObservableCollection<DataItem> dataItems, IReadOnlyDictionary<(int x, int y), ITerrainItem> terrainDict)
         {
-            var needRemoveItems = dataItems.Where(data => terrainItems.All(terrain => terrain.Position != (data.Position.x, data.Position.y))).ToArray();
-            var needAddItems = terrainItems.Where(terrain => dataItems.All(data => terrain.Position != (data.Position.x, data.Position.y))).ToArray();
+            var viewModelDict = dataItems.ToDictionary(k => (k.Position.x, k.Position.y), v => v);
 
-            foreach(var item in needRemoveItems)
+            var needRemovePositions = viewModelDict.Keys.Except(terrainDict.Keys).ToArray();
+            var needAddPositions = terrainDict.Keys.Except(viewModelDict.Keys).ToArray();
+
+
+            foreach(var pos in needRemovePositions)
             {
-                dataItems.Remove(item);
+                dataItems.Remove(viewModelDict[pos]);
             }
 
-            foreach(var item in needAddItems)
+            foreach(var pos in needAddPositions)
             {
-                dataItems.Add(new DataItem() { Position = new Vector3Int(item.Position.x, item.Position.y), TileKey = item.GetTerrainDataType() });
+                dataItems.Add(new DataItem() { Position = new Vector3Int(pos.x, pos.y), TileKey = terrainDict[pos].GetTerrainDataType() });
             }
 
             foreach(var item in dataItems)
             {
-                var terrain = terrainItems.Single(terrain => terrain.Position == (item.Position.x, item.Position.y));
+                var terrain = terrainDict[(item.Position.x, item.Position.y)];
                 Update(item, terrain);
-
             }
         }
 

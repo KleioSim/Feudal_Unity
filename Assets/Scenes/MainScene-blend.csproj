@@ -69,6 +69,7 @@
     <Compile Include="MainScene\ViewModels\MainViewModel.cs" />
     <Compile Include="MainScene\ViewModels\MainViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\MapDetailViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\MapDetailViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\TaskViewModel.cs" />
     <Compile Include="MainScene\ViewModels\ViewModel.cs" />
     <Compile Include="MainScene\Views\ClansPanelView.xaml.cs">
@@ -78,6 +79,9 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainScene\Views\MapItemPanelView.xaml.cs">
+      <DependentUpon>MapItemPanelView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainScene\Views\ClansPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -85,6 +89,10 @@
     <Page Include="MainScene\Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainScene\Views\MapItemPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -49,7 +49,7 @@ namespace Feudal.Scenes.Main
 #if UNITY_5_3_OR_NEWER
             testClickTerrainItem = new RelayCommand<DataItem>((item) =>
             {
-                ExecUICmd?.Invoke(new DiscoverCommand(item.Position.x, item.Position.y));
+                ExecUICmd?.Invoke(new DiscoverCommand((item.Position.x, item.Position.y)));
             });
 
             TaskViewModel.CancelAction = (taskId) =>
@@ -61,7 +61,8 @@ namespace Feudal.Scenes.Main
             {
                 var viewModel = new MapDetailViewModel();
                 viewModel.Position = (item.Position.x, item.Position.y);
-                
+                viewModel.ExecUICmd = ExecUICmd;
+
                 DetailPanel.Add(viewModel);
 
                 ExecUICmd?.Invoke(new UpdateViewCommand());

@@ -5,19 +5,37 @@ using System.Collections.Generic;
 
 namespace Feudal.Terrains
 {
-    public class TerrainManager : IEnumerable<ITerrainItem>
+    public class TerrainManager : IReadOnlyDictionary<(int x, int y), ITerrainItem>
     {
-        private Dictionary<(int x, int y), TerrainItem> dict = new Dictionary<(int x, int y), TerrainItem>();
+        private Dictionary<(int x, int y), ITerrainItem> dict = new Dictionary<(int x, int y), ITerrainItem>();
         private IMessageBus messageBus;
 
-        public IEnumerator<ITerrainItem> GetEnumerator()
+        public IEnumerable<(int x, int y)> Keys => ((IReadOnlyDictionary<(int x, int y), ITerrainItem>)dict).Keys;
+
+        public IEnumerable<ITerrainItem> Values => ((IReadOnlyDictionary<(int x, int y), ITerrainItem>)dict).Values;
+
+        public int Count => ((IReadOnlyCollection<KeyValuePair<(int x, int y), ITerrainItem>>)dict).Count;
+
+        public ITerrainItem this[(int x, int y) key] => ((IReadOnlyDictionary<(int x, int y), ITerrainItem>)dict)[key];
+
+        public bool ContainsKey((int x, int y) key)
         {
-            return ((IEnumerable<TerrainItem>)dict.Values).GetEnumerator();
+            return ((IReadOnlyDictionary<(int x, int y), ITerrainItem>)dict).ContainsKey(key);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public bool TryGetValue((int x, int y) key, out ITerrainItem value)
         {
-            return ((IEnumerable)dict.Values).GetEnumerator();
+            return ((IReadOnlyDictionary<(int x, int y), ITerrainItem>)dict).TryGetValue(key, out value);
+        }
+
+        IEnumerator<KeyValuePair<(int x, int y), ITerrainItem>> IEnumerable<KeyValuePair<(int x, int y), ITerrainItem>>.GetEnumerator()
+        {
+            return ((IEnumerable<KeyValuePair<(int x, int y), ITerrainItem>>)dict).GetEnumerator();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)dict).GetEnumerator();
         }
 
         public TerrainManager(IMessageBus messageBus)

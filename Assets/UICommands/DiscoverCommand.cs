@@ -2,9 +2,9 @@ public class DiscoverCommand : UICommand
 {
     public readonly (int x, int y) position;
 
-    public DiscoverCommand(int x, int y)
+    public DiscoverCommand((int x, int y) position)
     {
-        position = (x, y);
+        this.position = position;
     }
 }
 

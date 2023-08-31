@@ -9,7 +9,7 @@ using Feudal.Clans;
 
 public class Session
 {
-    public IEnumerable<ITerrainItem> terrainItems => terrainMgr;
+    public IReadOnlyDictionary<(int x, int y), ITerrainItem> terrainItems => terrainMgr;
     public IEnumerable<ITask> tasks => taskMgr;
     public IEnumerable<IClan> clans => clanMgr;
 

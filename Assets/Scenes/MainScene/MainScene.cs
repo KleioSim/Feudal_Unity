@@ -40,7 +40,7 @@ namespace Feudal.Scenes.Main
                 Debug.Log($"{item.Position} {item.TileKey}");
 
                 mainViewModel.ShowMapItemPanel.Execute(item);
-                mainViewModel.testClickTerrainItem.Execute(item);
+                //mainViewModel.testClickTerrainItem.Execute(item);
             }
         }
     }
