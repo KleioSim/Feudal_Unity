@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainMap: {fileID: 705292196}
-  tileImage: {fileID: 21300000, guid: 4fdc85fea2681dd40b636fc5c4d3ecb4, type: 3}
+  tileImage: {fileID: 21300000, guid: 1bbaeb28fa7ce90489ebf592c85fb605, type: 3}
 --- !u!1 &539106205
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,8 +701,8 @@ Tilemap:
   - first: {x: 0, y: 1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -710,11 +710,15 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 1487469557}
+  - m_RefCount: 1
+    m_Data: {fileID: 866263872}
   m_TileSpriteArray:
-  - m_RefCount: 2
-    m_Data: {fileID: 7482667652216324306, guid: d7aa0b09aa3c22f4c9e89a52d11bc6fb, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 3b932cf750c12684ba0b104da1a59fd5, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 7a25977742e5f3e40b8b40758fe3e549, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 2
     m_Data:
@@ -741,7 +745,7 @@ Tilemap:
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
-  m_Size: {x: 1, y: 3, z: 1}
+  m_Size: {x: 1, y: 2, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -787,7 +791,7 @@ MonoBehaviour:
     tileKeyStr: Plain
     tileKeyEnumType: TerrainDataType
   - position: {x: 0, y: 1, z: 0}
-    tileKeyStr: Plain
+    tileKeyStr: Hill
     tileKeyEnumType: TerrainDataType
 --- !u!1 &807482568
 GameObject:
@@ -886,7 +890,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 7482667652216324306, guid: d7aa0b09aa3c22f4c9e89a52d11bc6fb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a25977742e5f3e40b8b40758fe3e549, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -937,21 +941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3a02c423638b441bd022d695a00dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRefresh:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 278313492}
-        m_TargetAssemblyTypeName: TilemapMask, Assembly-CSharp
-        m_MethodName: OnRefresh
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   noesisView: {fileID: 60480114}
   terrainMap: {fileID: 705292196}
 --- !u!4 &1107424590
@@ -1070,7 +1059,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 7482667652216324306, guid: d7aa0b09aa3c22f4c9e89a52d11bc6fb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3b932cf750c12684ba0b104da1a59fd5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

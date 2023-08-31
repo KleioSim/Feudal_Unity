@@ -43,7 +43,7 @@ namespace Feudal.Terrains
             this.messageBus = messageBus;
             messageBus.Register(this);
 
-            dict.Add((0, 0), new TerrainItem((0, 0), Terrain.Hill));
+            dict.Add((0, 0), new TerrainItem((0, 0), Terrain.Plain));
             dict.Add((0, 1), new TerrainItem((0, 1), Terrain.Hill));
             dict.Add((1, 0), new TerrainItem((1, 0), Terrain.Hill));
         }
