@@ -7,32 +7,38 @@
     xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:Feudal.Scenes.Main" 
+    xmlns:views="clr-namespace:Feudal.Scenes.Main.Views"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
     FontSize="20"
     d:DataContext="{x:Static local:MainViewModel.Default}">
 
 
     <UserControl.Resources>
-        <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
-        <Style x:Key="ToggleButtonListBoxStyle" TargetType="{x:Type ListBox}">
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="ItemContainerStyle">
-                <Setter.Value>
-                    <Style TargetType="{x:Type ListBoxItem}" >
-                        <Setter Property="Margin" Value="2, 2, 2, 0" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate>
-                                    <Border Background="Transparent">
-                                        <ToggleButton Content="{TemplateBinding ContentPresenter.Content}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <Style x:Key="ToggleButtonListBoxStyle" TargetType="{x:Type ListBox}">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="ItemContainerStyle">
+                    <Setter.Value>
+                        <Style TargetType="{x:Type ListBoxItem}" >
+                            <Setter Property="Margin" Value="2, 2, 2, 0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Border Background="Transparent">
+                                            <ToggleButton Content="{TemplateBinding ContentPresenter.Content}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!--<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ClansPanelView.xaml" />
+            </ResourceDictionary.MergedDictionaries>-->
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <!--<ListView  ItemsSource="{Binding Tasks}" Height="100" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
@@ -120,18 +126,7 @@
                                 </Grid>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type local:ClansPanelViewModel}">
-                                <StackPanel VerticalAlignment="Top" Background="{DynamicResource Brush.Background.Normal}">
-                                    <Label Height="40" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
-                                    <ListView ItemsSource="{Binding ClanItems}" Height="500" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                                                <!--<GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}" />
-                                                <GridViewColumn Header="Mail" Width="150" DisplayMemberBinding="{Binding Mail}" />-->
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>
-                                </StackPanel>
+                                <views:ClansPanelView></views:ClansPanelView>
                             </DataTemplate>
                         </ContentPresenter.Resources>
                     </ContentPresenter>

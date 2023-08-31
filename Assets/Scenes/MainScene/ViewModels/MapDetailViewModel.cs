@@ -24,5 +24,24 @@ namespace Feudal.Scenes.Main
             get => position;
             set => SetProperty(ref position, value);
         }
+
+        private MapWorkerPanelViewModel mapWorkerPanel;
+        public MapWorkerPanelViewModel MapWorkerPanel
+        {
+            get => mapWorkerPanel;
+            set => SetProperty(ref mapWorkerPanel, value);
+        }
+
+    }
+
+    class MapWorkerPanelViewModel : ViewModel
+    {
+        private string workClanName;
+        public string WorkClanName
+        {
+            get => workClanName;
+            set => SetProperty(ref workClanName, value);
+        }
+
     }
 }

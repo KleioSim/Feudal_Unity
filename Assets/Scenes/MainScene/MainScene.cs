@@ -50,5 +50,8 @@ namespace Feudal.Scenes.Main
 public enum TerrainDataType
 {
     Plain,
-    Hill
+    Hill,
+
+    Plain_Not_Dicovered,
+    Hill_Not_Discovered
 }

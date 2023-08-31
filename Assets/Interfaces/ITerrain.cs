@@ -13,6 +13,7 @@ namespace Feudal.Interfaces
     {
         (int x, int y) Position { get; }
         Terrain Terrain { get; }
+        bool IsDiscovered { get; }
     }
 
     public class Message_AddTerrainItem : Message

@@ -131,8 +131,14 @@ namespace Feudal.Scenes.Initial
             foreach(var item in dataItems)
             {
                 var terrain = terrainItems.Single(terrain => terrain.Position == (item.Position.x, item.Position.y));
-                item.TileKey = terrain.GetTerrainDataType();
+                Update(item, terrain);
+
             }
+        }
+
+        public static void Update(this DataItem dataItem, ITerrainItem terrainItem)
+        {
+            dataItem.TileKey = terrainItem.GetTerrainDataType();
         }
 
         public static TerrainDataType GetTerrainDataType(this ITerrainItem terrainItem)
@@ -140,9 +146,9 @@ namespace Feudal.Scenes.Initial
             switch(terrainItem.Terrain)
             {
                 case Interfaces.Terrain.Hill:
-                    return TerrainDataType.Hill;
+                    return terrainItem.IsDiscovered ? TerrainDataType.Hill : TerrainDataType.Hill_Not_Discovered;
                 case Interfaces.Terrain.Plain:
-                    return TerrainDataType.Plain;
+                    return terrainItem.IsDiscovered ? TerrainDataType.Plain : TerrainDataType.Plain_Not_Dicovered;
                 default:
                     throw new Exception();
             }
