@@ -53,38 +53,48 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="Blend~\App.xaml">
+    <ApplicationDefinition Include="MainScene\Blend~\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Blend~\App.xaml.cs">
+    <Compile Include="MainScene\Blend~\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NullToVisibilityConverter.cs" />
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="ViewModels\ClansPanelViewModel.cs" />
-    <Compile Include="ViewModels\ClansPanelViewModel.Default.cs" />
-    <Compile Include="ViewModels\DetailPanelViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.Default.cs" />
-    <Compile Include="ViewModels\MapDetailViewModel.cs" />
-    <Compile Include="ViewModels\TaskViewModel.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs" />
-    <Page Include="Views\MainWindow.xaml">
+    <Compile Include="MainScene\NullToVisibilityConverter.cs" />
+    <Compile Include="MainScene\RelayCommand.cs" />
+    <Compile Include="MainScene\ViewModels\ClansPanelViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\ClansPanelViewModel.Default.cs" />
+    <Compile Include="MainScene\ViewModels\DetailPanelViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\MainViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\MainViewModel.Default.cs" />
+    <Compile Include="MainScene\ViewModels\MapDetailViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\TaskViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\ViewModel.cs" />
+    <Compile Include="MainScene\Views\ClansPanelView.xaml.cs">
+      <DependentUpon>ClansPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainScene\Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="MainScene\Views\ClansPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainScene\Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <AppDesigner Include="Blend~\Properties\" />
-    <Compile Include="Blend~\Properties\AssemblyInfo.cs">
+    <AppDesigner Include="MainScene\Blend~\Properties\" />
+    <Compile Include="MainScene\Blend~\Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Resource Include="Aero Matics Regular.ttf" />
-    <None Include="app.config" />
-    <None Include="Blend~\App.config" />
+    <Resource Include="MainScene\Aero Matics Regular.ttf" />
+    <None Include="MainScene\app.config" />
+    <None Include="MainScene\Blend~\App.config" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Noesis.GUI.Extensions" Version="3.0.8" />
