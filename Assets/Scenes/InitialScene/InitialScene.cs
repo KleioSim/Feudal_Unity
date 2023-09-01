@@ -75,8 +75,43 @@ namespace Feudal.Scenes.Initial
         {
             var terrainItem = session.terrainItems[viewModel.Position];
             viewModel.Title = terrainItem.Terrain.ToString();
+
+            if(terrainItem.IsDiscovered)
+            {
+                viewModel.DiscoverPanel = null;
+            }
+            else
+            {
+                if (viewModel.DiscoverPanel == null)
+                {
+                    viewModel.DiscoverPanel = new DiscoverPanelViewModel();
+                }
+
+                viewModel.DiscoverPanel.Position = terrainItem.Position;
+
+                Update(viewModel.DiscoverPanel, session.tasks);
+            }
         }
 
+        public static void Update(this DiscoverPanelViewModel viewModel, IEnumerable<ITask> tasks)
+        {
+            var task = tasks.SingleOrDefault(x => x.Position == viewModel.Position);
+            if(task == null)
+            {
+                viewModel.WorkerLabor = null;
+                viewModel.Percent = 0;
+                return;
+            }
+
+            if(viewModel.WorkerLabor == null)
+            {
+                viewModel.WorkerLabor = new WorkerLaborViewModel();
+            }
+
+            viewModel.WorkerLabor.TaskId = task.Id;
+
+            viewModel.Percent = task.Percent;
+        }
 
         public static void Update(this ClansPanelViewModel viewModel, Session session)
         {

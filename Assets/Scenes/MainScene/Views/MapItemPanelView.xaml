@@ -8,17 +8,27 @@
              mc:Ignorable="d" 
              d:DesignWidth="360"
              d:DataContext="{x:Static local:MapDetailViewModel.Default}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
     
-    <StackPanel VerticalAlignment="Top" Background="{DynamicResource Brush.Background.Normal}">
-        <Label Height="40" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
-        <Grid Height="100">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
-            <Image Grid.RowSpan="2"></Image>
-            <Label Grid.Row="1" Content="{Binding Desc}"/>
-        </Grid>
+    <StackPanel VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
+        <Border Height="40" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+            <Label  Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+        </Border>
+        <Border Height="100" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.RowSpan="2"></Image>
+                <Label Grid.Row="1" Content="{Binding Desc}"/>
+            </Grid>
+        </Border>
         <!--<StackPanel DataContext="{Binding Detail}">
             <Grid Height="40" >
                 <Grid.ColumnDefinitions>
@@ -29,12 +39,42 @@
                 <Slider Grid.Column="1" ></Slider>
             </Grid>
         </StackPanel>-->
-        <ListBox Margin="60,20" MaxHeight="150" ItemsSource="{Binding Commands}">
+        <!--<ListBox Margin="60,20" MaxHeight="150" ItemsSource="{Binding Commands}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Button Content="{Binding Desc}" Height="30" Command="{Binding Command}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
+        <Border Height="150" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" Visibility="{Binding DiscoverPanel, Converter={StaticResource NullToVisibilityConverter}}">
+            <Grid DataContext="{Binding DiscoverPanel}">
+                <Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Height="100" Width="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.RowSpan="2">
+                        <Button Command="{Binding Start}">+</Button>
+                        <Grid Background="{DynamicResource Brush.Border.Checked}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}">
+                            <Label DataContext="{Binding WorkerLabor}" Content="{Binding Name}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        </Grid>
+                     </Grid>
+                    <Button Command="{Binding Cancel}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}" Grid.Column="2" Padding="0">x</Button>
+                </Grid>
+                <ProgressBar Value="{Binding Percent}" Grid.Row="1" Margin="30,5"></ProgressBar>
+                <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Discover</Label>
+            </Grid>
+        </Border>
+
     </StackPanel>
 </UserControl>

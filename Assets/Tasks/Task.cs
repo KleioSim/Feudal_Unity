@@ -11,6 +11,7 @@ namespace Feudal.Tasks
     public abstract class Task : ITask
     {
         public IMessageBus messageBus { get; set; }
+        public (int x, int y) Position { get; set; }
 
         private static int TaskId = 0;
 
@@ -47,11 +48,10 @@ namespace Feudal.Tasks
 
     public class DiscoverTask : Task
     {
-        (int x, int y) position;
 
         public DiscoverTask(object[] parameters)
         {
-            position = (((int x, int y))parameters[0]);
+            Position = (((int x, int y))parameters[0]);
         }
 
         public override void OnCancel()
@@ -61,9 +61,11 @@ namespace Feudal.Tasks
 
         protected override void OnFinished()
         {
-            for (int i = position.x - 1; i <= position.x + 1; i++)
+            messageBus.PostMessage(new Message_TerrainItemDiscoverChanged(Position, true));
+
+            for (int i = Position.x - 1; i <= Position.x + 1; i++)
             {
-                for (int j = position.y - 1; j <= position.y + 1; j++)
+                for (int j = Position.y - 1; j <= Position.y + 1; j++)
                 {
                     var pos = (i, j);
                     //if (_terrainItems.ContainsKey(pos))

@@ -1082,7 +1082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noesisView: {fileID: 60480114}
-  terrainMap: {fileID: 0}
+  terrainMap: {fileID: 705292196}
 --- !u!4 &1107424590
 Transform:
   m_ObjectHideFlags: 0

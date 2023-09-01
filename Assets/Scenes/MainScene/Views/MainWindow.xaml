@@ -45,13 +45,13 @@
     
     <Viewbox Stretch="Fill">
         <DockPanel Height="1080" Width="1920">
-            <Grid DockPanel.Dock="Top" Height="60">
+            <!--<Grid DockPanel.Dock="Top" Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="160"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Margin="0,0,0,-140"></Button>
-                <Grid Grid.Column="1" Height="60" Background="{DynamicResource Brush.Background.Normal}" VerticalAlignment="Top">
+                <Grid Grid.Column="1" Height="60" Background="{DynamicResource Brush.Window.Background}" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -94,7 +94,7 @@
                         </UniformGrid>
                     </Button>
                 </Grid>
-            </Grid>
+            </Grid>-->
             <Grid DockPanel.Dock="Left" DataContext="{Binding DetailPanel}"  Margin="0,200,0,0" Visibility="{Binding Current, Converter={StaticResource NullToVisibilityConverter}}" Width="400">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

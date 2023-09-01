@@ -28,6 +28,18 @@ namespace Feudal.Interfaces
         }
     }
 
+    public class Message_TerrainItemDiscoverChanged : Message
+    {
+        public readonly (int x, int y) position;
+        public readonly bool discoverd;
+
+        public Message_TerrainItemDiscoverChanged((int x, int y) position, bool discoverd)
+        {
+            this.position = position;
+            this.discoverd = discoverd;
+        }
+    }
+
     public class Message_AddTask : Message
     {
         public readonly Type taskType;
@@ -57,6 +69,7 @@ namespace Feudal.Interfaces
 
     public interface ITask
     {
+        public (int x, int y) Position { get; }
         public string Id { get; }
         public string Desc { get; }
         public int Percent { get; }

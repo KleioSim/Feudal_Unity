@@ -9,9 +9,9 @@
              d:DesignWidth="360"
              d:DataContext="{x:Static local:ClansPanelViewModel.Default}">
 
-    <StackPanel VerticalAlignment="Top" Background="{DynamicResource Brush.Background.Normal}">
+    <StackPanel VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
         <Label Height="40" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
-        <ListView ItemsSource="{Binding ClanItems}" Height="500" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+        <ListView ItemsSource="{Binding ClanItems}" MaxHeight="500" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />

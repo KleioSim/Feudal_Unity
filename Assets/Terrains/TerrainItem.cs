@@ -10,7 +10,7 @@ namespace Feudal.Terrains
         private Terrain terrain;
         public Terrain Terrain => terrain;
 
-        public bool IsDiscovered { get; set; } = true;
+        public bool IsDiscovered { get; set; }
 
         public TerrainItem((int, int) position, Terrain terrain)
         {

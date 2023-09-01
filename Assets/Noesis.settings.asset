@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   licenseName: sericaer
   licenseKey: wf4jFGGyIxThSgT/7FnCx1sAHE7S4L9OuNLsSx6roK5GTiBw
-  applicationResources: {fileID: -8414808784256213763, guid: 194d3927bb416084c8a2f0cb7cb1ab58, type: 3}
+  applicationResources: {fileID: -8414808784256213763, guid: f4e42d36833ee4643b7b8b05d8e8a8ef, type: 3}
   applicationResourcesHash:
     serializedVersion: 2
-    Hash: 4456b8997d55fcac089bc6f50ef1e614
+    Hash: 0d54c006dee7072865a4195f45a10f79
   defaultFont: {fileID: 913751575213456102, guid: 590c917dd0e40b546b57e1f3ef6b591a, type: 3}
   loadPlatformFonts: 1
   defaultFontSize: 15

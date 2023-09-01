@@ -30,11 +30,20 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref position, value);
         }
 
-        private MapWorkerPanelViewModel mapWorkerPanel;
-        public MapWorkerPanelViewModel MapWorkerPanel
+        private DiscoverPanelViewModel discoverPanel;
+        public DiscoverPanelViewModel DiscoverPanel
         {
-            get => mapWorkerPanel;
-            set => SetProperty(ref mapWorkerPanel, value);
+            get => discoverPanel;
+            set
+            {
+                SetProperty(ref discoverPanel, value);
+                if(discoverPanel != null)
+                {
+#if UNITY_5_3_OR_NEWER
+                    discoverPanel.ExecUICmd = ExecUICmd;
+#endif
+                }
+            }
         }
 
         private string desc;
@@ -44,18 +53,10 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref desc, value);
         }
 
-        public ObservableCollection<MapItemCommand> Commands { get; } = new ObservableCollection<MapItemCommand>();
 
         public MapDetailViewModel()
         {
-            Commands.Add(new MapItemCommand(
-                "Discover",
-                new RelayCommand(() => 
-                {
-#if UNITY_5_3_OR_NEWER
-                    ExecUICmd?.Invoke(new DiscoverCommand(Position)); 
-#endif
-                })));
+
         }
 
 
@@ -79,13 +80,68 @@ namespace Feudal.Scenes.Main
         }
     }
 
-    class MapWorkerPanelViewModel : ViewModel
+    class DiscoverPanelViewModel : ViewModel
     {
-        private string workClanName;
-        public string WorkClanName
+#if UNITY_5_3_OR_NEWER
+        public Action<UICommand> ExecUICmd;
+#endif
+
+        private (int x, int y) position;
+        public (int x, int y) Position
         {
-            get => workClanName;
-            set => SetProperty(ref workClanName, value);
+            get => position;
+            set => SetProperty(ref position, value);
+        }
+
+        private int percent;
+        public int Percent
+        {
+            get => percent;
+            set => SetProperty(ref percent, value);
+        }
+
+        private WorkerLaborViewModel workerLabor;
+        public WorkerLaborViewModel WorkerLabor
+        {
+            get => workerLabor;
+            set => SetProperty(ref workerLabor, value);
+        }
+
+        public RelayCommand Start { get; }
+        public RelayCommand Cancel { get; }
+
+        public DiscoverPanelViewModel()
+        {
+            Start = new RelayCommand(() => 
+            {
+#if UNITY_5_3_OR_NEWER
+                ExecUICmd.Invoke(new DiscoverCommand(Position)); 
+#endif
+            });
+
+            Cancel = new RelayCommand(() => 
+            {
+#if UNITY_5_3_OR_NEWER
+                ExecUICmd.Invoke(new CancelTaskCommand(WorkerLabor.TaskId)); 
+#endif
+            });
+        }
+    }
+
+    class WorkerLaborViewModel : ViewModel
+    {
+        private string name;
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+
+        private string taskId;
+        public string TaskId
+        {
+            get => taskId;
+            set => SetProperty(ref taskId, value);
         }
     }
 }
