@@ -52,6 +52,6 @@ public enum TerrainDataType
     Plain,
     Hill,
 
-    Plain_Not_Dicovered,
-    Hill_Not_Discovered
+    Plain_Unknown,
+    Hill_Unknown
 }

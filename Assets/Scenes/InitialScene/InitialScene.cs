@@ -148,9 +148,9 @@ namespace Feudal.Scenes.Initial
             switch(terrainItem.Terrain)
             {
                 case Interfaces.Terrain.Hill:
-                    return terrainItem.IsDiscovered ? TerrainDataType.Hill : TerrainDataType.Hill_Not_Discovered;
+                    return terrainItem.IsDiscovered ? TerrainDataType.Hill : TerrainDataType.Hill_Unknown;
                 case Interfaces.Terrain.Plain:
-                    return terrainItem.IsDiscovered ? TerrainDataType.Plain : TerrainDataType.Plain_Not_Dicovered;
+                    return terrainItem.IsDiscovered ? TerrainDataType.Plain : TerrainDataType.Plain_Unknown;
                 default:
                     throw new Exception();
             }
