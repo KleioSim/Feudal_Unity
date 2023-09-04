@@ -23,6 +23,17 @@ namespace Feudal.Scenes.Main
                     @default.DiscoverPanel.Position = (0, 0);
                     @default.DiscoverPanel.Percent = 33;
 
+                    @default.SubViewModel = LaborSelectorViewModel.Default;
+                    LaborSelectorViewModel.Default.Confirm = new RelayCommand(() =>
+                    {
+                        ExecUICmd?.Invoke(new DiscoverCommand(@default.Position));
+                        @default.SubViewModel = null;
+                    },
+                    () =>
+                    {
+                        return LaborSelectorViewModel.Default.SelectedLabor != null;
+                    });
+
                     //@default.DiscoverPanel.WorkerLabor = new WorkerLaborViewModel();
                     //@default.DiscoverPanel.WorkerLabor.Name = "TEST_LABOR_NAME";
                 }

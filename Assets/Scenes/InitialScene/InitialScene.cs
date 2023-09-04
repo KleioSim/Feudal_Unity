@@ -92,6 +92,48 @@ namespace Feudal.Scenes.Initial
 
                 Update(viewModel.DiscoverPanel, session.tasks);
             }
+
+            if(viewModel.SubViewModel != null)
+            {
+                switch (viewModel.SubViewModel)
+                {
+                    case LaborSelectorViewModel laborSelect:
+                        Update(laborSelect.Labors, session);
+                        break;
+                    default:
+                        throw new Exception();
+                }
+            }
+        }
+
+        public static void Update(ObservableCollection<LaborViewModel> laborsViewModel, Session session)
+        {
+            var clansDict = session.clans.ToDictionary(k => k.Id, v => v);
+            var viewModelDict = laborsViewModel.ToDictionary(k => k.clanId, v => v);
+
+            var needRemoveIds = viewModelDict.Keys.Except(clansDict.Keys).ToArray();
+            var needAddIds = clansDict.Keys.Except(viewModelDict.Keys).ToArray();
+
+            foreach (var id in needRemoveIds)
+            {
+                laborsViewModel.Remove(viewModelDict[id]);
+            }
+
+            foreach (var id in needAddIds)
+            {
+                var newViewModel = new LaborViewModel(id);
+                laborsViewModel.Add(newViewModel);
+            }
+
+            foreach (var viewModel in laborsViewModel)
+            {
+                Update(viewModel, clansDict[viewModel.clanId]);
+            }
+        }
+
+        public static void Update(LaborViewModel viewModel, IClan clan)
+        {
+            viewModel.Title = clan.Name;
         }
 
         public static void Update(this DiscoverPanelViewModel viewModel, IEnumerable<ITask> tasks)

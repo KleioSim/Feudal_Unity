@@ -31,7 +31,35 @@ namespace Feudal.Scenes.Main
         public DiscoverPanelViewModel DiscoverPanel
         {
             get => discoverPanel;
-            set => SetProperty(ref discoverPanel, value);
+            set
+            {
+                SetProperty(ref discoverPanel, value);
+                if(discoverPanel == null)
+                {
+                    return;
+                }
+
+                discoverPanel.ShowLaborSeletor = new RelayCommand(() =>
+                {
+                    var laborSelectorViewModel = new LaborSelectorViewModel();
+
+                    laborSelectorViewModel.Confirm = new RelayCommand(() =>
+                    {
+                        ExecUICmd?.Invoke(new DiscoverCommand(position));
+                        SubViewModel = null;
+                    },
+                    () =>
+                    {
+                        return laborSelectorViewModel.SelectedLabor != null;
+                    });
+
+                    laborSelectorViewModel.SelectedLabor = null;
+
+
+                    SubViewModel = laborSelectorViewModel;
+                    ExecUICmd?.Invoke(new UpdateViewCommand());
+                });
+            }
         }
 
         private string desc;
@@ -44,7 +72,10 @@ namespace Feudal.Scenes.Main
 
         public MapDetailViewModel()
         {
-
+            SubPanelClose = new RelayCommand(() =>
+            {
+                SubViewModel = null;
+            });
         }
     }
 
@@ -71,16 +102,17 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref workerLabor, value);
         }
 
-        public RelayCommand Start { get; }
+        public RelayCommand showLaborSeletor;
+        public RelayCommand ShowLaborSeletor
+        {
+            get => showLaborSeletor;
+            set => SetProperty(ref showLaborSeletor, value);
+        }
+
         public RelayCommand Cancel { get; }
 
         public DiscoverPanelViewModel()
         {
-            Start = new RelayCommand(() => 
-            {
-                ExecUICmd.Invoke(new DiscoverCommand(Position)); 
-            });
-
             Cancel = new RelayCommand(() => 
             {
                 ExecUICmd.Invoke(new CancelTaskCommand(WorkerLabor.TaskId));
@@ -102,6 +134,65 @@ namespace Feudal.Scenes.Main
         {
             get => taskId;
             set => SetProperty(ref taskId, value);
+        }
+    }
+
+    class LaborSelectorViewModel : ViewModel
+    {
+        private static LaborSelectorViewModel @default;
+        public static LaborSelectorViewModel Default
+        {
+            get
+            {
+                if(@default== null)
+                {
+                    @default = new LaborSelectorViewModel();
+
+                    @default.Labors.Add(new LaborViewModel("CLAN0") { Title = "CLAN0" });
+                    @default.Labors.Add(new LaborViewModel("CLAN1") { Title = "CLAN1" });
+                    @default.Labors.Add(new LaborViewModel("CLAN2") { Title = "CLAN2" });
+                    @default.Labors.Add(new LaborViewModel("CLAN3") { Title = "CLAN3" });
+                }
+
+                return @default;
+            }
+        }
+
+        public ObservableCollection<LaborViewModel> Labors { get; } = new ObservableCollection<LaborViewModel>();
+
+        private RelayCommand confirm;
+        public RelayCommand Confirm
+        {
+            get => confirm;
+            set => SetProperty(ref confirm, value);
+        }
+
+        private LaborViewModel selectedLabor;
+        public LaborViewModel SelectedLabor
+        {
+            get => selectedLabor;
+            set
+            {
+                SetProperty(ref selectedLabor, value);
+                Confirm.RaiseCanExecuteChanged();
+            }
+        }
+    }
+
+    class LaborViewModel : ViewModel
+    {
+        public readonly string clanId;
+
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
+        }
+
+        public LaborViewModel(string clanId)
+        {
+            this.clanId = clanId;
         }
     }
 }

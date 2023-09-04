@@ -19,6 +19,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="3"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
@@ -27,7 +28,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
-            <Border Height="40" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+            <Border Height="60" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
                 <Label  Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
             </Border>
             <Border Height="100" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
@@ -75,7 +76,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid Grid.RowSpan="2">
-                            <Button Command="{Binding Start}">+</Button>
+                            <Button Command="{Binding ShowLaborSeletor}">+</Button>
                             <Grid Background="{DynamicResource Brush.Border.Checked}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}">
                                 <Label DataContext="{Binding WorkerLabor}" Content="{Binding Name}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                             </Grid>
@@ -88,6 +89,35 @@
             </Border>
         </StackPanel>
         <Button Command="{Binding ClosePanel}" Grid.Column="1">X</Button>
+        <Grid Grid.Column="3" Grid.RowSpan="2" Visibility="{Binding SubViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+            <StackPanel DataContext="{Binding SubViewModel}" Grid.Column="3" Grid.RowSpan="2"  VerticalAlignment="Top"  Background="{DynamicResource Brush.Window.Background}">
+                <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                    <Label Height="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">请选择执行的人力</Label>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                    <ListBox MaxHeight="250" ItemsSource="{Binding Labors}" SelectedItem="{Binding Path=SelectedLabor, Mode=TwoWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="-10" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                                    <Grid Height="50">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="100" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                    <Button Command="{Binding Confirm}" Height="40" Width="120">确认</Button>
+                </Border>
+            </StackPanel>
+
+        </Grid>
+        <Button Command="{Binding SubPanelClose}" Visibility="{Binding SubViewModel, Converter={StaticResource NullToVisibilityConverter}}" Grid.Column="4">X</Button>
     </Grid>
 
 
