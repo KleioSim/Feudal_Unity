@@ -44,58 +44,60 @@
 
     
     <Viewbox Stretch="Fill">
-        <DockPanel Height="1080" Width="1920">
-            <!--<Grid DockPanel.Dock="Top" Height="60">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="160"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Margin="0,0,0,-140"></Button>
-                <Grid Grid.Column="1" Height="60" Background="{DynamicResource Brush.Window.Background}" VerticalAlignment="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button Command="{Binding ShowClansPanel}" Grid.Column="0">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Label>氏族</Label>
+        <Grid Height="768" Width="1366">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="710"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Grid.RowSpan="2" ></Button>
+            <UniformGrid Rows="1" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Background="{DynamicResource Brush.Window.Background}">
+                <Button Command="{Binding ShowClansPanel}" Grid.Column="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label>氏族</Label>
+                        <Label>2</Label>
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label>人力</Label>
+                        <Label>2</Label>
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="2">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label>地产</Label>
+                        <Label>2</Label>
+                    </StackPanel>
+                </Button>
+                <Button FontSize="18" HorizontalContentAlignment="Stretch">
+                    <UniformGrid Rows="1" Margin="20,0">
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Label>粮</Label>
                             <Label>2</Label>
-                        </StackPanel>
-                    </Button>
-                    <Button Grid.Column="1">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Label>人力</Label>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Label>铜</Label>
                             <Label>2</Label>
-                        </StackPanel>
-                    </Button>
-                    <Button Grid.Column="2">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Label>地产</Label>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Label>甲</Label>
                             <Label>2</Label>
-                        </StackPanel>
-                    </Button>
-                    <Button Grid.Column="3" FontSize="18" HorizontalContentAlignment="Stretch">
-                        <UniformGrid Rows="1" Margin="20,0">
-                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Label>粮</Label>
-                                <Label>2</Label>
-                            </WrapPanel>
-                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Label>铜</Label>
-                                <Label>2</Label>
-                            </WrapPanel>
-                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Label>甲</Label>
-                                <Label>2</Label>
-                            </WrapPanel>
-                        </UniformGrid>
-                    </Button>
+                        </WrapPanel>
+                    </UniformGrid>
+                </Button>
+                <Grid>
+
                 </Grid>
-            </Grid>-->
-            <Grid DockPanel.Dock="Left" DataContext="{Binding DetailPanel}"  Margin="0,200,0,0" Visibility="{Binding Current, Converter={StaticResource NullToVisibilityConverter}}" Width="400">
+            </UniformGrid>
+
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}" Visibility="{Binding Current, Converter={StaticResource NullToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="40"/>
@@ -119,7 +121,8 @@
                     <ContentControl/>
                 </Grid>
             </Grid>
-            <Grid DockPanel.Dock="Right" Width="250">
+
+            <Grid Grid.Column="3" Grid.Row="1" Grid.RowSpan="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8*"/>
                     <RowDefinition Height="1*"/>
@@ -155,7 +158,6 @@
                 </ScrollViewer>
                 <Button Grid.Row="1" Command="{Binding NexTurn}"/>
             </Grid>
-            <Grid></Grid>
-        </DockPanel>
+        </Grid>
     </Viewbox>
 </UserControl>
