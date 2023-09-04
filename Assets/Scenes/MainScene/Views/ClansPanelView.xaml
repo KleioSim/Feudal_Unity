@@ -6,19 +6,33 @@
              xmlns:local="clr-namespace:Feudal.Scenes.Main"
              xmlns:views="clr-namespace:Feudal.Scenes.Main.Views"
              mc:Ignorable="d" 
-             d:DesignWidth="360"
+             d:DesignWidth="850" 
              d:DataContext="{x:Static local:ClansPanelViewModel.Default}">
 
-    <StackPanel VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
-        <Label Height="40" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
-        <ListView ItemsSource="{Binding ClanItems}" MaxHeight="500" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                    <!--<GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="40"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.RowSpan="2" VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
+            <Label Height="40" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+            <ListView ItemsSource="{Binding ClanItems}" MaxHeight="500" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
+                        <!--<GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}" />
                                                 <GridViewColumn Header="Mail" Width="150" DisplayMemberBinding="{Binding Mail}" />-->
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </StackPanel>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+        <Button Command="{Binding ClosePanel}" Grid.Column="1">X</Button>
+    </Grid>
+
 </UserControl>

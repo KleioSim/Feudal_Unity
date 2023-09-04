@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace Feudal.Scenes.Main
 {
-    internal partial class MapDetailViewModel : ViewModel
+    internal partial class MapDetailViewModel : PanelViewModel
     {
 #if UNITY_5_3_OR_NEWER
         public Action<UICommand> ExecUICmd;
@@ -57,26 +57,6 @@ namespace Feudal.Scenes.Main
         public MapDetailViewModel()
         {
 
-        }
-
-
-    }
-
-    public class MapItemCommand : ViewModel
-    {
-        private string desc;
-        public string Desc
-        {
-            get => desc;
-            set => SetProperty(ref desc, value);
-        }
-
-        public RelayCommand Command { get; }
-
-        public MapItemCommand(string desc, RelayCommand command)
-        {
-            Desc = desc;
-            Command = command;
         }
     }
 

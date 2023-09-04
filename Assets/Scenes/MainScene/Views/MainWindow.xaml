@@ -44,7 +44,7 @@
 
     
     <Viewbox Stretch="Fill">
-        <Grid Height="768" Width="1366">
+        <Grid Height="1080" Width="1920">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="140"/>
                 <ColumnDefinition Width="710"/>
@@ -97,17 +97,8 @@
                 </Grid>
             </UniformGrid>
 
-            <Grid Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}" Visibility="{Binding Current, Converter={StaticResource NullToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="40"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Button Command="{Binding ClosePanel}" Grid.Column="1">x</Button>
-                <Grid Grid.RowSpan="2">
+            <Grid Margin="0,120,0,0" Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}">
+                <Grid>
                     <ContentPresenter Content="{Binding Current}">
                         <ContentPresenter.Resources>
                             <DataTemplate DataType="{x:Type local:MapDetailViewModel}">

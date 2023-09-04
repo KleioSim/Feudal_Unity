@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace Feudal.Scenes.Main
 {
-    partial class ClansPanelViewModel : ViewModel
+    partial class ClansPanelViewModel : PanelViewModel
     {
 
         private string title;

@@ -14,7 +14,6 @@ namespace Feudal.Scenes.Main
     {
         private List<ViewModel> list = new List<ViewModel>();
 
-        public RelayCommand ClosePanel { get; }
 
         private ViewModel current;
         public ViewModel Current
@@ -23,20 +22,21 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref current, value);
         }
 
-        public DetailPanelViewModel()
+        internal void Add(PanelViewModel panelViewModel)
         {
-            ClosePanel = new RelayCommand(() => 
+            panelViewModel.ClosePanel = new RelayCommand(() =>
             {
-                list.Clear();
                 Current = null;
+                list.Clear();
             });
-        }
 
-        internal void Add(ViewModel mapItemDetail)
-        {
-            list.Add(mapItemDetail);
-
-            Current = mapItemDetail;
+            list.Add(panelViewModel);
+            Current = panelViewModel;
         }
+    }
+
+    public class PanelViewModel : ViewModel
+    {
+        public RelayCommand ClosePanel { get; internal set; }
     }
 }
