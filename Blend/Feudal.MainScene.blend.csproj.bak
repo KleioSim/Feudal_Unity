@@ -82,7 +82,6 @@
     <Compile Include="MainScene\Views\MapItemPanelView.xaml.cs">
       <DependentUpon>MapItemPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UICommands\DiscoverCommand.cs" />
     <Page Include="MainScene\Views\ClansPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -19,11 +19,15 @@ namespace Feudal.Scenes.Main
         public RelayCommand NexTurn { get; }
         public RelayCommand ShowClansPanel { get; }
 
+        public ObservableCollection<TaskViewModel> Tasks { get; }
+
 #if UNITY_5_3_OR_NEWER
+        public ObservableCollection<DataItem> TerrainItems { get; internal set; }
+
+        public RelayCommand<DataItem> testClickTerrainItem { get; }
+
         public RelayCommand<DataItem> ShowMapItemPanel { get; }
 #endif
-
-        public ObservableCollection<TaskViewModel> Tasks { get; }
 
         public MainViewModel()
         {
@@ -32,18 +36,15 @@ namespace Feudal.Scenes.Main
                 var viewModel = new ClansPanelViewModel();
                 DetailPanel.Add(viewModel);
 
-#if UNITY_5_3_OR_NEWER
+
                 ExecUICmd?.Invoke(new UpdateViewCommand());
-#endif
             });
 
             Tasks = new ObservableCollection<TaskViewModel>();
 
             NexTurn = new RelayCommand(() =>
             {
-#if UNITY_5_3_OR_NEWER
                 ExecUICmd?.Invoke(new NexTurnCommand());
-#endif
             });
 
 #if UNITY_5_3_OR_NEWER
@@ -61,7 +62,6 @@ namespace Feudal.Scenes.Main
             {
                 var viewModel = new MapDetailViewModel();
                 viewModel.Position = (item.Position.x, item.Position.y);
-                viewModel.ExecUICmd = ExecUICmd;
 
                 DetailPanel.Add(viewModel);
 
@@ -69,15 +69,6 @@ namespace Feudal.Scenes.Main
             });
 #endif
         }
-
-#if UNITY_5_3_OR_NEWER
-
-        public Action<UICommand> ExecUICmd;
-
-        public ObservableCollection<DataItem> TerrainItems { get; internal set; }
-
-        public RelayCommand<DataItem> testClickTerrainItem { get; }
-#endif
 
     }
 }

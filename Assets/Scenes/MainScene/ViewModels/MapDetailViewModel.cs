@@ -13,9 +13,6 @@ namespace Feudal.Scenes.Main
 {
     internal partial class MapDetailViewModel : PanelViewModel
     {
-#if UNITY_5_3_OR_NEWER
-        public Action<UICommand> ExecUICmd;
-#endif
         private string title;
         public string Title
         {
@@ -34,16 +31,7 @@ namespace Feudal.Scenes.Main
         public DiscoverPanelViewModel DiscoverPanel
         {
             get => discoverPanel;
-            set
-            {
-                SetProperty(ref discoverPanel, value);
-                if(discoverPanel != null)
-                {
-#if UNITY_5_3_OR_NEWER
-                    discoverPanel.ExecUICmd = ExecUICmd;
-#endif
-                }
-            }
+            set => SetProperty(ref discoverPanel, value);
         }
 
         private string desc;
@@ -62,10 +50,6 @@ namespace Feudal.Scenes.Main
 
     class DiscoverPanelViewModel : ViewModel
     {
-#if UNITY_5_3_OR_NEWER
-        public Action<UICommand> ExecUICmd;
-#endif
-
         private (int x, int y) position;
         public (int x, int y) Position
         {
@@ -94,16 +78,12 @@ namespace Feudal.Scenes.Main
         {
             Start = new RelayCommand(() => 
             {
-#if UNITY_5_3_OR_NEWER
                 ExecUICmd.Invoke(new DiscoverCommand(Position)); 
-#endif
             });
 
             Cancel = new RelayCommand(() => 
             {
-#if UNITY_5_3_OR_NEWER
-                ExecUICmd.Invoke(new CancelTaskCommand(WorkerLabor.TaskId)); 
-#endif
+                ExecUICmd.Invoke(new CancelTaskCommand(WorkerLabor.TaskId));
             });
         }
     }

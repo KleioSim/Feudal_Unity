@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 #endif
 
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -13,6 +14,8 @@ namespace Feudal.Scenes.Main
 {
     public class ViewModel : INotifyPropertyChanged
     {
+        public static Action<UICommand> ExecUICmd { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

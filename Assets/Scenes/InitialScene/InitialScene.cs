@@ -31,13 +31,14 @@ namespace Feudal.Scenes.Initial
                 .Select(obj => obj.GetComponent<MainScene>())
                 .Single(x => x != null);
 
-            mainScene.MainViewModel = new MainViewModel();
-            mainScene.MainViewModel.Update(session);
-            mainScene.MainViewModel.ExecUICmd = (obj) =>
+            ViewModel.ExecUICmd = (obj) =>
             {
                 session.ExecUICmd(obj);
                 mainScene.MainViewModel.Update(session);
             };
+
+            mainScene.MainViewModel = new MainViewModel();
+            mainScene.MainViewModel.Update(session);
         }
     }
 
