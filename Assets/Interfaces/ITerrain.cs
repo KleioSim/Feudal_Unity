@@ -43,11 +43,15 @@ namespace Feudal.Interfaces
     public class Message_AddTask : Message
     {
         public readonly Type taskType;
+        public readonly string clanId;
+
         public object[] parameters;
 
-        public Message_AddTask(Type taskType, object[] parameters)
+        public Message_AddTask(Type taskType, string clanId, object[] parameters)
         {
             this.taskType = taskType;
+            this.clanId = clanId;
+
             this.parameters = parameters;
         }
     }
@@ -67,11 +71,23 @@ namespace Feudal.Interfaces
         }
     }
 
+    public class Message_QueryTasksInClan : Message
+    {
+        public readonly string clanId;
+
+        public Message_QueryTasksInClan(string clanId)
+        {
+            this.clanId = clanId;
+        }
+    }
+
     public interface ITask
     {
         public (int x, int y) Position { get; }
         public string Id { get; }
         public string Desc { get; }
         public int Percent { get; }
+
+        public string ClanId { get; }
     }
 }

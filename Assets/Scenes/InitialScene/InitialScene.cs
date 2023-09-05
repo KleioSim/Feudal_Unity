@@ -134,6 +134,8 @@ namespace Feudal.Scenes.Initial
         public static void Update(LaborViewModel viewModel, IClan clan)
         {
             viewModel.Title = clan.Name;
+            viewModel.TotalCount = clan.TotalLaborCount;
+            viewModel.IdleCount = viewModel.TotalCount - clan.tasks.Length;
         }
 
         public static void Update(this DiscoverPanelViewModel viewModel, IEnumerable<ITask> tasks)

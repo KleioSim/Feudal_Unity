@@ -45,16 +45,13 @@ namespace Feudal.Scenes.Main
 
                     laborSelectorViewModel.Confirm = new RelayCommand(() =>
                     {
-                        ExecUICmd?.Invoke(new DiscoverCommand(position));
+                        ExecUICmd?.Invoke(new DiscoverCommand(laborSelectorViewModel.SelectedLabor.clanId, position));
                         SubViewModel = null;
                     },
                     () =>
                     {
                         return laborSelectorViewModel.SelectedLabor != null;
                     });
-
-                    laborSelectorViewModel.SelectedLabor = null;
-
 
                     SubViewModel = laborSelectorViewModel;
                     ExecUICmd?.Invoke(new UpdateViewCommand());
@@ -148,10 +145,10 @@ namespace Feudal.Scenes.Main
                 {
                     @default = new LaborSelectorViewModel();
 
-                    @default.Labors.Add(new LaborViewModel("CLAN0") { Title = "CLAN0" });
-                    @default.Labors.Add(new LaborViewModel("CLAN1") { Title = "CLAN1" });
-                    @default.Labors.Add(new LaborViewModel("CLAN2") { Title = "CLAN2" });
-                    @default.Labors.Add(new LaborViewModel("CLAN3") { Title = "CLAN3" });
+                    @default.Labors.Add(new LaborViewModel("CLAN0") { Title = "CLAN0", IdleCount = 3, TotalCount = 10 });
+                    @default.Labors.Add(new LaborViewModel("CLAN1") { Title = "CLAN1", IdleCount = 0, TotalCount = 1 });
+                    @default.Labors.Add(new LaborViewModel("CLAN2") { Title = "CLAN2", IdleCount = 1, TotalCount = 1 });
+                    @default.Labors.Add(new LaborViewModel("CLAN3") { Title = "CLAN3", IdleCount = 0, TotalCount = 0 });
                 }
 
                 return @default;
@@ -188,6 +185,32 @@ namespace Feudal.Scenes.Main
         {
             get => title;
             set => SetProperty(ref title, value);
+        }
+
+        private int idleCount;
+        public int IdleCount
+        {
+            get => idleCount;
+            set
+            {
+                SetProperty(ref idleCount, value);
+
+                IsEnable = IdleCount != 0;
+            }
+        }
+
+        private int totalCount;
+        public int TotalCount
+        {
+            get => totalCount;
+            set => SetProperty(ref totalCount, value);
+        }
+
+        private bool isEnable;
+        public bool IsEnable
+        {
+            get => isEnable;
+            private set => SetProperty(ref isEnable, value);
         }
 
         public LaborViewModel(string clanId)

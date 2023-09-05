@@ -24,7 +24,7 @@ public class Session
         switch(uiCmd)
         {
             case DiscoverCommand command:
-                messageBus.PostMessage(new Message_AddTask(typeof(DiscoverTask), new object[] { command.position }));
+                messageBus.PostMessage(new Message_AddTask(typeof(DiscoverTask), command.clanId, new object[] { command.position }));
                 break;
             case NexTurnCommand:
                 messageBus.PostMessage(new Message_NextTurn());

@@ -24,8 +24,6 @@ namespace Feudal.Scenes.Main
 #if UNITY_5_3_OR_NEWER
         public ObservableCollection<DataItem> TerrainItems { get; internal set; }
 
-        public RelayCommand<DataItem> testClickTerrainItem { get; }
-
         public RelayCommand<DataItem> ShowMapItemPanel { get; }
 #endif
 
@@ -48,10 +46,6 @@ namespace Feudal.Scenes.Main
             });
 
 #if UNITY_5_3_OR_NEWER
-            testClickTerrainItem = new RelayCommand<DataItem>((item) =>
-            {
-                ExecUICmd?.Invoke(new DiscoverCommand((item.Position.x, item.Position.y)));
-            });
 
             TaskViewModel.CancelAction = (taskId) =>
             {

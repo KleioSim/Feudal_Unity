@@ -26,7 +26,6 @@ namespace Feudal.Scenes.Main
                     @default.SubViewModel = LaborSelectorViewModel.Default;
                     LaborSelectorViewModel.Default.Confirm = new RelayCommand(() =>
                     {
-                        ExecUICmd?.Invoke(new DiscoverCommand(@default.Position));
                         @default.SubViewModel = null;
                     },
                     () =>

@@ -35,8 +35,12 @@ namespace Feudal.Tasks
             }
         }
 
-        public Task()
+        public string ClanId { get; set; }
+
+        public Task(string clanId)
         {
+            this.ClanId = clanId;
+
             id = TaskId++.ToString();
             desc = id;
         }
@@ -49,7 +53,7 @@ namespace Feudal.Tasks
     public class DiscoverTask : Task
     {
 
-        public DiscoverTask(object[] parameters)
+        public DiscoverTask(string clanId, object[] parameters) : base(clanId)
         {
             Position = (((int x, int y))parameters[0]);
         }
@@ -103,7 +107,7 @@ namespace Feudal.Tasks
         [MessageProcess]
         public void OnMessage_AddTask(Message_AddTask message)
         {
-            var task = Activator.CreateInstance(message.taskType, new object[] { message.parameters }) as Task;
+            var task = Activator.CreateInstance(message.taskType, new object[] { message.clanId, message.parameters }) as Task;
             task.messageBus = messageBus;
 
             list.Add(task);
@@ -129,6 +133,12 @@ namespace Feudal.Tasks
             task.OnCancel();
 
             list.Remove(task);
+        }
+
+        [MessageProcess]
+        public ITask[] OnMessage_QueryTasksInClan(Message_QueryTasksInClan message)
+        {
+            return list.Where(x => x.ClanId == message.clanId).ToArray();
         }
     }
 }

@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         </ResourceDictionary>
+
     </UserControl.Resources>
 
     <Grid>
@@ -96,15 +97,25 @@
                 </Border>
                 <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
                     <ListBox MaxHeight="250" ItemsSource="{Binding Labors}" SelectedItem="{Binding Path=SelectedLabor, Mode=TwoWay}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="IsEnabled" Value="{Binding IsEnable}" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border Margin="-10" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
                                     <Grid Height="50">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <Label Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                        <Label Grid.Column="0" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Label Content="{Binding IdleCount}" />
+                                            <Label>/</Label>
+                                            <Label Content="{Binding TotalCount}" />
+                                        </StackPanel>
                                     </Grid>
                                 </Border>
                             </DataTemplate>

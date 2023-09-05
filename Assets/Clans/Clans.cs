@@ -1,5 +1,6 @@
 using Feudal.Interfaces;
 using Feudal.MessageBuses;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -26,6 +27,12 @@ namespace Feudal.Clans
             this.messageBus = messageBus;
             messageBus.Register(this);
 
+            Clan.funcQueryTasks = (clanId) =>
+            {
+                return messageBus.PostMessage(new Message_QueryTasksInClan(clanId))
+                    .WaitAck<ITask[]>();
+            };
+
             list.Add(new Clan());
             list.Add(new Clan());
             list.Add(new Clan());
@@ -34,16 +41,29 @@ namespace Feudal.Clans
 
     public class Clan : IClan
     {
+        internal static Func<string, ITask[]> funcQueryTasks;
         private static int clanId;
 
         public string Id { get; }
 
         public string Name { get; }
 
+        public int TotalLaborCount { get; }
+
+        public ITask[] tasks
+        {
+            get
+            {
+                return funcQueryTasks(Id);
+            }
+        }
+
         public Clan()
         {
             Id = clanId++.ToString();
             Name = Id;
+
+            TotalLaborCount = 3;
         }
     }
 }
