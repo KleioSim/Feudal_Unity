@@ -51,7 +51,13 @@ public enum TerrainDataType
 {
     Plain,
     Hill,
+    Mountion,
+    Lake,
+    Marsh,
 
     Plain_Unknown,
-    Hill_Unknown
+    Hill_Unknown,
+    Mountion_Unknown,
+    Lake_Unknown,
+    Marsh_Unknown,
 }

@@ -6,7 +6,10 @@ namespace Feudal.Interfaces
     public enum Terrain
     {
         Plain,
-        Hill
+        Hill,
+        Mountion,
+        Lake,
+        Marsh
     }
 
     public interface ITerrainItem

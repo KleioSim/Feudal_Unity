@@ -43,7 +43,7 @@ public class Session
     {
         messageBus = new MessageBus();
 
-        terrainMgr = new TerrainManager(messageBus);
+        terrainMgr = new TerrainManager(messageBus, Terrain.Hill);
         taskMgr = new TaskManager(messageBus);
         clanMgr = new ClanManager(messageBus);
     }

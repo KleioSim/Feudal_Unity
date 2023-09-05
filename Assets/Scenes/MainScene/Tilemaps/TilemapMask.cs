@@ -8,6 +8,7 @@ using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 [RequireComponent(typeof(Tilemap))]
 public class TilemapMask : MonoBehaviour
 {
+    public Camera camera;
     public TilemapObservable terrainMap;
     public Sprite tileImage;
 
@@ -66,10 +67,10 @@ public class TilemapMask : MonoBehaviour
 
     public void OnRefresh()
     {
-        var c0 = tilemap.WorldToCell(Camera.main.ViewportToWorldPoint(new Vector3(0, 0)));
-        var c1 = tilemap.WorldToCell(Camera.main.ViewportToWorldPoint(new Vector3(1, 0)));
-        var c2 = tilemap.WorldToCell(Camera.main.ViewportToWorldPoint(new Vector3(0, 1)));
-        var c3 = tilemap.WorldToCell(Camera.main.ViewportToWorldPoint(new Vector3(1, 1)));
+        var c0 = tilemap.WorldToCell(camera.ViewportToWorldPoint(new Vector3(0, 0)));
+        var c1 = tilemap.WorldToCell(camera.ViewportToWorldPoint(new Vector3(1, 0)));
+        var c2 = tilemap.WorldToCell(camera.ViewportToWorldPoint(new Vector3(0, 1)));
+        var c3 = tilemap.WorldToCell(camera.ViewportToWorldPoint(new Vector3(1, 1)));
 
         var array = new Vector3Int[] { c0, c1, c2, c3 };
 

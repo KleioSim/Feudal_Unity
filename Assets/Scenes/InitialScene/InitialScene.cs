@@ -231,6 +231,12 @@ namespace Feudal.Scenes.Initial
                     return terrainItem.IsDiscovered ? TerrainDataType.Hill : TerrainDataType.Hill_Unknown;
                 case Interfaces.Terrain.Plain:
                     return terrainItem.IsDiscovered ? TerrainDataType.Plain : TerrainDataType.Plain_Unknown;
+                case Interfaces.Terrain.Mountion:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Mountion : TerrainDataType.Mountion_Unknown;
+                case Interfaces.Terrain.Lake:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Lake : TerrainDataType.Lake_Unknown;
+                case Interfaces.Terrain.Marsh:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Marsh : TerrainDataType.Marsh_Unknown;
                 default:
                     throw new Exception();
             }
