@@ -8,11 +8,11 @@
       "hash": "552389e6728085421ccba723cf28c404b0d6024e"
     },
     "com.kleiosim.ui.cameracontrol": {
-      "version": "git@github.com:KleioSim/UnityPackage.UI.CameraControl.git",
+      "version": "https://github.com/KleioSim/UnityPackage.UI.CameraControl.git#0.3.0",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "41ee1201c7643862732dee2ac021cb17fd1ad0ef"
+      "hash": "52d396a016e7d38420e1e38609c9b50e00e1f732"
     },
     "com.noesis.noesisgui": {
       "version": "https://github.com/KleioSim/UnityPackage.Noesis.NoesisGUI.git#IsHitted_3.1",

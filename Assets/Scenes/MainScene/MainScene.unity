@@ -1147,6 +1147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetCamera: {fileID: 60480112}
+  maxOrthographicSize: 25
+  minOrthographicSize: 5
   OnCameraMove:
     m_PersistentCalls:
       m_Calls:
