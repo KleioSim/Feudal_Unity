@@ -11,6 +11,29 @@ using System.Collections.ObjectModel;
 
 namespace Feudal.Scenes.Main
 {
+    class TraitViewModel : ViewModel
+    {
+        public readonly Enum trait;
+        
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
+        }
+
+        public TraitViewModel()
+        {
+
+        }
+
+        public TraitViewModel(Enum trait)
+        {
+            this.trait = trait;
+            Title = trait.ToString();
+        }
+    }
+
     internal partial class MapDetailViewModel : PanelViewModel
     {
         private string title;
@@ -58,6 +81,8 @@ namespace Feudal.Scenes.Main
                 });
             }
         }
+
+        public ObservableCollection<TraitViewModel> Traits { get; } = new ObservableCollection<TraitViewModel>();
 
         //private DiscoverPanelViewModel discoverPanel;
         //public DiscoverPanelViewModel DiscoverPanel

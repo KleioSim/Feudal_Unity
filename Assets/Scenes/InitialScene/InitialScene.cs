@@ -77,6 +77,15 @@ namespace Feudal.Scenes.Initial
             var terrainItem = session.terrainItems[viewModel.Position];
             viewModel.Title = terrainItem.Terrain.ToString();
 
+            if(terrainItem.IsDiscovered)
+            {
+                Update(viewModel.Traits, terrainItem.Traits);
+            }
+            else
+            {
+                viewModel.Traits.Clear();
+            }    
+
             var workViewModel = viewModel.WorkViewModel;
             Update(ref workViewModel, session, terrainItem);
             viewModel.WorkViewModel = workViewModel;
@@ -91,6 +100,25 @@ namespace Feudal.Scenes.Initial
                     default:
                         throw new Exception();
                 }
+            }
+        }
+
+        public static void Update(this ObservableCollection<TraitViewModel> viewModels, IEnumerable<TerrainTrait> traits)
+        {
+            var viewModeDict = viewModels.ToDictionary(x => x.trait, x => x);
+            var traitHashSet = traits.ToHashSet();
+
+            var needRemoveKeys = viewModeDict.Keys.Except(traitHashSet.OfType<Enum>()).ToArray();
+            var needAddKeys = traitHashSet.OfType<Enum>().Except(viewModeDict.Keys).ToArray();
+
+            foreach(var key in needRemoveKeys)
+            {
+                viewModels.Remove(viewModeDict[key]);
+            }
+            
+            foreach(var key in needAddKeys)
+            {
+                viewModels.Add(new TraitViewModel(key));
             }
         }
 

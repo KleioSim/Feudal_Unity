@@ -19,6 +19,9 @@ namespace Feudal.Scenes.Main
                     @default.Position = (0, 0);
                     @default.Title = "MapItemTitle";
 
+                    @default.Traits.Add(new TraitViewModel() { Title = "Trait0" });
+                    @default.Traits.Add(new TraitViewModel() { Title = "Trait1" });
+
                     @default.WorkViewModel = EstateBuildViewModel.Default;
 
                     @default.SubViewModel = LaborSelectorViewModel.Default;

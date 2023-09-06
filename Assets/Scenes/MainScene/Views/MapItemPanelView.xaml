@@ -28,11 +28,11 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
-            <Border Height="60" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
-                <Label  Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+            <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                <Label Height="60" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
             </Border>
-            <Border Height="100" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
-                <Grid >
+            <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                <Grid Height="100" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="2*"/>
@@ -40,6 +40,26 @@
                     <Image Grid.RowSpan="2"></Image>
                     <Label Grid.Row="1" Content="{Binding Desc}"/>
                 </Grid>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                <ListBox Height="40" ItemsSource="{Binding Traits}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="-10" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                                <Grid>
+                                    <Rectangle Width="40" Height="40">
+                                    </Rectangle>
+                                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Title}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Border>
             <!--<StackPanel DataContext="{Binding Detail}">
             <Grid Height="40" >
