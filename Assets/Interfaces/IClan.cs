@@ -13,12 +13,13 @@
     public enum EstateType
     {
         Farm,
-        Mine
+        CopperMine
     }
 
     public enum ProductType
     {
         Food,
+        Copper
     }
 
     public interface IEstate
