@@ -13,7 +13,6 @@
         <ResourceDictionary>
             <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         </ResourceDictionary>
-
     </UserControl.Resources>
 
     <Grid>
@@ -59,8 +58,21 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>-->
-            <Border Height="150" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" Visibility="{Binding DiscoverPanel, Converter={StaticResource NullToVisibilityConverter}}">
-                <Grid DataContext="{Binding DiscoverPanel}">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" Visibility="{Binding WorkViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                <Grid>
+                    <ContentPresenter Content="{Binding WorkViewModel}">
+                        <ContentPresenter.Resources>
+                            <DataTemplate DataType="{x:Type local:DiscoverPanelViewModel}">
+                                <views:DiscoverPanelView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type local:EstateWorkViewModel}">
+                                <views:EstateWorkPanelView/>
+                            </DataTemplate>
+                        </ContentPresenter.Resources>
+                    </ContentPresenter>
+                    <ContentControl/>
+                </Grid>
+                <!--<Grid  Height="150"  DataContext="{Binding DiscoverPanel}">
                     <Grid.ColumnDefinitions>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -86,7 +98,7 @@
                     </Grid>
                     <ProgressBar Value="{Binding Percent}" Grid.Row="1" Margin="30,5"></ProgressBar>
                     <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Discover</Label>
-                </Grid>
+                </Grid>-->
             </Border>
         </StackPanel>
         <Button Command="{Binding ClosePanel}" Grid.Column="1">X</Button>

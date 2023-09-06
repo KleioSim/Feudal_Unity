@@ -1,5 +1,6 @@
 using Feudal.MessageBuses;
 using System;
+using System.Collections.Generic;
 
 namespace Feudal.Interfaces
 {

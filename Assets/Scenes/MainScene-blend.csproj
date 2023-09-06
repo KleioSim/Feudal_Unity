@@ -66,6 +66,10 @@
     <Compile Include="MainScene\ViewModels\ClansPanelViewModel.cs" />
     <Compile Include="MainScene\ViewModels\ClansPanelViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\DetailPanelViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\DiscoverPanelViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\DiscoverPanelViewModel.Default.cs" />
+    <Compile Include="MainScene\ViewModels\EstateWorkViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\EstateWorkViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\MainViewModel.cs" />
     <Compile Include="MainScene\ViewModels\MainViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\MapDetailViewModel.cs" />
@@ -74,6 +78,12 @@
     <Compile Include="MainScene\ViewModels\ViewModel.cs" />
     <Compile Include="MainScene\Views\ClansPanelView.xaml.cs">
       <DependentUpon>ClansPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainScene\Views\DiscoverPanelView.xaml.cs">
+      <DependentUpon>DiscoverPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainScene\Views\EstateWorkPanelView.xaml.cs">
+      <DependentUpon>EstateWorkPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainScene\Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -84,6 +94,14 @@
     </Compile>
     <Compile Include="UICommands\DiscoverCommand.cs" />
     <Page Include="MainScene\Views\ClansPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainScene\Views\DiscoverPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainScene\Views\EstateWorkPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

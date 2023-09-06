@@ -10,6 +10,20 @@ public class DiscoverCommand : UICommand
     }
 }
 
+public class EstateStartWorkCommand : UICommand
+{
+    public readonly string clanId;
+    public readonly string estateId;
+    public readonly (int x, int y) position;
+
+    public EstateStartWorkCommand(string clanId, string estateId, (int x, int y) position)
+    {
+        this.clanId = clanId;
+        this.estateId = estateId;
+        this.position = position;
+    }
+}
+
 public class NexTurnCommand : UICommand
 {
 

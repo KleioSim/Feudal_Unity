@@ -27,25 +27,25 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref position, value);
         }
 
-        private DiscoverPanelViewModel discoverPanel;
-        public DiscoverPanelViewModel DiscoverPanel
+        private WorkViewModel workViewModel;
+        public WorkViewModel WorkViewModel
         {
-            get => discoverPanel;
+            get => workViewModel;
             set
             {
-                SetProperty(ref discoverPanel, value);
-                if(discoverPanel == null)
+                SetProperty(ref workViewModel, value);
+                if (workViewModel == null)
                 {
                     return;
                 }
 
-                discoverPanel.ShowLaborSeletor = new RelayCommand(() =>
+                workViewModel.ShowLaborSeletor = new RelayCommand(() =>
                 {
                     var laborSelectorViewModel = new LaborSelectorViewModel();
 
                     laborSelectorViewModel.Confirm = new RelayCommand(() =>
                     {
-                        ExecUICmd?.Invoke(new DiscoverCommand(laborSelectorViewModel.SelectedLabor.clanId, position));
+                        workViewModel.Start.Execute(laborSelectorViewModel.SelectedLabor);
                         SubViewModel = null;
                     },
                     () =>
@@ -58,6 +58,38 @@ namespace Feudal.Scenes.Main
                 });
             }
         }
+
+        //private DiscoverPanelViewModel discoverPanel;
+        //public DiscoverPanelViewModel DiscoverPanel
+        //{
+        //    get => discoverPanel;
+        //    set
+        //    {
+        //        SetProperty(ref discoverPanel, value);
+        //        if(discoverPanel == null)
+        //        {
+        //            return;
+        //        }
+
+        //        discoverPanel.ShowLaborSeletor = new RelayCommand(() =>
+        //        {
+        //            var laborSelectorViewModel = new LaborSelectorViewModel();
+
+        //            laborSelectorViewModel.Confirm = new RelayCommand(() =>
+        //            {
+        //                ExecUICmd?.Invoke(new DiscoverCommand(laborSelectorViewModel.SelectedLabor.clanId, position));
+        //                SubViewModel = null;
+        //            },
+        //            () =>
+        //            {
+        //                return laborSelectorViewModel.SelectedLabor != null;
+        //            });
+
+        //            SubViewModel = laborSelectorViewModel;
+        //            ExecUICmd?.Invoke(new UpdateViewCommand());
+        //        });
+        //    }
+        //}
 
         private string desc;
         public string Desc
@@ -72,47 +104,6 @@ namespace Feudal.Scenes.Main
             SubPanelClose = new RelayCommand(() =>
             {
                 SubViewModel = null;
-            });
-        }
-    }
-
-    class DiscoverPanelViewModel : ViewModel
-    {
-        private (int x, int y) position;
-        public (int x, int y) Position
-        {
-            get => position;
-            set => SetProperty(ref position, value);
-        }
-
-        private int percent;
-        public int Percent
-        {
-            get => percent;
-            set => SetProperty(ref percent, value);
-        }
-
-        private WorkerLaborViewModel workerLabor;
-        public WorkerLaborViewModel WorkerLabor
-        {
-            get => workerLabor;
-            set => SetProperty(ref workerLabor, value);
-        }
-
-        public RelayCommand showLaborSeletor;
-        public RelayCommand ShowLaborSeletor
-        {
-            get => showLaborSeletor;
-            set => SetProperty(ref showLaborSeletor, value);
-        }
-
-        public RelayCommand Cancel { get; }
-
-        public DiscoverPanelViewModel()
-        {
-            Cancel = new RelayCommand(() => 
-            {
-                ExecUICmd.Invoke(new CancelTaskCommand(WorkerLabor.TaskId));
             });
         }
     }

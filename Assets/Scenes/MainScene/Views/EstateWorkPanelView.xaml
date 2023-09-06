@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Feudal.Scenes.Main.Views.EstateWorkPanelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Feudal.Scenes.Main"
+             xmlns:views="clr-namespace:Feudal.Scenes.Main.Views"
+             mc:Ignorable="d" 
+             d:DesignWidth="380"
+             d:DataContext="{x:Static local:EstateWorkViewModel.Default }">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Height="150">
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Height="100" Width="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.RowSpan="2">
+                <Button Command="{Binding ShowLaborSeletor}">+</Button>
+                <Grid Background="{DynamicResource Brush.Border.Checked}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Label DataContext="{Binding WorkerLabor}" Content="{Binding Name}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                </Grid>
+            </Grid>
+            <Button Command="{Binding Cancel}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}" Grid.Column="2" Padding="0">x</Button>
+        </Grid>
+
+        <StackPanel IsEnabled="{Binding IsOutputEnable}" Orientation="Horizontal" Margin="0,0,20,0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="{Binding OutputType}" Margin="0,0,5,0"/>
+            <Label Content="{Binding OutputValue }" ContentStringFormat="+#;-#;+0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -19,9 +19,7 @@ namespace Feudal.Scenes.Main
                     @default.Position = (0, 0);
                     @default.Title = "MapItemTitle";
 
-                    @default.DiscoverPanel = new DiscoverPanelViewModel();
-                    @default.DiscoverPanel.Position = (0, 0);
-                    @default.DiscoverPanel.Percent = 33;
+                    @default.WorkViewModel = EstateWorkViewModel.Default;
 
                     @default.SubViewModel = LaborSelectorViewModel.Default;
                     LaborSelectorViewModel.Default.Confirm = new RelayCommand(() =>

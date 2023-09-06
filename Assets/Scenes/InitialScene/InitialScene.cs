@@ -77,23 +77,11 @@ namespace Feudal.Scenes.Initial
             var terrainItem = session.terrainItems[viewModel.Position];
             viewModel.Title = terrainItem.Terrain.ToString();
 
-            if(terrainItem.IsDiscovered)
-            {
-                viewModel.DiscoverPanel = null;
-            }
-            else
-            {
-                if (viewModel.DiscoverPanel == null)
-                {
-                    viewModel.DiscoverPanel = new DiscoverPanelViewModel();
-                }
+            var workViewModel = viewModel.WorkViewModel;
+            Update(ref workViewModel, session, terrainItem);
+            viewModel.WorkViewModel = workViewModel;
 
-                viewModel.DiscoverPanel.Position = terrainItem.Position;
-
-                Update(viewModel.DiscoverPanel, session.tasks);
-            }
-
-            if(viewModel.SubViewModel != null)
+            if (viewModel.SubViewModel != null)
             {
                 switch (viewModel.SubViewModel)
                 {
@@ -104,6 +92,81 @@ namespace Feudal.Scenes.Initial
                         throw new Exception();
                 }
             }
+        }
+
+        public static void Update(ref WorkViewModel viewModel, Session session, ITerrainItem terrainItem)
+        {
+            if (!terrainItem.IsDiscovered)
+            {
+                var discoverViewModel = viewModel as DiscoverPanelViewModel;
+                if (discoverViewModel == null)
+                {
+                    discoverViewModel = new DiscoverPanelViewModel();
+                    viewModel = discoverViewModel;
+                }
+
+                discoverViewModel.Position = terrainItem.Position;
+
+            }
+            else
+            {
+                var isHaveEstate = session.estates.TryGetValue(terrainItem.Position, out IEstate estate);
+                if (!isHaveEstate)
+                {
+                    viewModel = null;
+                }
+                else
+                {
+                    var estateWorkViewModel = viewModel as EstateWorkViewModel;
+                    if (estateWorkViewModel == null)
+                    {
+                        estateWorkViewModel = new EstateWorkViewModel();
+                    }
+
+                    estateWorkViewModel.Position = terrainItem.Position;
+                    estateWorkViewModel.EstateId = estate.Id;
+
+                    viewModel = estateWorkViewModel;
+                }
+            }
+
+            viewModel?.Update(session);
+        }
+
+        public static void Update(this WorkViewModel viewModel, Session session)
+        {
+            switch (viewModel)
+            {
+                case DiscoverPanelViewModel discoverViewModel:
+                    discoverViewModel.Update(session);
+                    break;
+                case EstateWorkViewModel estateWorkViewModel:
+                    estateWorkViewModel.Update(session);
+                    break;
+                default:
+                    throw new Exception();
+            }
+        }
+
+        public static void Update(this EstateWorkViewModel viewModel, Session session)
+        {
+            var estate = session.estates[viewModel.Position];
+            viewModel.OutputType = estate.ProductType.ToString();
+            viewModel.OutputValue = (decimal)estate.ProductValue;
+
+            var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
+            if (task == null)
+            {
+                viewModel.WorkerLabor = null;
+                return;
+            }
+
+            if (viewModel.WorkerLabor == null)
+            {
+                viewModel.WorkerLabor = new WorkerLaborViewModel();
+            }
+
+            viewModel.WorkerLabor.TaskId = task.Id;
         }
 
         public static void Update(ObservableCollection<LaborViewModel> laborsViewModel, Session session)
@@ -138,9 +201,9 @@ namespace Feudal.Scenes.Initial
             viewModel.IdleCount = viewModel.TotalCount - clan.tasks.Length;
         }
 
-        public static void Update(this DiscoverPanelViewModel viewModel, IEnumerable<ITask> tasks)
+        public static void Update(this DiscoverPanelViewModel viewModel, Session session)
         {
-            var task = tasks.SingleOrDefault(x => x.Position == viewModel.Position);
+            var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
             if(task == null)
             {
                 viewModel.WorkerLabor = null;

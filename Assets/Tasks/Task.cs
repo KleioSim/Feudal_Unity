@@ -50,6 +50,28 @@ namespace Feudal.Tasks
         abstract public void OnCancel();
     }
 
+    public class EstateWorkTask : Task
+    {
+        private readonly string estateId;
+
+        public EstateWorkTask(string clanId, object[] parameters) : base(clanId)
+        {
+            Position = (((int x, int y))parameters[0]);
+
+            estateId = ((string)parameters[1]);
+        }
+
+        public override void OnCancel()
+        {
+
+        }
+
+
+        protected override void OnFinished()
+        {
+        }
+    }
+
     public class DiscoverTask : Task
     {
 
