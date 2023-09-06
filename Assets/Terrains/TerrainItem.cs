@@ -1,4 +1,5 @@
 ﻿using Feudal.Interfaces;
+using System.Collections.Generic;
 
 namespace Feudal.Terrains
 {
@@ -12,10 +13,26 @@ namespace Feudal.Terrains
 
         public bool IsDiscovered { get; set; }
 
+        private List<TerrainTrait> traits = new List<TerrainTrait>();
+        public IEnumerable<TerrainTrait> Traits => traits;
+
         public TerrainItem((int, int) position, Terrain terrain)
         {
             this.position = position;
             this.terrain = terrain;
+        }
+
+        public void AddTraits(params TerrainTrait[] traits)
+        {
+            foreach(var trait in traits)
+            {
+                if(this.traits.Contains(trait))
+                {
+                    continue;
+                }
+
+                this.traits.Add(trait);
+            }
         }
     }
 }

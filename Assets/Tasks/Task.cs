@@ -72,6 +72,28 @@ namespace Feudal.Tasks
         }
     }
 
+    public class EstateBuildTask : Task
+    {
+        private readonly EstateType estateType;
+
+        public EstateBuildTask(string clanId, object[] parameters) : base(clanId)
+        {
+            Position = (((int x, int y))parameters[0]);
+
+            estateType = ((EstateType)parameters[1]);
+        }
+
+        public override void OnCancel()
+        {
+
+        }
+
+        protected override void OnFinished()
+        {
+            messageBus.PostMessage(new Message_AddEstate(Position, estateType));
+        }
+    }
+
     public class DiscoverTask : Task
     {
 

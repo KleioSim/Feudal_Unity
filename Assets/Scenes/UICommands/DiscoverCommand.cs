@@ -1,3 +1,5 @@
+using System;
+
 public class DiscoverCommand : UICommand
 {
     public readonly string clanId;
@@ -20,6 +22,20 @@ public class EstateStartWorkCommand : UICommand
     {
         this.clanId = clanId;
         this.estateId = estateId;
+        this.position = position;
+    }
+}
+
+public class EstateBuildStartCommand : UICommand
+{
+    public readonly string clanId;
+    public readonly Enum estateType;
+    public readonly (int x, int y) position;
+
+    public EstateBuildStartCommand(string clanId, Enum estateType, (int x, int y) position)
+    {
+        this.clanId = clanId;
+        this.estateType = estateType;
         this.position = position;
     }
 }

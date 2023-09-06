@@ -40,6 +40,9 @@ public class Session
             case EstateStartWorkCommand command:
                 messageBus.PostMessage(new Message_AddTask(typeof(EstateWorkTask), command.clanId, new object[] { command.position, command.estateId }));
                 break;
+            case EstateBuildStartCommand command:
+                messageBus.PostMessage(new Message_AddTask(typeof(EstateBuildTask), command.clanId, new object[] { command.position, command.estateType }));
+                break;
             default:
                 throw new Exception();
         }

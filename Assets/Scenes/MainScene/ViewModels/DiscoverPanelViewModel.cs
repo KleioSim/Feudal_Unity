@@ -3,6 +3,7 @@
 #else
 #endif
 
+
 namespace Feudal.Scenes.Main
 {
     partial class DiscoverPanelViewModel : WorkViewModel

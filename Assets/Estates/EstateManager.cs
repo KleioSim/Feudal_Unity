@@ -18,8 +18,12 @@ namespace Feudal.Estates
 
             var estate = new Estate((0, 0), EstateType.Farm);
             estates.Add(estate.Position, estate);
+        }
 
-            estate = new Estate((0, 1), EstateType.CopperMine);
+        [MessageProcess]
+        public void OnMessage_AddEstate(Message_AddEstate message)
+        {
+            var estate = new Estate(message.position, message.estateType);
             estates.Add(estate.Position, estate);
         }
 

@@ -107,30 +107,50 @@ namespace Feudal.Scenes.Initial
 
                 discoverViewModel.Position = terrainItem.Position;
 
+                viewModel?.Update(session);
+                return;
             }
-            else
+
+            var isHaveEstate = session.estates.TryGetValue(terrainItem.Position, out IEstate estate);
+            if (isHaveEstate)
             {
-                var isHaveEstate = session.estates.TryGetValue(terrainItem.Position, out IEstate estate);
-                if (!isHaveEstate)
+                var estateWorkViewModel = viewModel as EstateWorkViewModel;
+                if (estateWorkViewModel == null)
                 {
-                    viewModel = null;
+                    estateWorkViewModel = new EstateWorkViewModel();
                 }
-                else
+
+                estateWorkViewModel.Position = terrainItem.Position;
+                estateWorkViewModel.EstateId = estate.Id;
+
+                viewModel = estateWorkViewModel;
+
+                viewModel?.Update(session);
+                return;
+            }
+
+            if(terrainItem.Traits.Count() != 0)
+            {
+                var triat = terrainItem.Traits.First();
+
+                var attribute = triat.GetAttributeOfType<VaildEstateAttribute>();
+                if(attribute != null)
                 {
-                    var estateWorkViewModel = viewModel as EstateWorkViewModel;
-                    if (estateWorkViewModel == null)
+                    var estateBuildViewModel = viewModel as EstateBuildViewModel;
+                    if (estateBuildViewModel == null)
                     {
-                        estateWorkViewModel = new EstateWorkViewModel();
+                        estateBuildViewModel = new EstateBuildViewModel();
                     }
 
-                    estateWorkViewModel.Position = terrainItem.Position;
-                    estateWorkViewModel.EstateId = estate.Id;
+                    estateBuildViewModel.Position = terrainItem.Position;
+                    estateBuildViewModel.EstateType = attribute.estateType;
 
-                    viewModel = estateWorkViewModel;
+                    viewModel = estateBuildViewModel;
+
+                    viewModel?.Update(session);
+                    return;
                 }
             }
-
-            viewModel?.Update(session);
         }
 
         public static void Update(this WorkViewModel viewModel, Session session)
@@ -143,9 +163,31 @@ namespace Feudal.Scenes.Initial
                 case EstateWorkViewModel estateWorkViewModel:
                     estateWorkViewModel.Update(session);
                     break;
+                case EstateBuildViewModel estateBuildViewModel:
+                    estateBuildViewModel.Update(session);
+                    break;
                 default:
                     throw new Exception();
             }
+        }
+
+        public static void Update(this EstateBuildViewModel viewModel, Session session)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
+            if (task == null)
+            {
+                viewModel.WorkerLabor = null;
+                viewModel.Percent = 0;
+                return;
+            }
+
+            if (viewModel.WorkerLabor == null)
+            {
+                viewModel.WorkerLabor = new WorkerLaborViewModel();
+            }
+
+            viewModel.WorkerLabor.TaskId = task.Id;
+            viewModel.Percent = task.Percent;
         }
 
         public static void Update(this EstateWorkViewModel viewModel, Session session)
@@ -334,6 +376,24 @@ namespace Feudal.Scenes.Initial
         {
             viewModel.Desc = task.Desc;
             viewModel.Percent = task.Percent;
+        }
+    }
+
+    public static class EnumHelper
+    {
+        /// <summary>
+        /// Gets an attribute on an enum field value
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute you want to retrieve</typeparam>
+        /// <param name="enumVal">The enum value</param>
+        /// <returns>The attribute of type T that exists on the enum value</returns>
+        /// <example><![CDATA[string desc = myEnumVariable.GetAttributeOfType<DescriptionAttribute>().Description;]]></example>
+        public static T GetAttributeOfType<T>(this Enum enumVal) where T : System.Attribute
+        {
+            var type = enumVal.GetType();
+            var memInfo = type.GetMember(enumVal.ToString());
+            var attributes = memInfo[0].GetCustomAttributes(typeof(T), false);
+            return (attributes.Length > 0) ? (T)attributes[0] : null;
         }
     }
 }

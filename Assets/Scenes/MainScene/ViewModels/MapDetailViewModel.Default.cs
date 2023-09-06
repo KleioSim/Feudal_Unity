@@ -19,7 +19,7 @@ namespace Feudal.Scenes.Main
                     @default.Position = (0, 0);
                     @default.Title = "MapItemTitle";
 
-                    @default.WorkViewModel = EstateWorkViewModel.Default;
+                    @default.WorkViewModel = EstateBuildViewModel.Default;
 
                     @default.SubViewModel = LaborSelectorViewModel.Default;
                     LaborSelectorViewModel.Default.Confirm = new RelayCommand(() =>

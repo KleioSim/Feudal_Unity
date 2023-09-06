@@ -68,6 +68,8 @@
     <Compile Include="MainScene\ViewModels\DetailPanelViewModel.cs" />
     <Compile Include="MainScene\ViewModels\DiscoverPanelViewModel.cs" />
     <Compile Include="MainScene\ViewModels\DiscoverPanelViewModel.Default.cs" />
+    <Compile Include="MainScene\ViewModels\EstateBuildViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\EstateBuildViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\EstateWorkViewModel.cs" />
     <Compile Include="MainScene\ViewModels\EstateWorkViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\MainViewModel.cs" />
@@ -81,6 +83,9 @@
     </Compile>
     <Compile Include="MainScene\Views\DiscoverPanelView.xaml.cs">
       <DependentUpon>DiscoverPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainScene\Views\EstateBuildPanelView.xaml.cs">
+      <DependentUpon>EstateBuildPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainScene\Views\EstateWorkPanelView.xaml.cs">
       <DependentUpon>EstateWorkPanelView.xaml</DependentUpon>
@@ -98,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainScene\Views\DiscoverPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainScene\Views\EstateBuildPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

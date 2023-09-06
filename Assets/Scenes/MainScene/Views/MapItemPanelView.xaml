@@ -68,6 +68,9 @@
                             <DataTemplate DataType="{x:Type local:EstateWorkViewModel}">
                                 <views:EstateWorkPanelView/>
                             </DataTemplate>
+                            <DataTemplate DataType="{x:Type local:EstateBuildViewModel}">
+                                <views:EstateBuildPanelView/>
+                            </DataTemplate>
                         </ContentPresenter.Resources>
                     </ContentPresenter>
                     <ContentControl/>

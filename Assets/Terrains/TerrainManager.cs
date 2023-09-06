@@ -66,7 +66,7 @@ namespace Feudal.Terrains
 
                     if(position == center)
                     {
-                        var item = new TerrainItem(position, Terrain.Plain) { IsDiscovered = true };
+                        var item = new TerrainItem(position, Terrain.Plain);
                         dict.Add(item.Position, item);
                     }
                     else
@@ -117,6 +117,13 @@ namespace Feudal.Terrains
                 vectPos = (center.x - i, center.y - i);
                 dict.Add(vectPos, new TerrainItem(vectPos, CalcTerrainType(vectPos)));
             }
+
+            dict[center].IsDiscovered = true;
+            dict[center].AddTraits(TerrainTrait.FatSoil);
+
+            dict[(center.x+1, center.y)].AddTraits(TerrainTrait.FatSoil);
+
+            dict[(center.x, center.y+1)].AddTraits(TerrainTrait.CopperLode);
         }
 
         [MessageProcess]

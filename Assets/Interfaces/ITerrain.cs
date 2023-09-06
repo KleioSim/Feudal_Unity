@@ -13,11 +13,32 @@ namespace Feudal.Interfaces
         Marsh
     }
 
+    public enum TerrainTrait
+    {
+        [VaildEstate(EstateType.Farm)]
+        FatSoil,
+
+        [VaildEstate(EstateType.CopperMine)]
+        CopperLode
+    }
+
+    public class VaildEstateAttribute : Attribute
+    {
+        public readonly EstateType estateType;
+
+        public VaildEstateAttribute(EstateType estateType)
+        {
+            this.estateType = estateType;
+        }
+    }
+
     public interface ITerrainItem
     {
         (int x, int y) Position { get; }
         Terrain Terrain { get; }
         bool IsDiscovered { get; }
+
+        IEnumerable<TerrainTrait> Traits { get; }
     }
 
     public class Message_AddTerrainItem : Message
@@ -29,6 +50,18 @@ namespace Feudal.Interfaces
         {
             this.position = position;
             this.terrainType = terrainType;
+        }
+    }
+
+    public class Message_AddEstate : Message
+    {
+        public readonly (int x, int y) position;
+        public readonly EstateType estateType;
+
+        public Message_AddEstate((int x, int y) position, EstateType estateType)
+        {
+            this.position = position;
+            this.estateType = estateType;
         }
     }
 
