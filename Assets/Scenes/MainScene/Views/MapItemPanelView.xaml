@@ -42,15 +42,15 @@
                 </Grid>
             </Border>
             <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
-                <ListBox Height="40" ItemsSource="{Binding Traits}">
-                    <ListBox.ItemsPanel>
+                <ItemsControl Height="40" ItemsSource="{Binding Traits}">
+                    <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel IsItemsHost="True" />
                         </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Margin="-10" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                            <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
                                 <Grid>
                                     <Rectangle Width="40" Height="40">
                                     </Rectangle>
@@ -58,8 +58,8 @@
                                 </Grid>
                             </Border>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Border>
             <!--<StackPanel DataContext="{Binding Detail}">
             <Grid Height="40" >

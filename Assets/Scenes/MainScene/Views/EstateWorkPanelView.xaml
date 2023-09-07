@@ -15,11 +15,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Height="150">
+    <Grid Height="180">
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
+            <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Height="100" Width="100">
@@ -39,8 +40,8 @@
             </Grid>
             <Button Command="{Binding Cancel}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}" Grid.Column="2" Padding="0">x</Button>
         </Grid>
-
-        <StackPanel IsEnabled="{Binding IsOutputEnable}" Orientation="Horizontal" Margin="0,0,20,0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label Content="{Binding EstateName}" IsEnabled="{Binding IsOutputEnable}" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <StackPanel IsEnabled="{Binding IsOutputEnable}" Grid.Row="2"  Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Content="{Binding OutputType}" Margin="0,0,5,0"/>
             <Label Content="{Binding OutputValue }" ContentStringFormat="+#;-#;+0"/>
         </StackPanel>

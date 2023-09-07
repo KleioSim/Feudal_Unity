@@ -29,6 +29,13 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref isOutputEnable, value);
         }
 
+        private string estateName;
+        public string EstateName
+        {
+            get => estateName;
+            set => SetProperty(ref estateName, value);
+        }
+
         private string estateId;
         public string EstateId
         {

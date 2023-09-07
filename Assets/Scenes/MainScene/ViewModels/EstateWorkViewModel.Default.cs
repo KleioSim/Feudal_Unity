@@ -16,7 +16,8 @@ namespace Feudal.Scenes.Main
                 if(@default == null)
                 {
                     @default = new EstateWorkViewModel();
-                    @default.OutputType = "OUT_PUT";
+                    @default.EstateName = "EstateName";
+                    @default.OutputType = "OutputType";
                     @default.OutputValue = +10;
                 }
                 return @default;

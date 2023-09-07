@@ -161,22 +161,25 @@ namespace Feudal.Scenes.Initial
             {
                 var triat = terrainItem.Traits.First();
 
-                var attribute = triat.GetAttributeOfType<VaildEstateAttribute>();
-                if(attribute != null)
+                foreach(var trait in terrainItem.Traits.Reverse())
                 {
-                    var estateBuildViewModel = viewModel as EstateBuildViewModel;
-                    if (estateBuildViewModel == null)
+                    var attribute = triat.GetAttributeOfType<VaildEstateAttribute>();
+                    if (attribute != null)
                     {
-                        estateBuildViewModel = new EstateBuildViewModel();
+                        var estateBuildViewModel = viewModel as EstateBuildViewModel;
+                        if (estateBuildViewModel == null)
+                        {
+                            estateBuildViewModel = new EstateBuildViewModel();
+                        }
+
+                        estateBuildViewModel.Position = terrainItem.Position;
+                        estateBuildViewModel.EstateType = attribute.estateType;
+
+                        viewModel = estateBuildViewModel;
+
+                        viewModel?.Update(session);
+                        return;
                     }
-
-                    estateBuildViewModel.Position = terrainItem.Position;
-                    estateBuildViewModel.EstateType = attribute.estateType;
-
-                    viewModel = estateBuildViewModel;
-
-                    viewModel?.Update(session);
-                    return;
                 }
             }
         }
@@ -223,6 +226,7 @@ namespace Feudal.Scenes.Initial
             var estate = session.estates[viewModel.Position];
             viewModel.OutputType = estate.ProductType.ToString();
             viewModel.OutputValue = (decimal)estate.ProductValue;
+            viewModel.EstateName = estate.Type.ToString();
 
             var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
             if (task == null)
