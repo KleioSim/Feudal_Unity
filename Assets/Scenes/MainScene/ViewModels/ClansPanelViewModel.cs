@@ -46,11 +46,23 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref popCount, value);
         }
 
+        public ObservableCollection<EstateViewModel> Estates { get; } = new ObservableCollection<EstateViewModel>();
+
         private decimal food;
         public decimal Food
         {
             get => food;
             set => SetProperty(ref food, value);
+        }
+    }
+
+    public class EstateViewModel : ViewModel
+    {
+        private string estateId;
+        public string EstateId
+        {
+            get => estateId;
+            set => SetProperty(ref estateId, value);
         }
     }
 }

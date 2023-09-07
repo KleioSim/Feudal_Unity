@@ -13,6 +13,7 @@ namespace Feudal.Interfaces
         public IReadOnlyDictionary<ProductType, IProductData> ProductMgr { get; }
 
         public ITask[] tasks { get; }
+        public IEstate[] estates { get; }
     }
 
     public interface IProductData
@@ -42,5 +43,7 @@ namespace Feudal.Interfaces
 
         public ProductType ProductType { get; }
         public float ProductValue { get; }
+
+        public string OwnerId { get; }
     }
 }

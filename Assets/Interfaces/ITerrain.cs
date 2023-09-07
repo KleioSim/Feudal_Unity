@@ -57,11 +57,13 @@ namespace Feudal.Interfaces
     {
         public readonly (int x, int y) position;
         public readonly EstateType estateType;
+        public readonly string ownerId;
 
-        public Message_AddEstate((int x, int y) position, EstateType estateType)
+        public Message_AddEstate((int x, int y) position, EstateType estateType, string ownerId)
         {
             this.position = position;
             this.estateType = estateType;
+            this.ownerId = ownerId;
         }
     }
 
@@ -93,6 +95,18 @@ namespace Feudal.Interfaces
         }
     }
 
+    public class Message_SetEstateOwner : Message
+    {
+        public readonly string estateId;
+        public readonly string clanId;
+
+        public Message_SetEstateOwner(string estateId, string clanId)
+        {
+            this.estateId = estateId;
+            this.clanId = clanId;
+        }
+    }
+
     public class Message_NextTurn : Message
     {
 
@@ -113,6 +127,16 @@ namespace Feudal.Interfaces
         public readonly string clanId;
 
         public Message_QueryTasksInClan(string clanId)
+        {
+            this.clanId = clanId;
+        }
+    }
+    
+    public class Message_QueryEstatesByOwner : Message
+    {
+        public readonly string clanId;
+
+        public Message_QueryEstatesByOwner(string clanId)
         {
             this.clanId = clanId;
         }

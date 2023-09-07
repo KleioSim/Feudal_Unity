@@ -333,6 +333,40 @@ namespace Feudal.Scenes.Initial
             viewModel.PopCount = clan.PopCount;
 
             viewModel.Food = clan.ProductMgr[ProductType.Food].Current;
+
+            Update(viewModel.Estates, clan.estates);
+        }
+
+        public static void Update(this ObservableCollection<EstateViewModel> viewModels, IEnumerable<IEstate> estates)
+        {
+            var viewModelDict = viewModels.ToDictionary(x => x.EstateId, x => x);
+            var estateDict = estates.ToDictionary(x => x.Id, x => x);
+
+            var needRemoveIkeys = viewModelDict.Keys.Except(estateDict.Keys).ToArray();
+            var needAddKeys = estateDict.Keys.Except(viewModelDict.Keys).ToArray();
+
+            foreach(var key in needRemoveIkeys)
+            {
+                viewModels.Remove(viewModelDict[key]);
+            }
+
+            foreach(var key in needAddKeys)
+            {
+                var viewModel = new EstateViewModel();
+                viewModel.EstateId = key;
+
+                viewModels.Add(viewModel);
+            }
+
+            foreach(var viewModel in viewModels)
+            {
+                Update(viewModel, estateDict[viewModel.EstateId]);
+            }
+        }
+
+        public static void Update(this EstateViewModel viewModel, IEstate estate)
+        {
+
         }
 
         public static void Update(this ObservableCollection<DataItem> dataItems, IReadOnlyDictionary<(int x, int y), ITerrainItem> terrainDict)

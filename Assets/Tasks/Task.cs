@@ -75,12 +75,13 @@ namespace Feudal.Tasks
     public class EstateBuildTask : Task
     {
         private readonly EstateType estateType;
+        private readonly string ownerId;
 
         public EstateBuildTask(string clanId, object[] parameters) : base(clanId)
         {
             Position = (((int x, int y))parameters[0]);
-
             estateType = ((EstateType)parameters[1]);
+            ownerId = ((string)parameters[2]);
         }
 
         public override void OnCancel()
@@ -90,7 +91,7 @@ namespace Feudal.Tasks
 
         protected override void OnFinished()
         {
-            messageBus.PostMessage(new Message_AddEstate(Position, estateType));
+            messageBus.PostMessage(new Message_AddEstate(Position, estateType, ownerId));
         }
     }
 

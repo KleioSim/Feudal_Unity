@@ -35,6 +35,11 @@ namespace Feudal.Clans
                 return messageBus.PostMessage(new Message_QueryTasksInClan(clanId))
                     .WaitAck<ITask[]>();
             };
+            Clan.funcQueryEstates = (clanId) =>
+            {
+                return messageBus.PostMessage(new Message_QueryEstatesByOwner(clanId))
+                    .WaitAck<IEstate[]>();
+            };
 
             Player = new Clan();
 
@@ -47,6 +52,8 @@ namespace Feudal.Clans
     public class Clan : IClan
     {
         internal static Func<string, ITask[]> funcQueryTasks;
+        internal static Func<string, IEstate[]> funcQueryEstates;
+
         private static int clanId;
 
         public string Id { get; }
@@ -60,6 +67,14 @@ namespace Feudal.Clans
             get
             {
                 return funcQueryTasks(Id);
+            }
+        }
+
+        public IEstate[] estates
+        {
+            get
+            {
+                return funcQueryEstates(Id);
             }
         }
 

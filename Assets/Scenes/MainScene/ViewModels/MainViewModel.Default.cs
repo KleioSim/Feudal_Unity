@@ -25,6 +25,9 @@ namespace Feudal.Scenes.Main
                     @default.PlayerClan.PopCount = 1000;
                     @default.PlayerClan.Food = 10;
 
+                    @default.PlayerClan.Estates.Add(new EstateViewModel());
+                    @default.PlayerClan.Estates.Add(new EstateViewModel());
+
                     @default.DetailPanel.Add(ClansPanelViewModel.Default);
                     @default.DetailPanel.Add(MapDetailViewModel.Default);
 

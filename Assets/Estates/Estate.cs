@@ -5,6 +5,8 @@ namespace Feudal.Estates
 {
     public class Estate : IEstate
     {
+        private static int estateId;
+
         public (int x, int y) Position { get; }
 
         public string Id { get; }
@@ -14,6 +16,8 @@ namespace Feudal.Estates
         public ProductType ProductType { get; }
 
         public float ProductValue { get; set; }
+
+        public string OwnerId { get; internal set; }
 
         private static Dictionary<EstateType, (ProductType productType, float productValue)> defs = new Dictionary<EstateType, (ProductType, float)>()
         {
@@ -29,6 +33,8 @@ namespace Feudal.Estates
 
         public Estate((int x, int y) position, EstateType estateType)
         {
+            Id = estateId++.ToString();
+
             this.Position = position;
             this.Type = estateType;
 

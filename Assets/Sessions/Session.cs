@@ -43,7 +43,7 @@ public class Session
                 messageBus.PostMessage(new Message_AddTask(typeof(EstateWorkTask), command.clanId, new object[] { command.position, command.estateId }));
                 break;
             case EstateBuildStartCommand command:
-                messageBus.PostMessage(new Message_AddTask(typeof(EstateBuildTask), command.clanId, new object[] { command.position, command.estateType }));
+                messageBus.PostMessage(new Message_AddTask(typeof(EstateBuildTask), command.clanId, new object[] { command.position, command.estateType, playerClan.Id }));
                 break;
             default:
                 throw new Exception();
@@ -58,5 +58,10 @@ public class Session
         taskMgr = new TaskManager(messageBus);
         clanMgr = new ClanManager(messageBus);
         estateMgr = new EstateManager(messageBus);
+
+        foreach(var estate in estateMgr.Values)
+        {
+            messageBus.PostMessage(new Message_SetEstateOwner(estate.Id, playerClan.Id));
+        }
     }
 }

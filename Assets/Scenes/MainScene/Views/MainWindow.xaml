@@ -79,10 +79,10 @@
                         <Label>2</Label>
                     </StackPanel>
                 </Button>
-                <Button Grid.Column="2">
+                <Button DataContext="{Binding PlayerClan}" Grid.Column="2">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Label>地产</Label>
-                        <Label>2</Label>
+                        <Label Content="{Binding Estates.Count}"/>
                     </StackPanel>
                 </Button>
                 <Button DataContext="{Binding PlayerClan}" FontSize="18" HorizontalContentAlignment="Stretch">
