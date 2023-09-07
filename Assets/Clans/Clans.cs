@@ -3,6 +3,7 @@ using Feudal.MessageBuses;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Feudal.Clans
 {
@@ -22,6 +23,8 @@ namespace Feudal.Clans
             return ((IEnumerable)list).GetEnumerator();
         }
 
+        public Clan Player { get; private set; }
+
         public ClanManager(IMessageBus messageBus)
         {
             this.messageBus = messageBus;
@@ -33,7 +36,9 @@ namespace Feudal.Clans
                     .WaitAck<ITask[]>();
             };
 
-            list.Add(new Clan());
+            Player = new Clan();
+
+            list.Add(Player);
             list.Add(new Clan());
             list.Add(new Clan());
         }
@@ -58,12 +63,28 @@ namespace Feudal.Clans
             }
         }
 
+        public int PopCount { get; set; }
+
+        private Dictionary<ProductType, IProductData> productMgr;
+        public IReadOnlyDictionary<ProductType, IProductData> ProductMgr => productMgr;
+
         public Clan()
         {
             Id = clanId++.ToString();
             Name = Id;
 
             TotalLaborCount = 3;
+
+            PopCount = 0;
+
+            productMgr = Enum.GetValues(typeof(ProductType)).OfType<ProductType>().ToDictionary(k => k, v=> new ProductData() as IProductData);
+
+            ((ProductData)productMgr[ProductType.Food]).Current = 100;
         }
+    }
+
+    public class ProductData : IProductData
+    {
+        public decimal Current { get; set; }
     }
 }

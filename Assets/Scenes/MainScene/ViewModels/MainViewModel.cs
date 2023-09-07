@@ -14,6 +14,7 @@ namespace Feudal.Scenes.Main
 {
     internal partial class MainViewModel : ViewModel
     {
+        public ClanViewModel PlayerClan { get; } = new ClanViewModel();
         public DetailPanelViewModel DetailPanel { get; } = new DetailPanelViewModel();
 
         public RelayCommand NexTurn { get; }

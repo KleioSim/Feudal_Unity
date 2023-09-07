@@ -21,6 +21,10 @@ namespace Feudal.Scenes.Main
                 {
                     @default = new MainViewModel();
 
+                    @default.PlayerClan.Name = "PlayerClan";
+                    @default.PlayerClan.PopCount = 1000;
+                    @default.PlayerClan.Food = 10;
+
                     @default.DetailPanel.Add(ClansPanelViewModel.Default);
                     @default.DetailPanel.Add(MapDetailViewModel.Default);
 

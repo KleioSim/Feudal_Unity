@@ -15,6 +15,8 @@ public class Session
     public IEnumerable<ITask> tasks => taskMgr;
     public IEnumerable<IClan> clans => clanMgr;
 
+    public IClan playerClan => clanMgr.Player;
+
     private IMessageBus messageBus;
 
     private TerrainManager terrainMgr;

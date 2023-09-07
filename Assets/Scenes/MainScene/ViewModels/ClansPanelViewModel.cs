@@ -25,19 +25,32 @@ namespace Feudal.Scenes.Main
 
     class ClanViewModel : ViewModel
     {
-        public readonly string clanId;
-
-        private string name;
-
-        public ClanViewModel(string id)
+        private string clanId;
+        public string ClanId
         {
-            clanId = id;
+            get => clanId;
+            set => SetProperty(ref clanId, value);
         }
 
+        private string name;
         public string Name
         {
             get => name;
             set => SetProperty(ref name, value);
+        }
+
+        private int popCount;
+        public int PopCount
+        {
+            get => popCount;
+            set => SetProperty(ref popCount, value);
+        }
+
+        private decimal food;
+        public decimal Food
+        {
+            get => food;
+            set => SetProperty(ref food, value);
         }
     }
 }

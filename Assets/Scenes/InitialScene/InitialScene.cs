@@ -46,6 +46,7 @@ namespace Feudal.Scenes.Initial
     {
         public static void Update(this MainViewModel viewModel, Session session)
         {
+            Update(viewModel.PlayerClan, session.playerClan);
             Update(viewModel.TerrainItems, session.terrainItems);
             Update(viewModel.Tasks, session.tasks);
 
@@ -303,7 +304,7 @@ namespace Feudal.Scenes.Initial
         public static void Update(this ObservableCollection<ClanViewModel> viewModels, IEnumerable<IClan> clans)
         {
             var clansDict = clans.ToDictionary(k => k.Id, v => v);
-            var viewModelDict = viewModels.ToDictionary(k => k.clanId, v => v);
+            var viewModelDict = viewModels.ToDictionary(k => k.ClanId, v => v);
 
             var needRemoveIds = viewModelDict.Keys.Except(clansDict.Keys).ToArray();
             var needAddIds = clansDict.Keys.Except(viewModelDict.Keys).ToArray();
@@ -315,19 +316,23 @@ namespace Feudal.Scenes.Initial
 
             foreach (var id in needAddIds)
             {
-                var newViewModel = new ClanViewModel(id);
+                var newViewModel = new ClanViewModel();
+                newViewModel.ClanId = id;
                 viewModels.Add(newViewModel);
             }
 
             foreach (var viewModel in viewModels)
             {
-                Update(viewModel, clansDict[viewModel.clanId]);
+                Update(viewModel, clansDict[viewModel.ClanId]);
             }
         }
 
         public static void Update(this ClanViewModel viewModel, IClan clan)
         {
             viewModel.Name = clan.Name;
+            viewModel.PopCount = clan.PopCount;
+
+            viewModel.Food = clan.ProductMgr[ProductType.Food].Current;
         }
 
         public static void Update(this ObservableCollection<DataItem> dataItems, IReadOnlyDictionary<(int x, int y), ITerrainItem> terrainDict)
