@@ -131,24 +131,24 @@
                     <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding Tasks}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" />
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                                    <Grid Height="90">
+                                <Button Height="100" Margin="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                    <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
-                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="40"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="30"/>
-                                            <RowDefinition Height="20"/>
-                                            <RowDefinition/>
+                                            <RowDefinition Height="40"/>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
                                         </Grid.RowDefinitions>
-                                        <Label Content="{Binding Desc}" Grid.RowSpan="2"></Label>
-                                        <Slider Value="{Binding Percent}" IsEnabled ="False" Maximum="100" Grid.Row="2" VerticalAlignment="Center"></Slider>
+                                        <Label Content="{Binding Desc}" Grid.RowSpan="2" VerticalContentAlignment="Center"></Label>
+                                        <ProgressBar Value="{Binding Percent}" IsEnabled ="False" Maximum="100" Grid.Row="2" VerticalAlignment="Stretch"></ProgressBar>
                                         <Button Command="{Binding Cancel}" Grid.Column="1" Content="X"/>
                                     </Grid>
                                 </Button>

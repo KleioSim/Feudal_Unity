@@ -40,5 +40,11 @@ namespace Feudal.Estates
             var estate = estates.Values.Single(x => x.Id == message.estateId);
             estate.OwnerId = message.clanId;
         }
+
+        [MessageProcess]
+        public IEstate OnMessage_FindEstateById(Message_FindEstateById message)
+        {
+            return estates.Values.Single(x => x.Id == message.estateId); 
+        }
     }
 }

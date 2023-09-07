@@ -15,19 +15,19 @@ namespace Feudal.Estates
 
         public ProductType ProductType { get; }
 
-        public float ProductValue { get; set; }
+        public decimal ProductValue { get; set; }
 
         public string OwnerId { get; internal set; }
 
-        private static Dictionary<EstateType, (ProductType productType, float productValue)> defs = new Dictionary<EstateType, (ProductType, float)>()
+        private static Dictionary<EstateType, (ProductType productType, decimal productValue)> defs = new Dictionary<EstateType, (ProductType, decimal)>()
         {
             {
                 EstateType.Farm,
-                (ProductType.Food, 1.4f)
+                (ProductType.Food, 1.4m)
             },
             {
                 EstateType.CopperMine,
-                (ProductType.Copper, 1.0f)
+                (ProductType.Copper, 1.0m)
             }
         };
 

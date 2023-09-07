@@ -42,7 +42,7 @@ namespace Feudal.Interfaces
         public EstateType Type { get; }
 
         public ProductType ProductType { get; }
-        public float ProductValue { get; }
+        public decimal ProductValue { get; }
 
         public string OwnerId { get; }
     }

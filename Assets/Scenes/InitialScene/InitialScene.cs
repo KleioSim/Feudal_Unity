@@ -226,7 +226,7 @@ namespace Feudal.Scenes.Initial
         {
             var estate = session.estates[viewModel.Position];
             viewModel.OutputType = estate.ProductType.ToString();
-            viewModel.OutputValue = (decimal)estate.ProductValue;
+            viewModel.OutputValue = estate.ProductValue;
             viewModel.EstateName = estate.Type.ToString();
 
             var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);

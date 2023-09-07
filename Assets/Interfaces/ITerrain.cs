@@ -142,6 +142,32 @@ namespace Feudal.Interfaces
         }
     }
 
+    public class Message_Producting : Message
+    {
+        public readonly ProductType productType;
+        public readonly decimal productValue;
+        public readonly string ownerId;
+        public readonly string estateId;
+
+        public Message_Producting(ProductType productType, decimal productValue, string ownerId, string estateId)
+        {
+            this.productType = productType;
+            this.productValue = productValue;
+            this.ownerId = ownerId;
+            this.estateId = estateId;
+        }
+    }
+
+    public class Message_FindEstateById : Message
+    {
+        public readonly string estateId;
+
+        public Message_FindEstateById(string estateId)
+        {
+            this.estateId = estateId;
+        }
+    }
+
     public interface ITask
     {
         public (int x, int y) Position { get; }
