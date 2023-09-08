@@ -19,6 +19,7 @@ namespace Feudal.Scenes.Main
 
         public RelayCommand NexTurn { get; }
         public RelayCommand ShowClansPanel { get; }
+        public RelayCommand ShowPlayerClanPanel { get; }
 
         public ObservableCollection<TaskViewModel> Tasks { get; }
 
@@ -35,6 +36,15 @@ namespace Feudal.Scenes.Main
                 var viewModel = new ClansPanelViewModel();
                 DetailPanel.Add(viewModel);
 
+                ExecUICmd?.Invoke(new UpdateViewCommand());
+            });
+
+            ShowPlayerClanPanel = new RelayCommand(() =>
+            {
+                var viewModel = new ClanPanelViewModel();
+                viewModel.ClanViewModel = PlayerClan;
+
+                DetailPanel.Add(viewModel);
 
                 ExecUICmd?.Invoke(new UpdateViewCommand());
             });

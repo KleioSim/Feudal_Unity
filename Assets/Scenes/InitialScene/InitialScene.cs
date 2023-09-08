@@ -46,7 +46,7 @@ namespace Feudal.Scenes.Initial
     {
         public static void Update(this MainViewModel viewModel, Session session)
         {
-            Update(viewModel.PlayerClan, session.playerClan);
+            Update(viewModel.PlayerClan, session.playerClan, session);
             Update(viewModel.TerrainItems, session.terrainItems);
             Update(viewModel.Tasks, session.tasks);
 
@@ -68,9 +68,17 @@ namespace Feudal.Scenes.Initial
                 case ClansPanelViewModel clansDetail:
                     Update(clansDetail, session);
                     break;
+                case ClanPanelViewModel clanDetail:
+                    Update(clanDetail, session);
+                    break;
                 default:
                     throw new Exception();
             }
+        }
+
+        public static void Update(this ClanPanelViewModel viewModel, Session session)
+        {
+            Update(viewModel.ClanViewModel, session.clans.Single(x=>x.Id == viewModel.ClanViewModel.ClanId), session);
         }
 
         public static void Update(this MapDetailViewModel viewModel, Session session)
@@ -298,12 +306,12 @@ namespace Feudal.Scenes.Initial
 
         public static void Update(this ClansPanelViewModel viewModel, Session session)
         {
-            Update(viewModel.ClanItems, session.clans);
+            Update(viewModel.ClanItems, session);
         }
 
-        public static void Update(this ObservableCollection<ClanViewModel> viewModels, IEnumerable<IClan> clans)
+        public static void Update(this ObservableCollection<ClanViewModel> viewModels, Session session)
         {
-            var clansDict = clans.ToDictionary(k => k.Id, v => v);
+            var clansDict = session.clans.ToDictionary(k => k.Id, v => v);
             var viewModelDict = viewModels.ToDictionary(k => k.ClanId, v => v);
 
             var needRemoveIds = viewModelDict.Keys.Except(clansDict.Keys).ToArray();
@@ -323,22 +331,23 @@ namespace Feudal.Scenes.Initial
 
             foreach (var viewModel in viewModels)
             {
-                Update(viewModel, clansDict[viewModel.ClanId]);
+                Update(viewModel, clansDict[viewModel.ClanId], session);
             }
         }
 
-        public static void Update(this ClanViewModel viewModel, IClan clan)
+        public static void Update(this ClanViewModel viewModel, IClan clan, Session session)
         {
+            viewModel.ClanId = clan.Id;
             viewModel.Name = clan.Name;
             viewModel.PopCount = clan.PopCount;
 
             viewModel.Food = clan.ProductMgr[ProductType.Food].Current;
             viewModel.FoodSurplus = clan.ProductMgr[ProductType.Food].Surplus;
 
-            Update(viewModel.Estates, clan.estates);
+            Update(viewModel.Estates, clan.estates, session);
         }
 
-        public static void Update(this ObservableCollection<EstateViewModel> viewModels, IEnumerable<IEstate> estates)
+        public static void Update(this ObservableCollection<EstateViewModel> viewModels, IEnumerable<IEstate> estates, Session session)
         {
             var viewModelDict = viewModels.ToDictionary(x => x.EstateId, x => x);
             var estateDict = estates.ToDictionary(x => x.Id, x => x);
@@ -361,13 +370,30 @@ namespace Feudal.Scenes.Initial
 
             foreach(var viewModel in viewModels)
             {
-                Update(viewModel, estateDict[viewModel.EstateId]);
+                Update(viewModel, session);
             }
         }
 
-        public static void Update(this EstateViewModel viewModel, IEstate estate)
+        public static void Update(this EstateViewModel viewModel, Session session)
         {
+            var estate = session.estates[viewModel.Position];
+            viewModel.OutputType = estate.ProductType.ToString();
+            viewModel.OutputValue = estate.ProductValue;
+            viewModel.EstateName = estate.Type.ToString();
 
+            var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
+            if (task == null)
+            {
+                viewModel.WorkerLabor = null;
+                return;
+            }
+
+            if (viewModel.WorkerLabor == null)
+            {
+                viewModel.WorkerLabor = new WorkerLaborViewModel();
+            }
+
+            viewModel.WorkerLabor.TaskId = task.Id;
         }
 
         public static void Update(this ObservableCollection<DataItem> dataItems, IReadOnlyDictionary<(int x, int y), ITerrainItem> terrainDict)

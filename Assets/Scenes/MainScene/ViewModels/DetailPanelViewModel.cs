@@ -35,7 +35,16 @@ namespace Feudal.Scenes.Main
         }
     }
 
-    public class PanelViewModel : ViewModel
+    public interface IPanelViewModel
+    {
+        RelayCommand ClosePanel { get; }
+        RelayCommand SubPanelClose { get; }
+
+        ViewModel SubViewModel { get; set; }
+
+    }
+
+    public class PanelViewModel : ViewModel, IPanelViewModel
     {
         public RelayCommand ClosePanel { get; internal set; }
 

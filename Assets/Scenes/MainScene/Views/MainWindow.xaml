@@ -37,7 +37,6 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-
     <Viewbox Stretch="Fill">
         <Grid Height="1080" Width="1920">
             <Grid.ColumnDefinitions>
@@ -51,18 +50,21 @@
                 <RowDefinition Height="100"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid DataContext="{Binding PlayerClan}" Grid.Column="0" Grid.RowSpan="2" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height ="3*" />
-                    <RowDefinition Height ="1*"/>
-                </Grid.RowDefinitions>
-                <Button Grid.RowSpan="2" />
-                <Label FontSize="25" Grid.Row="0" Content="{Binding Name}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Label FontSize="15" Content="人口"/>
-                    <Label FontSize="15" Content="{Binding PopCount}"/>
-                </StackPanel>
+            <Grid Grid.Column="0" Grid.RowSpan="2" >
+                <Button Grid.RowSpan="2" Command="{Binding ShowPlayerClanPanel }"/>
+                <Grid DataContext="{Binding PlayerClan}" IsHitTestVisible="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height ="3*" />
+                        <RowDefinition Height ="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label FontSize="25" Grid.Row="0" Content="{Binding Name}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <Label FontSize="15" Content="人口"/>
+                        <Label FontSize="15" Content="{Binding PopCount}"/>
+                    </StackPanel>
+                </Grid>
             </Grid>
+
 
             <UniformGrid Rows="1" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Background="{DynamicResource Brush.Window.Background}">
                 <Button Command="{Binding ShowClansPanel}" Grid.Column="0">
@@ -114,6 +116,9 @@
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type local:ClansPanelViewModel}">
                                 <views:ClansPanelView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type local:ClanPanelViewModel}">
+                                <views:ClanPanelView/>
                             </DataTemplate>
                         </ContentPresenter.Resources>
                     </ContentPresenter>

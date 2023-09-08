@@ -63,6 +63,8 @@
     </Compile>
     <Compile Include="MainScene\NullToVisibilityConverter.cs" />
     <Compile Include="MainScene\RelayCommand.cs" />
+    <Compile Include="MainScene\ViewModels\ClanPanelViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\ClanPanelViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\ClansPanelViewModel.cs" />
     <Compile Include="MainScene\ViewModels\ClansPanelViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\DetailPanelViewModel.cs" />
@@ -78,6 +80,9 @@
     <Compile Include="MainScene\ViewModels\MapDetailViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\TaskViewModel.cs" />
     <Compile Include="MainScene\ViewModels\ViewModel.cs" />
+    <Compile Include="MainScene\Views\ClanPanelView.xaml.cs">
+      <DependentUpon>ClanPanelView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainScene\Views\ClansPanelView.xaml.cs">
       <DependentUpon>ClansPanelView.xaml</DependentUpon>
     </Compile>
@@ -98,6 +103,10 @@
       <DependentUpon>MapItemPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UICommands\DiscoverCommand.cs" />
+    <Page Include="MainScene\Views\ClanPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainScene\Views\ClansPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
