@@ -54,6 +54,13 @@ namespace Feudal.Scenes.Main
             get => food;
             set => SetProperty(ref food, value);
         }
+
+        private decimal foodSurplus;
+        public decimal FoodSurplus
+        {
+            get => foodSurplus;
+            set => SetProperty(ref foodSurplus, value);
+        }
     }
 
     public class EstateViewModel : ViewModel

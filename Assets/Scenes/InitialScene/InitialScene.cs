@@ -333,6 +333,7 @@ namespace Feudal.Scenes.Initial
             viewModel.PopCount = clan.PopCount;
 
             viewModel.Food = clan.ProductMgr[ProductType.Food].Current;
+            viewModel.FoodSurplus = clan.ProductMgr[ProductType.Food].Surplus;
 
             Update(viewModel.Estates, clan.estates);
         }

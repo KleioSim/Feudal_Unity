@@ -38,8 +38,6 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-
-    
     <Viewbox Stretch="Fill">
         <Grid Height="1080" Width="1920">
             <Grid.ColumnDefinitions>
@@ -85,11 +83,12 @@
                         <Label Content="{Binding Estates.Count}"/>
                     </StackPanel>
                 </Button>
-                <Button DataContext="{Binding PlayerClan}" FontSize="18" HorizontalContentAlignment="Stretch">
-                    <UniformGrid Rows="1" Margin="20,0">
+                <Button DataContext="{Binding PlayerClan}" HorizontalContentAlignment="Stretch">
+                    <UniformGrid Rows="1">
                         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Label Content="粮"/>
-                            <Label Content="{Binding Food}"/>
+                            <Label Content="粮:"/>
+                            <Label Content="{Binding Food}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Label Content="{Binding FoodSurplus}"  FontSize="16" ContentStringFormat="+#;-#;+0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                         </WrapPanel>
                         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Label>铜</Label>

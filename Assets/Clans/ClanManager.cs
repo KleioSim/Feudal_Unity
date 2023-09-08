@@ -48,11 +48,30 @@ namespace Feudal.Clans
         }
 
         [MessageProcess]
-        void OnMessage_Producting(Message_Producting message)
+        void OnMessage_EstateStartProducting(Message_EstateStartProducting message)
         {
             var clan = list.SingleOrDefault(x => x.Id == message.ownerId);
 
-            ((ProductData)clan.ProductMgr[message.productType]).Current += message.productValue;
+            clan.productMgr[message.productType].estateWorkOuputs.Add(message.estateId, message.productValue);
+        }
+
+        [MessageProcess]
+        void OnMessage_EstateStopProducting(Message_EstateStopProducting message)
+        {
+            var clan = list.SingleOrDefault(x => x.Id == message.ownerId);
+            foreach(var estateWorkOuput in clan.productMgr.Values.Select(x=>x.estateWorkOuputs))
+            {
+                estateWorkOuput.Remove(message.estateId);
+            }
+        }
+
+        [MessageProcess]
+        void OnMessage_NextTurn(Message_NextTurn message)
+        {
+            foreach(var productData in list.SelectMany(clan => clan.productMgr.Values))
+            {
+                productData.Settle();
+            }
         }
     }
 }

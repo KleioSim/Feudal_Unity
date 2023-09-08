@@ -44,6 +44,11 @@ namespace Feudal.Tasks
             desc = id;
         }
 
+        internal virtual IEnumerable<Message> OnStart()
+        {
+            return Enumerable.Empty<Message>();
+        }
+
         internal virtual IEnumerable<Message> OnCancel()
         {
             return Enumerable.Empty<Message>();

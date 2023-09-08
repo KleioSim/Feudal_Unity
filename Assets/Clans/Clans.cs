@@ -36,8 +36,8 @@ namespace Feudal.Clans
 
         public int PopCount { get; set; }
 
-        private Dictionary<ProductType, IProductData> productMgr;
-        public IReadOnlyDictionary<ProductType, IProductData> ProductMgr => productMgr;
+        internal Dictionary<ProductType, ProductData> productMgr;
+        public IReadOnlyDictionary<ProductType, IProductData> ProductMgr { get; }
 
         public Clan()
         {
@@ -48,14 +48,24 @@ namespace Feudal.Clans
 
             PopCount = 0;
 
-            productMgr = Enum.GetValues(typeof(ProductType)).OfType<ProductType>().ToDictionary(k => k, v=> new ProductData() as IProductData);
+            productMgr = Enum.GetValues(typeof(ProductType)).OfType<ProductType>().ToDictionary(k => k, v=> new ProductData());
+            ProductMgr = productMgr.ToDictionary(k => k.Key, v => v.Value as IProductData);
 
-            ((ProductData)productMgr[ProductType.Food]).Current = 100;
+            productMgr[ProductType.Food].Current = 100;
         }
     }
 
     public class ProductData : IProductData
     {
         public decimal Current { get; set; }
+        public decimal Surplus => EstateWorkOuputs.Values.Sum();
+
+        internal Dictionary<string, decimal> estateWorkOuputs = new Dictionary<string, decimal>();
+        public IReadOnlyDictionary<string, decimal> EstateWorkOuputs => estateWorkOuputs;
+
+        public void Settle()
+        {
+            Current += Surplus;
+        }
     }
 }

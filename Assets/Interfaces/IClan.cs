@@ -19,6 +19,9 @@ namespace Feudal.Interfaces
     public interface IProductData
     {
         public decimal Current { get; }
+        public decimal Surplus { get; }
+
+        public IReadOnlyDictionary<string, decimal> EstateWorkOuputs { get; }
     }
 
     

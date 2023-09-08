@@ -37,7 +37,10 @@ namespace Feudal.Tasks
         public void OnMessage_AddTask(Message_AddTask message)
         {
             var task = Activator.CreateInstance(message.taskType, new object[] { message.clanId, message.parameters }) as Task;
-            task.messageBus = messageBus;
+            foreach(var startMessage in task.OnStart())
+            {
+                messageBus.PostMessage(startMessage);
+            }
 
             list.Add(task);
         }
@@ -45,32 +48,31 @@ namespace Feudal.Tasks
         [MessageProcess]
         public void OnMessage_NextTurn(Message_NextTurn message)
         {
-            foreach (var task in list.OfType<Task>())
+            foreach (var task in list.Where(x=>!x.IsContinuous))
             {
                 task.Percent += 10;
-
-                if (task.Percent >= 100 )
-                {
-                    foreach(var finshedMessage in task.OnFinished())
-                    {
-                        messageBus.PostMessage(finshedMessage);
-                    }
-
-                    if(task.IsContinuous)
-                    {
-                        task.Percent = 0;
-                    }
-                }
             }
 
-            list.RemoveAll(x => x.Percent >= 100);
+            var finishedTask = list.Where(x => x.Percent >= 100).ToArray();
+            foreach(var task in finishedTask)
+            {
+                foreach (var finshedMessage in task.OnFinished())
+                {
+                    messageBus.PostMessage(finshedMessage);
+                }
+
+                list.Remove(task);
+            }
         }
 
         [MessageProcess]
         public void OnMessage_CancelTask(Message_CancelTask message)
         {
             var task = list.OfType<Task>().Single(x => x.Id == message.taskId);
-            task.OnCancel();
+            foreach (var cancelMessage in task.OnCancel())
+            {
+                messageBus.PostMessage(cancelMessage);
+            }
 
             list.Remove(task);
         }

@@ -142,17 +142,29 @@ namespace Feudal.Interfaces
         }
     }
 
-    public class Message_Producting : Message
+    public class Message_EstateStartProducting : Message
     {
         public readonly ProductType productType;
         public readonly decimal productValue;
         public readonly string ownerId;
         public readonly string estateId;
 
-        public Message_Producting(ProductType productType, decimal productValue, string ownerId, string estateId)
+        public Message_EstateStartProducting(ProductType productType, decimal productValue, string ownerId, string estateId)
         {
             this.productType = productType;
             this.productValue = productValue;
+            this.ownerId = ownerId;
+            this.estateId = estateId;
+        }
+    }
+
+    public class Message_EstateStopProducting : Message
+    {
+        public readonly string ownerId;
+        public readonly string estateId;
+
+        public Message_EstateStopProducting(string ownerId, string estateId)
+        {
             this.ownerId = ownerId;
             this.estateId = estateId;
         }
