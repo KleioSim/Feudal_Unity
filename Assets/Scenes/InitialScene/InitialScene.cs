@@ -68,17 +68,26 @@ namespace Feudal.Scenes.Initial
                 case ClansPanelViewModel clansDetail:
                     Update(clansDetail, session);
                     break;
-                case ClanPanelViewModel clanDetail:
-                    Update(clanDetail, session);
+                case ClanViewModel clanViewModel:
+                    Update(clanViewModel, session);
                     break;
                 default:
                     throw new Exception();
             }
         }
 
-        public static void Update(this ClanPanelViewModel viewModel, Session session)
+        public static void Update(this ClanViewModel viewModel, Session session)
         {
-            Update(viewModel.ClanViewModel, session.clans.Single(x=>x.Id == viewModel.ClanViewModel.ClanId), session);
+            var clan = session.clans.Single(x => x.Id == viewModel.ClanId);
+
+            viewModel.ClanId = clan.Id;
+            viewModel.Name = clan.Name;
+            viewModel.PopCount = clan.PopCount;
+
+            viewModel.Food = clan.ProductMgr[ProductType.Food].Current;
+            viewModel.FoodSurplus = clan.ProductMgr[ProductType.Food].Surplus;
+
+            Update(viewModel.Estates, clan.estates, session);
         }
 
         public static void Update(this MapDetailViewModel viewModel, Session session)

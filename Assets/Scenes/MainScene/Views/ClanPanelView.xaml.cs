@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 #endif
 
+using System.Windows.Input;
 
 namespace Feudal.Scenes.Main.Views
 {
@@ -25,5 +26,14 @@ namespace Feudal.Scenes.Main.Views
             NoesisUnity.LoadComponent(this);
         }
 #endif
+
+        public static readonly DependencyProperty ClickClanProperty
+            = DependencyProperty.Register(nameof(ChooseEstate), typeof(ICommand), typeof(ClanPanelView), new UIPropertyMetadata(null));
+
+        public ICommand ChooseEstate
+        {
+            get { return (ICommand)GetValue(ClickClanProperty); }
+            set { SetValue(ClickClanProperty, value); }
+        }
     }
 }

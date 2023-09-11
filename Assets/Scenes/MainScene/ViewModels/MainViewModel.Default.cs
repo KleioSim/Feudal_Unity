@@ -29,9 +29,7 @@ namespace Feudal.Scenes.Main
                     @default.PlayerClan.Estates.Add(new EstateViewModel());
                     @default.PlayerClan.Estates.Add(new EstateViewModel());
 
-                    @default.DetailPanel.Add(ClansPanelViewModel.Default);
-                    @default.DetailPanel.Add(MapDetailViewModel.Default);
-                    @default.DetailPanel.Add(ClanPanelViewModel.Default);
+                    @default.DetailPanel = DetailPanelViewModel.Default;
 
                     @default.Tasks.Add(new TaskViewModel("ID0") { Desc = "Task Desc0", Percent = 33 });
                     @default.Tasks.Add(new TaskViewModel("ID1") { Desc = "Task Desc1", Percent = 22 });

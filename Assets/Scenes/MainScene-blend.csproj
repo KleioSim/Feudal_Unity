@@ -63,17 +63,21 @@
     </Compile>
     <Compile Include="MainScene\NullToVisibilityConverter.cs" />
     <Compile Include="MainScene\RelayCommand.cs" />
-    <Compile Include="MainScene\ViewModels\ClanPanelViewModel.cs" />
-    <Compile Include="MainScene\ViewModels\ClanPanelViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\ClansPanelViewModel.cs" />
     <Compile Include="MainScene\ViewModels\ClansPanelViewModel.Default.cs" />
+    <Compile Include="MainScene\ViewModels\ClanViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\ClanViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\DetailPanelViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\DetailPanelViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\DiscoverPanelViewModel.cs" />
     <Compile Include="MainScene\ViewModels\DiscoverPanelViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\EstateBuildViewModel.cs" />
     <Compile Include="MainScene\ViewModels\EstateBuildViewModel.Default.cs" />
+    <Compile Include="MainScene\ViewModels\EstateViewModel.cs" />
     <Compile Include="MainScene\ViewModels\EstateWorkViewModel.cs" />
     <Compile Include="MainScene\ViewModels\EstateWorkViewModel.Default.cs" />
+    <Compile Include="MainScene\ViewModels\LaborSelectorViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\LaborViewModel.cs" />
     <Compile Include="MainScene\ViewModels\MainViewModel.cs" />
     <Compile Include="MainScene\ViewModels\MainViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\MapDetailViewModel.cs" />
@@ -86,6 +90,9 @@
     <Compile Include="MainScene\Views\ClansPanelView.xaml.cs">
       <DependentUpon>ClansPanelView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainScene\Views\DetailPanelView.xaml.cs">
+      <DependentUpon>DetailPanelView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainScene\Views\DiscoverPanelView.xaml.cs">
       <DependentUpon>DiscoverPanelView.xaml</DependentUpon>
     </Compile>
@@ -94,6 +101,9 @@
     </Compile>
     <Compile Include="MainScene\Views\EstateWorkPanelView.xaml.cs">
       <DependentUpon>EstateWorkPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainScene\Views\LaborSelectorView.xaml.cs">
+      <DependentUpon>LaborSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainScene\Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -111,6 +121,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MainScene\Views\DetailPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainScene\Views\DiscoverPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainScene\Views\EstateWorkPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainScene\Views\LaborSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

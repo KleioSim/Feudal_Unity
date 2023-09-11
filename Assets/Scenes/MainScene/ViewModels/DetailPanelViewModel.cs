@@ -7,13 +7,13 @@ using System.Windows.Data;
 #endif
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Feudal.Scenes.Main
 {
-    public class DetailPanelViewModel : ViewModel
+    public partial class DetailPanelViewModel : ViewModel
     {
         private List<ViewModel> list = new List<ViewModel>();
-
 
         private ViewModel current;
         public ViewModel Current
@@ -22,16 +22,61 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref current, value);
         }
 
-        internal void Add(PanelViewModel panelViewModel)
+        private ViewModel subViewModel;
+        public ViewModel SubViewModel
         {
-            panelViewModel.ClosePanel = new RelayCommand(() =>
+            get => subViewModel;
+            set => SetProperty(ref subViewModel, value);
+        }
+
+        private int index;
+        public int Index
+        {
+            get => index;
+            set
+            {
+                SetProperty(ref index, value);
+                Current = list[index];
+            }
+        }
+
+        public RelayCommand NextPanel { get; internal set; }
+        public RelayCommand PrevPanel { get; internal set; }
+        public RelayCommand ClosePanel { get; internal set; }
+        public RelayCommand<ViewModel> AddPanel { get; internal set; }
+
+        public DetailPanelViewModel()
+        {
+            ClosePanel = new RelayCommand(() =>
             {
                 Current = null;
                 list.Clear();
             });
 
-            list.Add(panelViewModel);
-            Current = panelViewModel;
+            PrevPanel = new RelayCommand(() =>
+            {
+                if (Index > 0)
+                {
+                    Index--;
+                }
+            });
+
+            NextPanel = new RelayCommand(() =>
+            {
+                if (Index < list.Count() - 1)
+                {
+                    Index++;
+                }
+            });
+
+            AddPanel = new RelayCommand<ViewModel>((panel) =>
+            {
+                list.Add(panel);
+
+                Index = list.Count() - 1;
+
+                ExecUICmd?.Invoke(new UpdateViewCommand());
+            });
         }
     }
 
@@ -46,6 +91,10 @@ namespace Feudal.Scenes.Main
 
     public class PanelViewModel : ViewModel, IPanelViewModel
     {
+        public RelayCommand<PanelViewModel> AddPanel { get; internal set; }
+
+        public RelayCommand NextPanel { get; internal set; }
+        public RelayCommand PrevPanel { get; internal set; }
         public RelayCommand ClosePanel { get; internal set; }
 
         private ViewModel subViewModel;

@@ -15,7 +15,7 @@ namespace Feudal.Scenes.Main
     internal partial class MainViewModel : ViewModel
     {
         public ClanViewModel PlayerClan { get; } = new ClanViewModel();
-        public DetailPanelViewModel DetailPanel { get; } = new DetailPanelViewModel();
+        public DetailPanelViewModel DetailPanel { get; internal set; } = new DetailPanelViewModel();
 
         public RelayCommand NexTurn { get; }
         public RelayCommand ShowClansPanel { get; }
@@ -34,19 +34,12 @@ namespace Feudal.Scenes.Main
             ShowClansPanel = new RelayCommand(() =>
             {
                 var viewModel = new ClansPanelViewModel();
-                DetailPanel.Add(viewModel);
-
-                ExecUICmd?.Invoke(new UpdateViewCommand());
+                DetailPanel.AddPanel.Execute(viewModel);
             });
 
             ShowPlayerClanPanel = new RelayCommand(() =>
             {
-                var viewModel = new ClanPanelViewModel();
-                viewModel.ClanViewModel = PlayerClan;
-
-                DetailPanel.Add(viewModel);
-
-                ExecUICmd?.Invoke(new UpdateViewCommand());
+                DetailPanel.AddPanel.Execute(PlayerClan);
             });
 
             Tasks = new ObservableCollection<TaskViewModel>();
@@ -68,9 +61,7 @@ namespace Feudal.Scenes.Main
                 var viewModel = new MapDetailViewModel();
                 viewModel.Position = (item.Position.x, item.Position.y);
 
-                DetailPanel.Add(viewModel);
-
-                ExecUICmd?.Invoke(new UpdateViewCommand());
+                DetailPanel.AddPanel.Execute(viewModel);
             });
 #endif
         }

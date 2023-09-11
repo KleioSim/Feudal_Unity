@@ -66,7 +66,7 @@
             </Grid>
 
 
-            <UniformGrid Rows="1" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Background="{DynamicResource Brush.Window.Background}">
+            <!--<UniformGrid Rows="1" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Background="{DynamicResource Brush.Window.Background}">
                 <Button Command="{Binding ShowClansPanel}" Grid.Column="0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Label>氏族</Label>
@@ -105,9 +105,12 @@
                 <Grid>
 
                 </Grid>
-            </UniformGrid>
+            </UniformGrid>-->
 
-            <Grid Margin="0,120,0,0" Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}">
+            <views:DetailPanelView Margin="0,120,0,0" Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}" VerticalContentAlignment="Top">
+                
+            </views:DetailPanelView> 
+            <!--<Grid Margin="0,120,0,0" Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}">
                 <Grid>
                     <ContentPresenter Content="{Binding Current}">
                         <ContentPresenter.Resources>
@@ -124,7 +127,7 @@
                     </ContentPresenter>
                     <ContentControl/>
                 </Grid>
-            </Grid>
+            </Grid>-->
 
             <Grid Grid.Column="3" Grid.Row="1" Grid.RowSpan="2">
                 <Grid.RowDefinitions>

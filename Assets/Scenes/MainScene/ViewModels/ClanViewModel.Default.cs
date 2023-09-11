@@ -3,40 +3,42 @@
 #else
 #endif
 
+
 namespace Feudal.Scenes.Main
 {
-    partial class ClanPanelViewModel
+
+    partial class ClanViewModel
     {
-        private static ClanPanelViewModel @default;
-        public static ClanPanelViewModel Default
+        private static ClanViewModel @default;
+        public static ClanViewModel Default
         {
             get
             {
                 if(@default == null)
                 {
-                    @default = new ClanPanelViewModel();
-                    @default.ClanViewModel = new ClanViewModel();
-                    @default.ClanViewModel.Name = "ClanTitle";
-                    @default.ClanViewModel.Estates.Add(new EstateViewModel()
+                    @default = new ClanViewModel();
+
+                    @default.Name = "ClanTitle";
+                    @default.Estates.Add(new EstateViewModel()
                     {
                         EstateName = "Estate0",
                         OutputType = "Product0",
                         OutputValue = 0
                     });
 
-                    @default.ClanViewModel.Estates.Add(new EstateViewModel()
+                    @default.Estates.Add(new EstateViewModel()
                     {
                         EstateName = "Estate1",
                         OutputType = "Product1",
                         OutputValue = 1
                     });
 
-                    @default.ClanViewModel.Estates.Add(new EstateViewModel()
+                    @default.Estates.Add(new EstateViewModel()
                     {
                         EstateName = "Estate2",
                         OutputType = "Product2",
                         OutputValue = 2
-                    }); ;
+                    });
                 }
                 return @default;
             }

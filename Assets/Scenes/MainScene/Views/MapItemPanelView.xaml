@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Feudal.Scenes.Main"
              xmlns:views="clr-namespace:Feudal.Scenes.Main.Views"
              mc:Ignorable="d" 
-             d:DesignWidth="850" 
+             d:DesignWidth="358" 
              d:DataContext="{x:Static local:MapDetailViewModel.Default}">
 
     <UserControl.Resources>
@@ -15,7 +15,106 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <StackPanel Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
+        <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+            <Label Height="60" Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+        </Border>
+        <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+            <Grid Height="100" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.RowSpan="2"></Image>
+                <Label Grid.Row="1" Content="{Binding Desc}"/>
+            </Grid>
+        </Border>
+        <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+            <ItemsControl Height="40" ItemsSource="{Binding Traits}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
+                            <Grid>
+                                <Rectangle Width="40" Height="40">
+                                </Rectangle>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Title}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        
+        <!--<StackPanel DataContext="{Binding Detail}">
+            <Grid Height="40" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="肥沃" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Slider Grid.Column="1" ></Slider>
+            </Grid>
+        </StackPanel>-->
+        <!--<ListBox Margin="60,20" MaxHeight="150" ItemsSource="{Binding Commands}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Desc}" Height="30" Command="{Binding Command}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>-->
+        <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" Visibility="{Binding WorkViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+            <Grid>
+                <ContentPresenter Content="{Binding WorkViewModel}">
+                    <ContentPresenter.Resources>
+                        <DataTemplate DataType="{x:Type local:DiscoverPanelViewModel}">
+                            <views:DiscoverPanelView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type local:EstateWorkViewModel}">
+                            <views:EstateWorkPanelView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type local:EstateBuildViewModel}">
+                            <views:EstateBuildPanelView/>
+                        </DataTemplate>
+                    </ContentPresenter.Resources>
+                </ContentPresenter>
+                <ContentControl/>
+            </Grid>
+            <!--<Grid  Height="150"  DataContext="{Binding DiscoverPanel}">
+                    <Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Height="100" Width="100">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.RowSpan="2">
+                            <Button Command="{Binding ShowLaborSeletor}">+</Button>
+                            <Grid Background="{DynamicResource Brush.Border.Checked}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}">
+                                <Label DataContext="{Binding WorkerLabor}" Content="{Binding Name}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+                        <Button Command="{Binding Cancel}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}" Grid.Column="2" Padding="0">x</Button>
+                    </Grid>
+                    <ProgressBar Value="{Binding Percent}" Grid.Row="1" Margin="30,5"></ProgressBar>
+                    <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Discover</Label>
+                </Grid>-->
+        </Border>
+    </StackPanel>
+    
+    <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="40"/>
@@ -61,7 +160,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Border>
-            <!--<StackPanel DataContext="{Binding Detail}">
+            --><!--<StackPanel DataContext="{Binding Detail}">
             <Grid Height="40" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -77,7 +176,7 @@
                     <Button Content="{Binding Desc}" Height="30" Command="{Binding Command}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>-->
+        </ListBox>--><!--
             <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" Visibility="{Binding WorkViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                 <Grid>
                     <ContentPresenter Content="{Binding WorkViewModel}">
@@ -95,7 +194,7 @@
                     </ContentPresenter>
                     <ContentControl/>
                 </Grid>
-                <!--<Grid  Height="150"  DataContext="{Binding DiscoverPanel}">
+                --><!--<Grid  Height="150"  DataContext="{Binding DiscoverPanel}">
                     <Grid.ColumnDefinitions>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -121,7 +220,7 @@
                     </Grid>
                     <ProgressBar Value="{Binding Percent}" Grid.Row="1" Margin="30,5"></ProgressBar>
                     <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Discover</Label>
-                </Grid>-->
+                </Grid>--><!--
             </Border>
         </StackPanel>
         <Button Command="{Binding ClosePanel}" Grid.Column="1">X</Button>
@@ -164,7 +263,7 @@
 
         </Grid>
         <Button Command="{Binding SubPanelClose}" Visibility="{Binding SubViewModel, Converter={StaticResource NullToVisibilityConverter}}" Grid.Column="4">X</Button>
-    </Grid>
+    </Grid>-->
 
 
 </UserControl>
