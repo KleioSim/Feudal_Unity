@@ -14,15 +14,6 @@
       "dependencies": {},
       "hash": "52d396a016e7d38420e1e38609c9b50e00e1f732"
     },
-    "com.noesis.noesisgui": {
-      "version": "https://github.com/KleioSim/UnityPackage.Noesis.NoesisGUI.git#IsHitted_3.1",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.inputsystem": "1.0.2"
-      },
-      "hash": "3cf40c5790d0209f71f10d8472631975cc5e5dd1"
-    },
     "com.unity.2d.animation": {
       "version": "8.0.2",
       "depth": 1,
@@ -163,15 +154,6 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.cn"
-    },
-    "com.unity.inputsystem": {
-      "version": "1.3.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.uielements": "1.0.0"
-      },
       "url": "https://packages.unity.cn"
     },
     "com.unity.mathematics": {

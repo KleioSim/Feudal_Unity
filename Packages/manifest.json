@@ -2,7 +2,6 @@
   "dependencies": {
     "com.kleiosim.tilemapobservable": "https://github.com/KleioSim/UnityPackage.TilemapObservable.git#dev",
     "com.kleiosim.ui.cameracontrol": "https://github.com/KleioSim/UnityPackage.UI.CameraControl.git#0.3.0",
-    "com.noesis.noesisgui": "https://github.com/KleioSim/UnityPackage.Noesis.NoesisGUI.git#IsHitted_3.1",
     "com.unity.collab-proxy": "1.15.18",
     "com.unity.feature.2d": "1.0.0",
     "com.unity.ide.rider": "3.0.14",

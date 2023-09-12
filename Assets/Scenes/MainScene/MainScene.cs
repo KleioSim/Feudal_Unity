@@ -9,39 +9,19 @@ namespace Feudal.Scenes.Main
 {
     class MainScene : MonoBehaviour
     {
-        public NoesisView noesisView;
-
         public TilemapObservable terrainMap;
 
-        private MainViewModel mainViewModel;
-        internal MainViewModel MainViewModel
-        {
-            get => mainViewModel;
-            set
-            {
-                mainViewModel = value;
-                mainViewModel.TerrainItems = terrainMap.Itemsource;
-
-                noesisView.Content.DataContext = mainViewModel;
-            }
-        }
+        public TestPanel testPanel;
 
         void Awake()
         {
-            MainViewModel = MainViewModel.Default;
             terrainMap.OnClickTile.AddListener(OnTerrainMapClick);
         }
 
-
         public void OnTerrainMapClick(DataItem item)
         {
-            if (!noesisView.IsHitted)
-            {
-                Debug.Log($"{item.Position} {item.TileKey}");
-
-                mainViewModel.ShowMapItemPanel.Execute(item);
-                //mainViewModel.testClickTerrainItem.Execute(item);
-            }
+            testPanel.gameObject.SetActive(true);
+            testPanel.ObjId = item;
         }
     }
 }
