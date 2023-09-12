@@ -6,61 +6,23 @@
 
 namespace Feudal.Scenes.Main
 {
-    partial class EstateWorkViewModel : WorkViewModel
+    partial class EstateWorkViewModel : WorkHoodViewModel
     {
-        private string outputType;
-        public string OutputType
+        private EstateViewModel estate;
+        public EstateViewModel Estate
         {
-            get => outputType;
-            set => SetProperty(ref outputType, value);
+            get => estate;
+            set => SetProperty(ref estate, value);
         }
 
-        private decimal outputValue;
-        public decimal OutputValue
-        {
-            get => outputValue;
-            set => SetProperty(ref outputValue, value);
-        }
-
-        private bool isOutputEnable;
-        public bool IsOutputEnable
-        {
-            get => isOutputEnable;
-            set => SetProperty(ref isOutputEnable, value);
-        }
-
-        private string estateName;
-        public string EstateName
-        {
-            get => estateName;
-            set => SetProperty(ref estateName, value);
-        }
-
-        private string estateId;
-        public string EstateId
-        {
-            get => estateId;
-            set => SetProperty(ref estateId, value);
-        }
-
-        public override RelayCommand<LaborViewModel> Start { get; }
+        public override RelayCommand<LaborViewModel> OccupyLabor { get; }
 
         public EstateWorkViewModel()
         {
-            PropertyChanged += EstateWorkViewModel_PropertyChanged;
-
-            Start = new RelayCommand<LaborViewModel>((laborViewModel) =>
+            OccupyLabor = new RelayCommand<LaborViewModel>((laborViewModel) =>
             {
-                ExecUICmd?.Invoke(new EstateStartWorkCommand(laborViewModel.clanId, EstateId, Position));
+                ExecUICmd?.Invoke(new EstateStartWorkCommand(laborViewModel.clanId, Estate.EstateId, Position));
             });
-        }
-
-        private void EstateWorkViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if(e.PropertyName == nameof(WorkerLabor))
-            {
-                IsOutputEnable = WorkerLabor != null;
-            }
         }
     }
 }

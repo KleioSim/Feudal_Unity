@@ -42,7 +42,7 @@
         <ProgressBar Value="{Binding Percent}" Grid.Row="1" Margin="30,5"></ProgressBar>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,20,0"  HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Content="修建" Margin="0,0,5,0"/>
-            <Label Content="{Binding EstateType}" ContentStringFormat="+#;-#;+0"/>
+            <Label Content="{Binding EstateType}"/>
         </StackPanel>
     </Grid>
 </UserControl>

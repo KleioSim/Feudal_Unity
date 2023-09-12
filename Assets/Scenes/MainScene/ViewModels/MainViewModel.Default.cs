@@ -21,15 +21,10 @@ namespace Feudal.Scenes.Main
                 {
                     @default = new MainViewModel();
 
-                    @default.PlayerClan.Name = "PlayerClan";
-                    @default.PlayerClan.PopCount = 1000;
-                    @default.PlayerClan.Food = 10;
-                    @default.PlayerClan.FoodSurplus = 2;
+                    @default.PlayerClan = ClanViewModel.Default;
 
-                    @default.PlayerClan.Estates.Add(new EstateViewModel());
-                    @default.PlayerClan.Estates.Add(new EstateViewModel());
-
-                    @default.DetailPanel = DetailPanelViewModel.Default;
+                    @default.DetailPanelContainer.AddPanel.Execute(ClanDetailPanelViewModel.Default);
+                    @default.DetailPanelContainer.AddPanel.Execute(MapDetailViewModel.Default);
 
                     @default.Tasks.Add(new TaskViewModel("ID0") { Desc = "Task Desc0", Percent = 33 });
                     @default.Tasks.Add(new TaskViewModel("ID1") { Desc = "Task Desc1", Percent = 22 });

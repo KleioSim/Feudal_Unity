@@ -15,10 +15,10 @@ namespace Feudal.Scenes.Main
             {
                 if(@default == null)
                 {
-                    @default = new EstateWorkViewModel();
-                    @default.EstateName = "EstateName";
-                    @default.OutputType = "OutputType";
-                    @default.OutputValue = +10;
+                    @default = new EstateWorkViewModel() { Estate = new EstateViewModel() };
+                    @default.estate.EstateName = "EstateName";
+                    @default.estate.OutputType = "OutputType";
+                    @default.estate.OutputValue = +10;
                 }
                 return @default;
             }

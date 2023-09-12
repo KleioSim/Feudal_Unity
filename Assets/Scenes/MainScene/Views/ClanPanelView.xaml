@@ -7,8 +7,9 @@
              xmlns:local="clr-namespace:Feudal.Scenes.Main"
              xmlns:views="clr-namespace:Feudal.Scenes.Main.Views"
              mc:Ignorable="d" 
-             d:DesignWidth="358" 
-             d:DataContext="{x:Static local:ClanViewModel.Default}">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{x:Static local:ClanDetailPanelViewModel.Default}">
+
     <UserControl.Resources>
         <ResourceDictionary>
             <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
@@ -16,79 +17,53 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel Grid.RowSpan="2" VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
-        <Label Height="40" Content="{Binding Name}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
-        <Expander>
-            <Expander.Header >
-                <Grid >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="2*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label FontSize="20" Content="地产"  Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Label FontSize="20" Content="{Binding Estates.Count}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Grid>
-            </Expander.Header>
-            <ItemsControl MaxHeight="280" ItemsSource="{Binding Estates}" Background="{DynamicResource Brush.Window.Background}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Command="{Binding Path=ChooseEstate, ElementName=ClanPanel}" CommandParameter="{Binding Path=., Converter={StaticResource EstateToMapItem}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                            <Grid Height="40">
+    <views:DetailPanelView>
+        <views:DetailPanelView.CurrentView>
+            <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" VerticalAlignment="Top">
+                <StackPanel DataContext="{Binding ClanViewModel}" Grid.RowSpan="2" VerticalAlignment="Top" Background="{DynamicResource Brush.Window.Background}">
+                    <Label Height="40" Content="{Binding Name}" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+                    <Expander>
+                        <Expander.Header >
+                            <Grid >
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Content="{Binding EstateName}" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="{Binding WorkerLaborName}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <StackPanel IsEnabled="{Binding IsOutputEnable}" Grid.Column="2"  Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Label Content="{Binding OutputType}" Margin="0,0,5,0"/>
-                                    <Label Content="{Binding OutputValue }" ContentStringFormat="+#;-#;+0"/>
-                                </StackPanel>
+                                <Label FontSize="20" Content="地产"  Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Label FontSize="20" Content="{Binding Estates.Count}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
-                        </Button>
-
-                        <!--<Grid Height="180">
-                                <Grid.ColumnDefinitions>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="120"/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Height="100" Width="100">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="20"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="20"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Grid Grid.RowSpan="2">
-                                        <Button Command="{Binding ShowLaborSeletor}">+</Button>
-                                        <Grid Background="{DynamicResource Brush.Border.Checked}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}">
-                                            <Label DataContext="{Binding WorkerLabor}" Content="{Binding Name}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        </Expander.Header>
+                        <ItemsControl MaxHeight="280" ItemsSource="{Binding Estates}" Background="{DynamicResource Brush.Window.Background}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding Path=ChooseEstate, ElementName=ClanPanel}" CommandParameter="{Binding Path=., Converter={StaticResource EstateToMapItem}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                        <Grid Height="40">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="{Binding EstateName}" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            <Label Content="{Binding WorkerLaborName}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            <StackPanel IsEnabled="{Binding IsOutputEnable}" Grid.Column="2"  Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Label Content="{Binding OutputType}" Margin="0,0,5,0"/>
+                                                <Label Content="{Binding OutputValue }" ContentStringFormat="+#;-#;+0"/>
+                                            </StackPanel>
                                         </Grid>
-                                    </Grid>
-                                    <Button Command="{Binding Cancel}" Visibility="{Binding WorkerLabor, Converter={StaticResource NullToVisibilityConverter}}" Grid.Column="2" Padding="0">x</Button>
-                                </Grid>
-                                <Label Content="{Binding EstateName}" IsEnabled="{Binding IsOutputEnable}" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <StackPanel IsEnabled="{Binding IsOutputEnable}" Grid.Row="2"  Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Label Content="{Binding OutputType}" Margin="0,0,5,0"/>
-                                    <Label Content="{Binding OutputValue }" ContentStringFormat="+#;-#;+0"/>
-                                </StackPanel>
-                            </Grid>-->
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Expander>
-        <Expander Background="Tan" Header="My2 Expander">
-            <TextBlock TextWrapping="Wrap">
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Expander>
+                    <Expander Background="Tan" Header="My2 Expander">
+                        <TextBlock TextWrapping="Wrap">
             Lorem ipsum dolor sit amet, consectetur
             adipisicing elit, sed do eiusmod tempor incididunt ut
             labore et dolore magna aliqua
-            </TextBlock>
-        </Expander>
-    </StackPanel>
+                        </TextBlock>
+                    </Expander>
+                </StackPanel>
+            </Border>
+        </views:DetailPanelView.CurrentView>
+    </views:DetailPanelView>
 </UserControl>

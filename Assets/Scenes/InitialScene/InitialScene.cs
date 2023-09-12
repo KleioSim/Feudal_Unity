@@ -50,10 +50,10 @@ namespace Feudal.Scenes.Initial
             Update(viewModel.TerrainItems, session.terrainItems);
             Update(viewModel.Tasks, session.tasks);
 
-            Update(viewModel.DetailPanel, session);
+            Update(viewModel.DetailPanelContainer, session);
         }
 
-        public static void Update(this DetailPanelViewModel viewModel, Session session)
+        public static void Update(this DetailPanelContainerViewModel viewModel, Session session)
         {
             if(viewModel.Current == null)
             {
@@ -65,11 +65,11 @@ namespace Feudal.Scenes.Initial
                 case MapDetailViewModel mapDetail:
                     Update(mapDetail, session);
                     break;
-                case ClansPanelViewModel clansDetail:
-                    Update(clansDetail, session);
-                    break;
-                case ClanViewModel clanViewModel:
-                    Update(clanViewModel, session);
+                //case ClansPanelViewModel clansDetail:
+                //    Update(clansDetail, session);
+                //    break;
+                case ClanDetailPanelViewModel clanViewModel:
+                    Update(clanViewModel.ClanViewModel, session);
                     break;
                 default:
                     throw new Exception();
@@ -102,11 +102,10 @@ namespace Feudal.Scenes.Initial
             else
             {
                 viewModel.Traits.Clear();
-            }    
+            }
 
-            var workViewModel = viewModel.WorkViewModel;
-            Update(ref workViewModel, session, terrainItem);
-            viewModel.WorkViewModel = workViewModel;
+            viewModel.WorkHood = UpdateWorkHood(viewModel.Position, viewModel.WorkHood, session);
+            viewModel.Labor = UpdateWorkLabor(viewModel.Position, viewModel.Labor, session);
 
             if (viewModel.SubViewModel != null)
             {
@@ -119,6 +118,79 @@ namespace Feudal.Scenes.Initial
                         throw new Exception();
                 }
             }
+        }
+
+        public static WorkHoodViewModel UpdateWorkHood((int x, int y) position, WorkHoodViewModel viewModel, Session session)
+        {
+            var terrainItem = session.terrainItems[position];
+            if (!terrainItem.IsDiscovered)
+            {
+                var discoverViewModel = viewModel as DiscoverPanelViewModel;
+                if (discoverViewModel == null)
+                {
+                    discoverViewModel = new DiscoverPanelViewModel();
+                }
+
+                discoverViewModel.Position = terrainItem.Position;
+
+                discoverViewModel.Update(session);
+                return discoverViewModel;
+            }
+
+            //var isHaveEstate = session.estates.TryGetValue(position, out IEstate estate);
+            //if (isHaveEstate)
+            //{
+            //    var estateWorkViewModel = viewModel as EstateViewModel;
+            //    if (estateWorkViewModel == null)
+            //    {
+            //        estateWorkViewModel = new EstateViewModel();
+            //    }
+
+            //    estateWorkViewModel.EstateId = estate.Id;
+            //    estateWorkViewModel.Update(session);
+
+            //    return estateWorkViewModel;
+            //}
+
+            foreach (var trait in terrainItem.Traits.Reverse())
+            {
+                var attribute = trait.GetAttributeOfType<VaildEstateAttribute>();
+                if (attribute != null)
+                {
+                    var estateBuildViewModel = viewModel as EstateBuildViewModel;
+                    if (estateBuildViewModel == null)
+                    {
+                        estateBuildViewModel = new EstateBuildViewModel();
+                    }
+
+                    estateBuildViewModel.Position = terrainItem.Position;
+                    estateBuildViewModel.EstateType = attribute.estateType;
+
+                    estateBuildViewModel.Update(session);
+
+                    return estateBuildViewModel;
+                }
+            }
+
+            return null;
+        }
+
+        public static LaborViewModel UpdateWorkLabor((int x, int y) position, LaborViewModel viewModel, Session session)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Position == position);
+            if (task == null)
+            {
+                return null;
+            }
+
+            if (viewModel == null)
+            {
+                viewModel = new LaborViewModel(task.ClanId);
+            }
+
+            Update(viewModel, session.clans.Single(x=>x.Id == task.Id));
+
+            return viewModel;
         }
 
         public static void Update(this ObservableCollection<TraitViewModel> viewModels, IEnumerable<TerrainTrait> traits)
@@ -138,127 +210,214 @@ namespace Feudal.Scenes.Initial
             {
                 viewModels.Add(new TraitViewModel(key));
             }
+
         }
 
-        public static void Update(ref WorkViewModel viewModel, Session session, ITerrainItem terrainItem)
+        //public static void Update(ref WorkViewModel viewModel, Session session, ITerrainItem terrainItem)
+        //{
+        //    if (!terrainItem.IsDiscovered)
+        //    {
+        //        var discoverViewModel = viewModel as DiscoverPanelViewModel;
+        //        if (discoverViewModel == null)
+        //        {
+        //            discoverViewModel = new DiscoverPanelViewModel();
+        //            viewModel = discoverViewModel;
+        //        }
+
+        //        discoverViewModel.Position = terrainItem.Position;
+
+        //        viewModel?.Update(session);
+        //        return;
+        //    }
+
+        //    var isHaveEstate = session.estates.TryGetValue(terrainItem.Position, out IEstate estate);
+        //    if (isHaveEstate)
+        //    {
+        //        var estateWorkViewModel = viewModel as EstateWorkViewModel;
+        //        if (estateWorkViewModel == null)
+        //        {
+        //            estateWorkViewModel = new EstateWorkViewModel();
+        //        }
+
+        //        estateWorkViewModel.Position = terrainItem.Position;
+        //        estateWorkViewModel.EstateId = estate.Id;
+
+        //        viewModel = estateWorkViewModel;
+
+        //        viewModel?.Update(session);
+        //        return;
+        //    }
+
+        //    if(terrainItem.Traits.Count() != 0)
+        //    {
+        //        var triat = terrainItem.Traits.First();
+
+        //        foreach(var trait in terrainItem.Traits.Reverse())
+        //        {
+        //            var attribute = triat.GetAttributeOfType<VaildEstateAttribute>();
+        //            if (attribute != null)
+        //            {
+        //                var estateBuildViewModel = viewModel as EstateBuildViewModel;
+        //                if (estateBuildViewModel == null)
+        //                {
+        //                    estateBuildViewModel = new EstateBuildViewModel();
+        //                }
+
+        //                estateBuildViewModel.Position = terrainItem.Position;
+        //                estateBuildViewModel.EstateType = attribute.estateType;
+
+        //                viewModel = estateBuildViewModel;
+
+        //                viewModel?.Update(session);
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
+
+        public static void Update(WorkViewModel viewModel, Session session)
         {
+            UpdateWorkerLabor(viewModel, session);
+            UpdateWorkHood(viewModel, session);
+            //var workerLabor = viewModel.WorkerLabor;
+            //Update(ref workerLabor, session);
+            //viewModel.WorkerLabor = workerLabor;
+
+            //var workHood = viewModel.WorkHood;
+            //Update(ref workHood, session);
+            //viewModel.WorkHood = workHood;
+
+
+
+
+
+            //var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
+            //if (task == null)
+            //{
+            //    viewModel.WorkerLabor = null;
+            //    return;
+            //}
+
+            //if (viewModel.WorkerLabor == null)
+            //{
+            //    viewModel.WorkerLabor = new WorkerLaborViewModel();
+            //}
+
+            //viewModel.WorkerLabor.TaskId = task.Id;
+
+            //switch (viewModel)
+            //{
+            //    case DiscoverPanelViewModel discoverViewModel:
+            //        discoverViewModel.Update(session);
+            //        break;
+            //    case EstateWorkViewModel estateWorkViewModel:
+            //        estateWorkViewModel.Update(session);
+            //        break;
+            //    case EstateBuildViewModel estateBuildViewModel:
+            //        estateBuildViewModel.Update(session);
+            //        break;
+            //    default:
+            //        throw new Exception();
+            //}
+        }
+
+        private static void UpdateWorkHood(WorkViewModel viewModel, Session session)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
+
+            var terrainItem = session.terrainItems[viewModel.Position];
             if (!terrainItem.IsDiscovered)
             {
-                var discoverViewModel = viewModel as DiscoverPanelViewModel;
-                if (discoverViewModel == null)
+                var discoverView = viewModel.WorkHood as DiscoverPanelViewModel;
+                if (discoverView == null)
                 {
-                    discoverViewModel = new DiscoverPanelViewModel();
-                    viewModel = discoverViewModel;
+                    discoverView = new DiscoverPanelViewModel();
+                    viewModel.WorkHood = discoverView;
                 }
 
-                discoverViewModel.Position = terrainItem.Position;
-
-                viewModel?.Update(session);
+                if (task != null)
+                {
+                    discoverView.Percent = task.Percent;
+                }
                 return;
             }
 
             var isHaveEstate = session.estates.TryGetValue(terrainItem.Position, out IEstate estate);
             if (isHaveEstate)
             {
-                var estateWorkViewModel = viewModel as EstateWorkViewModel;
-                if (estateWorkViewModel == null)
+                var estateWork = viewModel.WorkHood as EstateWorkViewModel;
+                if (estateWork == null)
                 {
-                    estateWorkViewModel = new EstateWorkViewModel();
+                    estateWork = new EstateWorkViewModel();
+                    estateWork.Estate = new EstateViewModel();
+                    viewModel.WorkHood = estateWork;
                 }
 
-                estateWorkViewModel.Position = terrainItem.Position;
-                estateWorkViewModel.EstateId = estate.Id;
-
-                viewModel = estateWorkViewModel;
-
-                viewModel?.Update(session);
+                estateWork.Position = terrainItem.Position;
+                estateWork.Estate.EstateId = estate.Id;
+                estateWork?.Update(session);
                 return;
             }
 
-            if(terrainItem.Traits.Count() != 0)
+            if (terrainItem.Traits.Count() != 0)
             {
-                var triat = terrainItem.Traits.First();
-
-                foreach(var trait in terrainItem.Traits.Reverse())
+                foreach (var trait in terrainItem.Traits.Reverse())
                 {
-                    var attribute = triat.GetAttributeOfType<VaildEstateAttribute>();
+                    var attribute = trait.GetAttributeOfType<VaildEstateAttribute>();
                     if (attribute != null)
                     {
-                        var estateBuildViewModel = viewModel as EstateBuildViewModel;
+                        var estateBuildViewModel = viewModel.WorkHood as EstateBuildViewModel;
                         if (estateBuildViewModel == null)
                         {
                             estateBuildViewModel = new EstateBuildViewModel();
+                            viewModel.WorkHood = estateBuildViewModel;
                         }
 
                         estateBuildViewModel.Position = terrainItem.Position;
                         estateBuildViewModel.EstateType = attribute.estateType;
 
-                        viewModel = estateBuildViewModel;
+                        estateBuildViewModel.Update(session);
 
-                        viewModel?.Update(session);
                         return;
                     }
                 }
             }
         }
 
-        public static void Update(this WorkViewModel viewModel, Session session)
+        private static void UpdateWorkerLabor(WorkViewModel viewModel, Session session)
         {
-            switch (viewModel)
+            var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
+            if (task == null)
             {
-                case DiscoverPanelViewModel discoverViewModel:
-                    discoverViewModel.Update(session);
-                    break;
-                case EstateWorkViewModel estateWorkViewModel:
-                    estateWorkViewModel.Update(session);
-                    break;
-                case EstateBuildViewModel estateBuildViewModel:
-                    estateBuildViewModel.Update(session);
-                    break;
-                default:
-                    throw new Exception();
+                viewModel.WorkerLabor = null;
+                return;
             }
+
+            if (viewModel.WorkerLabor == null)
+            {
+                viewModel.WorkerLabor = new WorkerLaborViewModel();
+            }
+
+            viewModel.WorkerLabor.TaskId = task.Id;
         }
+
+        //public static void Update(ref WorkerLaborViewModel viewModel, Session session)
+        //{
+
+        //}
 
         public static void Update(this EstateBuildViewModel viewModel, Session session)
         {
             var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
-            if (task == null)
+            if(task != null)
             {
-                viewModel.WorkerLabor = null;
-                viewModel.Percent = 0;
-                return;
+                viewModel.Percent = task.Percent;
             }
-
-            if (viewModel.WorkerLabor == null)
-            {
-                viewModel.WorkerLabor = new WorkerLaborViewModel();
-            }
-
-            viewModel.WorkerLabor.TaskId = task.Id;
-            viewModel.Percent = task.Percent;
         }
 
         public static void Update(this EstateWorkViewModel viewModel, Session session)
         {
-            var estate = session.estates[viewModel.Position];
-            viewModel.OutputType = estate.ProductType.ToString();
-            viewModel.OutputValue = estate.ProductValue;
-            viewModel.EstateName = estate.Type.ToString();
-
-            var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
-            if (task == null)
-            {
-                viewModel.WorkerLabor = null;
-                return;
-            }
-
-            if (viewModel.WorkerLabor == null)
-            {
-                viewModel.WorkerLabor = new WorkerLaborViewModel();
-            }
-
-            viewModel.WorkerLabor.TaskId = task.Id;
+            viewModel.Estate.Update(session);
         }
 
         public static void Update(ObservableCollection<LaborViewModel> laborsViewModel, Session session)
@@ -296,21 +455,10 @@ namespace Feudal.Scenes.Initial
         public static void Update(this DiscoverPanelViewModel viewModel, Session session)
         {
             var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
-            if(task == null)
+            if(task != null)
             {
-                viewModel.WorkerLabor = null;
-                viewModel.Percent = 0;
-                return;
+                viewModel.Percent = task.Percent;
             }
-
-            if(viewModel.WorkerLabor == null)
-            {
-                viewModel.WorkerLabor = new WorkerLaborViewModel();
-            }
-
-            viewModel.WorkerLabor.TaskId = task.Id;
-
-            viewModel.Percent = task.Percent;
         }
 
         public static void Update(this ClansPanelViewModel viewModel, Session session)
@@ -385,24 +533,11 @@ namespace Feudal.Scenes.Initial
 
         public static void Update(this EstateViewModel viewModel, Session session)
         {
-            var estate = session.estates[viewModel.Position];
+            var estate = session.estates.Values.SingleOrDefault(x => x.Id == viewModel.EstateId);
+
             viewModel.OutputType = estate.ProductType.ToString();
             viewModel.OutputValue = estate.ProductValue;
             viewModel.EstateName = estate.Type.ToString();
-
-            var task = session.tasks.SingleOrDefault(x => x.Position == viewModel.Position);
-            if (task == null)
-            {
-                viewModel.WorkerLabor = null;
-                return;
-            }
-
-            if (viewModel.WorkerLabor == null)
-            {
-                viewModel.WorkerLabor = new WorkerLaborViewModel();
-            }
-
-            viewModel.WorkerLabor.TaskId = task.Id;
         }
 
         public static void Update(this ObservableCollection<DataItem> dataItems, IReadOnlyDictionary<(int x, int y), ITerrainItem> terrainDict)

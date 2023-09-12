@@ -22,17 +22,21 @@ namespace Feudal.Scenes.Main
                     @default.Traits.Add(new TraitViewModel() { Title = "Trait0" });
                     @default.Traits.Add(new TraitViewModel() { Title = "Trait1" });
 
-                    @default.WorkViewModel = EstateBuildViewModel.Default;
-
+                    //@default.Labor = new LaborViewModel("Labor0") { Title = "Labor0" };
+                    @default.WorkHood = EstateWorkViewModel.Default;
                     @default.SubViewModel = LaborSelectorViewModel.Default;
-                    LaborSelectorViewModel.Default.Confirm = new RelayCommand(() =>
-                    {
-                        @default.SubViewModel = null;
-                    },
-                    () =>
-                    {
-                        return LaborSelectorViewModel.Default.SelectedLabor != null;
-                    });
+
+                    //@default.WorkViewModel = WorkViewModel.Default;
+
+                    //@default.SubViewModel = LaborSelectorViewModel.Default;
+                    //LaborSelectorViewModel.Default.Confirm = new RelayCommand(() =>
+                    //{
+                    //    @default.SubViewModel = null;
+                    //},
+                    //() =>
+                    //{
+                    //    return LaborSelectorViewModel.Default.SelectedLabor != null;
+                    //});
 
                     //@default.DiscoverPanel.WorkerLabor = new WorkerLaborViewModel();
                     //@default.DiscoverPanel.WorkerLabor.Name = "TEST_LABOR_NAME";

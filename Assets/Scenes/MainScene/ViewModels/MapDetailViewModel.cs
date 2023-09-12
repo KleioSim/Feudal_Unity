@@ -34,7 +34,7 @@ namespace Feudal.Scenes.Main
         }
     }
 
-    internal partial class MapDetailViewModel : PanelViewModel
+    internal partial class MapDetailViewModel : DetailPanelViewModel
     {
         private string title;
         public string Title
@@ -50,71 +50,19 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref position, value);
         }
 
-        private WorkViewModel workViewModel;
-        public WorkViewModel WorkViewModel
+        private WorkHoodViewModel workHood;
+        public WorkHoodViewModel WorkHood
         {
-            get => workViewModel;
-            set
-            {
-                SetProperty(ref workViewModel, value);
-                if (workViewModel == null)
-                {
-                    return;
-                }
-
-                workViewModel.ShowLaborSeletor = new RelayCommand(() =>
-                {
-                    var laborSelectorViewModel = new LaborSelectorViewModel();
-
-                    laborSelectorViewModel.Confirm = new RelayCommand(() =>
-                    {
-                        workViewModel.Start.Execute(laborSelectorViewModel.SelectedLabor);
-                        SubViewModel = null;
-                    },
-                    () =>
-                    {
-                        return laborSelectorViewModel.SelectedLabor != null;
-                    });
-
-                    SubViewModel = laborSelectorViewModel;
-                    ExecUICmd?.Invoke(new UpdateViewCommand());
-                });
-            }
+            get => workHood;
+            set => SetProperty(ref workHood, value);
         }
 
-        public ObservableCollection<TraitViewModel> Traits { get; } = new ObservableCollection<TraitViewModel>();
-
-        //private DiscoverPanelViewModel discoverPanel;
-        //public DiscoverPanelViewModel DiscoverPanel
-        //{
-        //    get => discoverPanel;
-        //    set
-        //    {
-        //        SetProperty(ref discoverPanel, value);
-        //        if(discoverPanel == null)
-        //        {
-        //            return;
-        //        }
-
-        //        discoverPanel.ShowLaborSeletor = new RelayCommand(() =>
-        //        {
-        //            var laborSelectorViewModel = new LaborSelectorViewModel();
-
-        //            laborSelectorViewModel.Confirm = new RelayCommand(() =>
-        //            {
-        //                ExecUICmd?.Invoke(new DiscoverCommand(laborSelectorViewModel.SelectedLabor.clanId, position));
-        //                SubViewModel = null;
-        //            },
-        //            () =>
-        //            {
-        //                return laborSelectorViewModel.SelectedLabor != null;
-        //            });
-
-        //            SubViewModel = laborSelectorViewModel;
-        //            ExecUICmd?.Invoke(new UpdateViewCommand());
-        //        });
-        //    }
-        //}
+        private LaborViewModel labor;
+        public LaborViewModel Labor
+        {
+            get => labor;
+            set => SetProperty(ref labor, value);
+        }
 
         private string desc;
         public string Desc
@@ -123,12 +71,34 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref desc, value);
         }
 
+        public ObservableCollection<TraitViewModel> Traits { get; } = new ObservableCollection<TraitViewModel>();
+
+        public RelayCommand OccupyLabor { get; }
+        public RelayCommand FreeLabor { get; }
 
         public MapDetailViewModel()
         {
-            SubPanelClose = new RelayCommand(() =>
+            OccupyLabor = new RelayCommand(() =>
             {
-                SubViewModel = null;
+                var laborSelector = new LaborSelectorViewModel();
+                SubViewModel = laborSelector;
+
+                laborSelector.Confirm = new RelayCommand(() =>
+                {
+                    WorkHood.OccupyLabor.Execute(laborSelector.SelectedLabor);
+                    SubViewModel = null;
+                },
+                () =>
+                {
+                    return laborSelector.SelectedLabor != null;
+                });
+
+                ExecUICmd?.Invoke(new UpdateViewCommand());
+            });
+
+            FreeLabor = new RelayCommand(() =>
+            {
+
             });
         }
     }

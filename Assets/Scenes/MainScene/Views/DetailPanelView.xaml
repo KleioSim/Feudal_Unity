@@ -7,14 +7,13 @@
              xmlns:local="clr-namespace:Feudal.Scenes.Main"
              xmlns:views="clr-namespace:Feudal.Scenes.Main.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{x:Static local:DetailPanelViewModel.Default}">
+             d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
 
-    <Grid Visibility="{Binding Path=Current, Converter={StaticResource NullToVisibilityConverter}}">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="40"/>
@@ -27,36 +26,15 @@
             <RowDefinition MaxHeight="40"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border Grid.Column="0" Grid.RowSpan="4" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}" >
-            <Grid>
-                <ContentPresenter Content="{Binding Current}">
-                    <ContentPresenter.Resources>
-                        <DataTemplate DataType="{x:Type local:MapDetailViewModel}">
-                            <views:MapItemPanelView/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type local:ClanViewModel}">
-                            <views:ClanPanelView ChooseEstate="{Binding Path=DataContext.AddPanel, ElementName=DetailPanel}"/>
-                        </DataTemplate>
-                    </ContentPresenter.Resources>
-                </ContentPresenter>
-                <ContentControl/>
-            </Grid>
-        </Border>
+        <Grid Grid.Column="0" Grid.RowSpan="4">
+            <ContentPresenter Content="{Binding CurrentView, ElementName=DetailPanel}" />
+        </Grid>
         <Button Grid.Column="1" Grid.Row="0" Command="{Binding PrevPanel}" >&lt;</Button>
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding NextPanel}" >&gt;</Button>
         <Button Grid.Column="1" Grid.Row="2" Command="{Binding ClosePanel}" >X</Button>
-        <Border Grid.Column="2" Grid.RowSpan="4" Visibility="{Binding SubViewModel, Converter={StaticResource NullToVisibilityConverter}}" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border.Normal}">
-            <Grid>
-                <ContentPresenter Content="{Binding SubViewModel}">
-                    <ContentPresenter.Resources>
-                        <DataTemplate DataType="{x:Type local:LaborSelectorViewModel}">
-                            <views:LaborSelectorView/>
-                        </DataTemplate>
-                    </ContentPresenter.Resources>
-                </ContentPresenter>
-                <ContentControl/>
-            </Grid>
-        </Border>
-        <Button Grid.Column="3" Command="{Binding ClosePanel}" Visibility="{Binding SubViewModel, Converter={StaticResource NullToVisibilityConverter}}" >X</Button>
+        <Grid Grid.Column="2" Grid.RowSpan="4">
+            <ContentPresenter Content="{Binding SubView, ElementName=DetailPanel}" Visibility="{Binding Path=SubViewModel, Converter={StaticResource NullToVisibilityConverter}}"/>
+        </Grid>
+        <Button Grid.Column="3" Command="{Binding CloseSubPanel}" Visibility="{Binding Path=SubViewModel, Converter={StaticResource NullToVisibilityConverter}}" >X</Button>
     </Grid>
 </UserControl>

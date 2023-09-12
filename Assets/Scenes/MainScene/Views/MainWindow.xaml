@@ -107,27 +107,27 @@
                 </Grid>
             </UniformGrid>-->
 
-            <views:DetailPanelView Margin="0,120,0,0" Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}" VerticalContentAlignment="Top">
+            <!--<views:DetailPanelView Margin="0,120,0,0" Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}" VerticalContentAlignment="Top">
                 
-            </views:DetailPanelView> 
-            <!--<Grid Margin="0,120,0,0" Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding DetailPanel}">
+            </views:DetailPanelView>--> 
+            <Grid Margin="0,120,0,0" Grid.Row="2" Grid.ColumnSpan="2">
                 <Grid>
-                    <ContentPresenter Content="{Binding Current}">
+                    <ContentPresenter Content="{Binding Path=DetailPanelContainer.Current}">
                         <ContentPresenter.Resources>
                             <DataTemplate DataType="{x:Type local:MapDetailViewModel}">
                                 <views:MapItemPanelView/>
                             </DataTemplate>
-                            <DataTemplate DataType="{x:Type local:ClansPanelViewModel}">
+                            <!--<DataTemplate DataType="{x:Type local:ClansPanelViewModel}">
                                 <views:ClansPanelView/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type local:ClanPanelViewModel}">
+                            </DataTemplate>-->
+                            <DataTemplate DataType="{x:Type local:ClanDetailPanelViewModel}">
                                 <views:ClanPanelView/>
                             </DataTemplate>
                         </ContentPresenter.Resources>
                     </ContentPresenter>
                     <ContentControl/>
                 </Grid>
-            </Grid>-->
+            </Grid>
 
             <Grid Grid.Column="3" Grid.Row="1" Grid.RowSpan="2">
                 <Grid.RowDefinitions>

@@ -12,8 +12,9 @@ using System.Globalization;
 
 namespace Feudal.Scenes.Main
 {
-    class EstateViewModel : WorkViewModel
+    partial class EstateViewModel : ViewModel
     {
+
         private string outputType;
         public string OutputType
         {
@@ -56,40 +57,40 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref estateId, value);
         }
 
-        public override RelayCommand<LaborViewModel> Start { get; }
+        //public RelayCommand<LaborViewModel> Start { get; }
 
         public EstateViewModel()
         {
-            WorkLaborUpateTrigger();
+            //WorkLaborUpateTrigger();
 
-            PropertyChanged += EstateWorkViewModel_PropertyChanged;
+            //PropertyChanged += EstateWorkViewModel_PropertyChanged;
 
-            Start = new RelayCommand<LaborViewModel>((laborViewModel) =>
-            {
-                ExecUICmd?.Invoke(new EstateStartWorkCommand(laborViewModel.clanId, EstateId, Position));
-            });
+            //Start = new RelayCommand<LaborViewModel>((laborViewModel) =>
+            //{
+            //    ExecUICmd?.Invoke(new EstateStartWorkCommand(laborViewModel.clanId, EstateId, Position));
+            //});
         }
 
-        private void EstateWorkViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(WorkerLabor))
-            {
-                WorkLaborUpateTrigger();
-            }
-        }
+        //private void EstateWorkViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == nameof(WorkerLabor))
+        //    {
+        //        WorkLaborUpateTrigger();
+        //    }
+        //}
 
-        private void WorkLaborUpateTrigger()
-        {
-            if (WorkerLabor == null)
-            {
-                IsOutputEnable = false;
-                WorkerLaborName = "--";
-            }
-            else
-            {
-                WorkerLaborName = WorkerLabor.Name;
-            }
-        }
+        //private void WorkLaborUpateTrigger()
+        //{
+        //    if (WorkerLabor == null)
+        //    {
+        //        IsOutputEnable = false;
+        //        WorkerLaborName = "--";
+        //    }
+        //    else
+        //    {
+        //        WorkerLaborName = WorkerLabor.Name;
+        //    }
+        //}
     }
 
     public class EstateToMapItem : IValueConverter
@@ -97,7 +98,7 @@ namespace Feudal.Scenes.Main
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var mapItemViewModel = new MapDetailViewModel();
-            mapItemViewModel.Position = ((EstateViewModel)value).Position;
+            //mapItemViewModel.Position = ((EstateViewModel)value).Position;
 
             return mapItemViewModel;
         }

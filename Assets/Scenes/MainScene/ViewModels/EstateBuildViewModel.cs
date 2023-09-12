@@ -7,7 +7,7 @@ using System;
 
 namespace Feudal.Scenes.Main
 {
-    partial class EstateBuildViewModel : WorkViewModel
+    partial class EstateBuildViewModel : WorkHoodViewModel
     {
         private int percent;
         public int Percent
@@ -23,11 +23,11 @@ namespace Feudal.Scenes.Main
             set => SetProperty(ref estateType, value);
         }
 
-        public override RelayCommand<LaborViewModel> Start { get; }
+        public override RelayCommand<LaborViewModel> OccupyLabor { get; }
 
         public EstateBuildViewModel()
         {
-            Start = new RelayCommand<LaborViewModel>((laborViewModel) =>
+            OccupyLabor = new RelayCommand<LaborViewModel>((laborViewModel) =>
             {
                 ExecUICmd?.Invoke(new EstateBuildStartCommand(laborViewModel.clanId, EstateType, Position));
             });

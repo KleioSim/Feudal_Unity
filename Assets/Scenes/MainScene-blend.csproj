@@ -63,6 +63,8 @@
     </Compile>
     <Compile Include="MainScene\NullToVisibilityConverter.cs" />
     <Compile Include="MainScene\RelayCommand.cs" />
+    <Compile Include="MainScene\ViewModels\ClanDetailPanelViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\ClanDetailPanelViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\ClansPanelViewModel.cs" />
     <Compile Include="MainScene\ViewModels\ClansPanelViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\ClanViewModel.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="MainScene\ViewModels\EstateBuildViewModel.cs" />
     <Compile Include="MainScene\ViewModels\EstateBuildViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\EstateViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\EstateViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\EstateWorkViewModel.cs" />
     <Compile Include="MainScene\ViewModels\EstateWorkViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\LaborSelectorViewModel.cs" />
@@ -84,6 +87,9 @@
     <Compile Include="MainScene\ViewModels\MapDetailViewModel.Default.cs" />
     <Compile Include="MainScene\ViewModels\TaskViewModel.cs" />
     <Compile Include="MainScene\ViewModels\ViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\WorkHoodViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\WorkViewModel.cs" />
+    <Compile Include="MainScene\ViewModels\WorkViewModel.Default.cs" />
     <Compile Include="MainScene\Views\ClanPanelView.xaml.cs">
       <DependentUpon>ClanPanelView.xaml</DependentUpon>
     </Compile>
@@ -111,6 +117,9 @@
     </Compile>
     <Compile Include="MainScene\Views\MapItemPanelView.xaml.cs">
       <DependentUpon>MapItemPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainScene\Views\WorkPanelView.xaml.cs">
+      <DependentUpon>WorkPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UICommands\DiscoverCommand.cs" />
     <Page Include="MainScene\Views\ClanPanelView.xaml">
@@ -146,6 +155,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainScene\Views\MapItemPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainScene\Views\WorkPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

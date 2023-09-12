@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Feudal.Scenes.Main.Views.WorkPanelView"
+             Name="WorkView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Feudal.Scenes.Main"
+             xmlns:views="clr-namespace:Feudal.Scenes.Main.Views"
+             mc:Ignorable="d" 
+             >
+    <views:DetailPanelView>
+        <views:DetailPanelView.CurrentView>
+            <Button>123</Button>
+        </views:DetailPanelView.CurrentView>
+        <views:DetailPanelView.SubView>
+            <Button>123</Button>
+        </views:DetailPanelView.SubView>
+    </views:DetailPanelView>
+</UserControl>

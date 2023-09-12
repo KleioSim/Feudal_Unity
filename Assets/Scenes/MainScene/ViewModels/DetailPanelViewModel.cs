@@ -11,22 +11,15 @@ using System.Linq;
 
 namespace Feudal.Scenes.Main
 {
-    public partial class DetailPanelViewModel : ViewModel
+    public class DetailPanelContainerViewModel : ViewModel
     {
-        private List<ViewModel> list = new List<ViewModel>();
+        private List<DetailPanelViewModel> list = new List<DetailPanelViewModel>();
 
-        private ViewModel current;
-        public ViewModel Current
+        private DetailPanelViewModel current;
+        public DetailPanelViewModel Current
         {
             get => current;
             set => SetProperty(ref current, value);
-        }
-
-        private ViewModel subViewModel;
-        public ViewModel SubViewModel
-        {
-            get => subViewModel;
-            set => SetProperty(ref subViewModel, value);
         }
 
         private int index;
@@ -40,43 +33,60 @@ namespace Feudal.Scenes.Main
             }
         }
 
-        public RelayCommand NextPanel { get; internal set; }
-        public RelayCommand PrevPanel { get; internal set; }
-        public RelayCommand ClosePanel { get; internal set; }
-        public RelayCommand<ViewModel> AddPanel { get; internal set; }
+        public RelayCommand<DetailPanelViewModel> AddPanel { get; internal set; }
 
-        public DetailPanelViewModel()
+        public DetailPanelContainerViewModel()
         {
-            ClosePanel = new RelayCommand(() =>
+            AddPanel = new RelayCommand<DetailPanelViewModel>((panel) =>
             {
-                Current = null;
-                list.Clear();
-            });
-
-            PrevPanel = new RelayCommand(() =>
-            {
-                if (Index > 0)
+                panel.ClosePanel = new RelayCommand(() =>
                 {
-                    Index--;
-                }
-            });
+                    Current = null;
+                    list.Clear();
+                });
 
-            NextPanel = new RelayCommand(() =>
-            {
-                if (Index < list.Count() - 1)
+                panel.PrevPanel = new RelayCommand(() =>
                 {
-                    Index++;
-                }
-            });
+                    if (Index > 0)
+                    {
+                        Index--;
+                    }
+                });
 
-            AddPanel = new RelayCommand<ViewModel>((panel) =>
-            {
+                panel.NextPanel = new RelayCommand(() =>
+                {
+                    if (Index < list.Count() - 1)
+                    {
+                        Index++;
+                    }
+                });
+
                 list.Add(panel);
 
                 Index = list.Count() - 1;
 
                 ExecUICmd?.Invoke(new UpdateViewCommand());
             });
+        }
+    }
+
+    public partial class DetailPanelViewModel : ViewModel
+    {
+        public RelayCommand NextPanel { get; internal set; }
+        public RelayCommand PrevPanel { get; internal set; }
+        public RelayCommand ClosePanel { get; internal set; }
+        public RelayCommand CloseSubPanel { get; internal set; }
+
+        private ViewModel subViewModel;
+        public ViewModel SubViewModel
+        {
+            get => subViewModel;
+            set => SetProperty(ref subViewModel, value);
+        }
+
+        public DetailPanelViewModel()
+        {
+            CloseSubPanel = new RelayCommand(() => SubViewModel = null);
         }
     }
 
