@@ -4,27 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestPanel : MonoBehaviour
+public class TestPanel : UIView
 {
-    public static Action<UICommand> ExecUICmd { get; set; }
-
-    private object objId;
-    public object ObjId
-    {
-        get => objId;
-        set
-        {
-            if(objId == value)
-            {
-                return;
-            }
-
-            objId = value;
-
-            ExecUICmd?.Invoke(new UpdateViewCommand());
-        }
-    }
-
     public Text text;
 
     // Start is called before the first frame update
@@ -37,6 +18,26 @@ public class TestPanel : MonoBehaviour
     void Update()
     {
         
+    }
+}
+
+public class UIView : MonoBehaviour
+{
+    public static Action<UICommand> ExecUICmd { get; set; }
+
+    private object objId;
+    public object ObjId
+    {
+        get => objId;
+        set
+        {
+            if (objId == value)
+            {
+                return;
+            }
+
+            objId = value;
+        }
     }
 }
 

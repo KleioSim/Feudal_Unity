@@ -8,6 +8,8 @@ using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Feudal.Interfaces;
+using KleioSim.Tilemaps;
+using System.Reflection;
 
 namespace Feudal.Scenes.Initial
 {
@@ -27,14 +29,13 @@ namespace Feudal.Scenes.Initial
 
             var session = new Session();
 
-            var mainScene = SceneManager.GetActiveScene().GetRootGameObjects()
-                .Select(obj => obj.GetComponent<MainScene>())
-                .Single(x => x != null);
+            var refreshMgr = new ViewRefreshManager();
+            refreshMgr.Refresh(session);
 
-            TestPanel.ExecUICmd = (obj) =>
+            UIView.ExecUICmd = (obj) =>
             {
                 session.ExecUICmd(obj);
-                mainScene.testPanel.RefreshData(session);
+                refreshMgr.Refresh(session);
             };
         }
     }
@@ -57,12 +58,166 @@ namespace Feudal.Scenes.Initial
         }
     }
 
-    static class MainViewModelExtensions
+
+    public class ViewRefreshManager
     {
-        public static void RefreshData(this TestPanel testPanel, Session session)
+        private Dictionary<Type, Action<UIView, Session>> dict = new Dictionary<Type, Action<UIView, Session>>();
+
+        internal void Refresh(Session session)
+        {
+            var views = UnityEngine.Object.FindObjectsOfType<UIView>(false);
+
+            foreach (var view in views)
+            {
+                dict[view.GetType()].Invoke(view, session);
+            }
+        }
+
+        public ViewRefreshManager()
+        {
+            var methods = GetType().GetMethods(BindingFlags.Static
+                | BindingFlags.DeclaredOnly
+                | BindingFlags.Public
+                | BindingFlags.NonPublic);
+
+            foreach (var method in methods)
+            {
+                if (method.GetCustomAttribute<RefreshProcessAttribute>() == null)
+                {
+                    continue;
+                }
+
+                var parmeters = method.GetParameters();
+                if (parmeters.Length == 2 
+                    && typeof(UIView).IsAssignableFrom(parmeters[0].ParameterType)
+                    && typeof(Session).IsAssignableFrom(parmeters[1].ParameterType))
+                {
+                    dict.Add(parmeters[0].ParameterType, (view, session) =>
+                    {
+                        method.Invoke(null, new object[] { view, session });
+                    });
+                }
+            }
+        }
+
+        [RefreshProcess]
+        public static void RefreshData_TestPanel(TestPanel testPanel, Session session)
         {
             var dataItem = testPanel.ObjId as DataItem;
             testPanel.text.text = dataItem.TileKey.ToString();
+        }
+
+        [RefreshProcess]
+        public static void Refresh_TerrrainMap(TerrainMap terrainMap, Session session)
+        {
+            var dataItemDict = terrainMap.terrainItems.ToDictionary(item => (item.Position.x, item.Position.y), item => item);
+
+            var needRemoveKeys = dataItemDict.Keys.Except(session.terrainItems.Keys).ToArray();
+            var needAddKeys = session.terrainItems.Keys.Except(dataItemDict.Keys).ToArray();
+
+            foreach (var key in needRemoveKeys)
+            {
+                terrainMap.terrainItems.Remove(dataItemDict[key]);
+            }
+
+            foreach (var key in needAddKeys)
+            {
+                terrainMap.terrainItems.Add(new DataItem()
+                {
+                    Position = new Vector3Int(key.x, key.y),
+                    TileKey = session.terrainItems[key].GetTerrainDataType()
+                });
+            }
+
+            foreach (var item in terrainMap.terrainItems)
+            {
+                item.RefreshData(session);
+            }
+        }
+
+        public class RefreshProcessAttribute : Attribute
+        {
+
+        }
+    }
+
+
+    static class MainViewModelExtensions
+    {
+        public static Dictionary<Type, Action<UIView, Session>> RefreshDict = new Dictionary<Type, Action<UIView, Session>>()
+        {
+            { typeof(TestPanel), (view, session)=>{ RefreshDataTestPanel(view as TestPanel, session ); } }
+        };
+
+        public static TerrainDataType GetTerrainDataType(this ITerrainItem terrainItem)
+        {
+            switch (terrainItem.Terrain)
+            {
+                case Interfaces.Terrain.Hill:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Hill : TerrainDataType.Hill_Unknown;
+                case Interfaces.Terrain.Plain:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Plain : TerrainDataType.Plain_Unknown;
+                case Interfaces.Terrain.Mountion:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Mountion : TerrainDataType.Mountion_Unknown;
+                case Interfaces.Terrain.Lake:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Lake : TerrainDataType.Lake_Unknown;
+                case Interfaces.Terrain.Marsh:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Marsh : TerrainDataType.Marsh_Unknown;
+                default:
+                    throw new Exception();
+            }
+        }
+
+        public static void RefreshData(this MainScene mainScene, Session session)
+        {
+            var views = UnityEngine.Object.FindObjectsOfType<UIView>(false);
+
+            foreach(var view in views)
+            {
+                RefreshDict[view.GetType()].Invoke(view, session);
+            }
+
+            //mainScene.terrainMap.RefreshData(session);
+            //mainScene.testPanel.RefreshData(session);
+        }
+
+        public static void RefreshDataTestPanel(this TestPanel testPanel, Session session)
+        {
+            var dataItem = testPanel.ObjId as DataItem;
+            testPanel.text.text = dataItem.TileKey.ToString();
+        }
+
+        public static void RefreshData(this TilemapObservable tilemapObservable, Session session)
+        {
+            var dataItemDict = tilemapObservable.Itemsource.ToDictionary(item => (item.Position.x, item.Position.y), item => item);
+            
+            var needRemoveKeys = dataItemDict.Keys.Except(session.terrainItems.Keys).ToArray();
+            var needAddKeys = session.terrainItems.Keys.Except(dataItemDict.Keys).ToArray();
+
+            foreach(var key in needRemoveKeys)
+            {
+                tilemapObservable.Itemsource.Remove(dataItemDict[key]);
+            }
+
+            foreach(var key in needAddKeys)
+            {
+                tilemapObservable.Itemsource.Add(new DataItem() 
+                { 
+                    Position = new Vector3Int(key.x, key.y),
+                    TileKey = session.terrainItems[key].GetTerrainDataType()
+                });
+            }
+
+            foreach(var item in tilemapObservable.Itemsource)
+            {
+                item.RefreshData(session);
+            }
+        }
+
+        public static void RefreshData(this DataItem item, Session session)
+        {
+            var terrain = session.terrainItems[(item.Position.x, item.Position.y)];
+            item.TileKey = terrain.GetTerrainDataType();
         }
     }
 }
