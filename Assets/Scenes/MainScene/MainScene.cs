@@ -2,6 +2,7 @@ using KleioSim.Tilemaps;
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 
 namespace Feudal.Scenes.Main
@@ -9,20 +10,32 @@ namespace Feudal.Scenes.Main
     class MainScene : MonoBehaviour
     {
         public TerrainMap terrainMap;
-        public TestPanel testPanel;
+        public RightPanel rightPanel;
 
         void Awake()
         {
+            terrainMap.ObjId = "";
             terrainMap.OnTerrainClick.AddListener(OnTerrainMapClick);
         }
 
         public void OnTerrainMapClick(DataItem item)
         {
-            testPanel.gameObject.SetActive(true);
-            testPanel.ObjId = item;
+            var terrainDetail = rightPanel.SetCurrent<TerrainDetailPanel>();
+            terrainDetail.ObjId = (item.Position.x, item.Position.y);
 
             UIView.ExecUICmd?.Invoke(new UpdateViewCommand());
         }
+    }
+
+    public class WorkHood : MonoBehaviour
+    {
+        public (int x, int y) position { get; set; }
+    }
+
+    public class DisoverWorkHood : WorkHood
+    {
+        public Text title;
+        public Slider percent;
     }
 }
 

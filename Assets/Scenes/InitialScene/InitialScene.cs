@@ -101,13 +101,6 @@ namespace Feudal.Scenes.Initial
         }
 
         [RefreshProcess]
-        public static void RefreshData_TestPanel(TestPanel testPanel, Session session)
-        {
-            var dataItem = testPanel.ObjId as DataItem;
-            testPanel.text.text = dataItem.TileKey.ToString();
-        }
-
-        [RefreshProcess]
         public static void Refresh_TerrrainMap(TerrainMap terrainMap, Session session)
         {
             var dataItemDict = terrainMap.terrainItems.ToDictionary(item => (item.Position.x, item.Position.y), item => item);
@@ -131,8 +124,84 @@ namespace Feudal.Scenes.Initial
 
             foreach (var item in terrainMap.terrainItems)
             {
-                item.RefreshData(session);
+                RefreshData_DataItem(item, session);
             }
+        }
+
+        [RefreshProcess]
+        public static void Refresh_TerrainDetail(TerrainDetailPanel view, Session session)
+        {
+            var position = ((int x, int y))view.ObjId;
+            var terrainItem = session.terrainItems[position];
+
+            view.title.text = terrainItem.Terrain.ToString();
+
+            view.SetWorkHoodNull();
+
+            if (!terrainItem.IsDiscovered)
+            {
+                var disoverWorkHood = view.SetWorkHood<DisoverWorkHood>();
+                disoverWorkHood.position = position;
+
+                Refresh_DisoverWorkHood(disoverWorkHood, session);
+                return;
+            }
+
+            //else if(session.estates.TryGetValue(position, out IEstate estate))
+            //{
+            //    workHood = view.SetWorkHood<EstateWorkHood>();
+            //}
+            //else
+            //{
+            //    foreach (var trait in terrainItem.Traits.Reverse())
+            //    {
+            //        var attribute = trait.GetAttributeOfType<VaildEstateAttribute>();
+            //        if (attribute != null)
+            //        {
+            //            workHood = view.SetWorkHood<BuildingWorkHood>();
+            //        }
+            //    }
+            //}
+
+            if(workHood == null)
+            {
+                return;
+            }
+
+            var task = session.tasks.SingleOrDefault(x => x.Position == position);
+            if(task == null)
+            {
+                workHood.laborPanel.SetActive(false);
+            }
+            else
+            {
+                workHood.laborPanel.SetActive(true);
+                var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
+                workHood.laborTitle.text = clan.Name;
+            }
+        }
+
+        private static void Refresh_DisoverWorkHood(DisoverWorkHood disoverWorkHood, Session session)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Position == disoverWorkHood.position);
+            if(task == null)
+            {
+                disoverWorkHood.percent.enabled = false;
+                return;
+            }
+
+            disoverWorkHood.percent.value = task.Percent;
+
+            Refresh_WorkHoodLabor(disoverWorkHood.labor, session);
+
+            var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
+
+        }
+
+        public static void RefreshData_DataItem(DataItem item, Session session)
+        {
+            var terrain = session.terrainItems[(item.Position.x, item.Position.y)];
+            item.TileKey = terrain.GetTerrainDataType();
         }
 
         public class RefreshProcessAttribute : Attribute
@@ -144,10 +213,6 @@ namespace Feudal.Scenes.Initial
 
     static class MainViewModelExtensions
     {
-        public static Dictionary<Type, Action<UIView, Session>> RefreshDict = new Dictionary<Type, Action<UIView, Session>>()
-        {
-            { typeof(TestPanel), (view, session)=>{ RefreshDataTestPanel(view as TestPanel, session ); } }
-        };
 
         public static TerrainDataType GetTerrainDataType(this ITerrainItem terrainItem)
         {
@@ -166,58 +231,6 @@ namespace Feudal.Scenes.Initial
                 default:
                     throw new Exception();
             }
-        }
-
-        public static void RefreshData(this MainScene mainScene, Session session)
-        {
-            var views = UnityEngine.Object.FindObjectsOfType<UIView>(false);
-
-            foreach(var view in views)
-            {
-                RefreshDict[view.GetType()].Invoke(view, session);
-            }
-
-            //mainScene.terrainMap.RefreshData(session);
-            //mainScene.testPanel.RefreshData(session);
-        }
-
-        public static void RefreshDataTestPanel(this TestPanel testPanel, Session session)
-        {
-            var dataItem = testPanel.ObjId as DataItem;
-            testPanel.text.text = dataItem.TileKey.ToString();
-        }
-
-        public static void RefreshData(this TilemapObservable tilemapObservable, Session session)
-        {
-            var dataItemDict = tilemapObservable.Itemsource.ToDictionary(item => (item.Position.x, item.Position.y), item => item);
-            
-            var needRemoveKeys = dataItemDict.Keys.Except(session.terrainItems.Keys).ToArray();
-            var needAddKeys = session.terrainItems.Keys.Except(dataItemDict.Keys).ToArray();
-
-            foreach(var key in needRemoveKeys)
-            {
-                tilemapObservable.Itemsource.Remove(dataItemDict[key]);
-            }
-
-            foreach(var key in needAddKeys)
-            {
-                tilemapObservable.Itemsource.Add(new DataItem() 
-                { 
-                    Position = new Vector3Int(key.x, key.y),
-                    TileKey = session.terrainItems[key].GetTerrainDataType()
-                });
-            }
-
-            foreach(var item in tilemapObservable.Itemsource)
-            {
-                item.RefreshData(session);
-            }
-        }
-
-        public static void RefreshData(this DataItem item, Session session)
-        {
-            var terrain = session.terrainItems[(item.Position.x, item.Position.y)];
-            item.TileKey = terrain.GetTerrainDataType();
         }
     }
 }
