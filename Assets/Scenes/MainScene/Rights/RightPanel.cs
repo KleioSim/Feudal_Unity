@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class RightPanel : MonoBehaviour
 {
-    public GameObject currentContent;
+    public GameObject mainContent;
+
     public GameObject subPanel;
+    public GameObject subContent;
 
     // Start is called before the first frame update
     void Start()
@@ -21,21 +23,11 @@ public class RightPanel : MonoBehaviour
         
     }
 
-    public void OnClose()
-    {
-        this.gameObject.SetActive(false);
-    }
-
-    public void OnCloseSub()
-    {
-        subPanel.gameObject.SetActive(false);
-    }
-
-    internal T SetCurrent<T>() where T : UIView
+    internal T SetCurrentMain<T>() where T : RightMain
     {
         this.gameObject.SetActive(true);
 
-        var views = currentContent.GetComponentsInChildren<UIView>();
+        var views = mainContent.GetComponentsInChildren<RightMain>();
 
         var current = views.Single(x => x is T);
         current.gameObject.SetActive(true);
@@ -46,5 +38,19 @@ public class RightPanel : MonoBehaviour
         }
 
         return current as T;
+    }
+
+    public void OnShowSubView(RightSub rightSub)
+    {
+        subPanel.SetActive(true);
+
+        rightSub.gameObject.SetActive(true);
+
+        foreach(var sub in subContent
+            .GetComponentsInChildren<RightSub>()
+            .Where(x=>x != rightSub))
+        {
+            sub.gameObject.SetActive(false);
+        }
     }
 }

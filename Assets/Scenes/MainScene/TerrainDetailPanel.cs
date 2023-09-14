@@ -2,15 +2,16 @@ using Feudal.Scenes.Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TerrainDetailPanel : UIView
+public class TerrainDetailPanel : RightMain
 {
+    public TerrainWorkDetail workDetail;
     public Text title;
 
-    public GameObject laborPanel;
-    public Text laborTitle;
+    public (int x, int y) Position { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +25,13 @@ public class TerrainDetailPanel : UIView
         
     }
 
-    internal T SetWorkHood<T>() where T : WorkHood
+    public void OnShowLaborSelector()
     {
-        throw new NotImplementedException();
+
     }
+}
+
+public class UIView : MonoBehaviour
+{
+    public static Action<UICommand> ExecUICmd;
 }

@@ -61,11 +61,11 @@ namespace Feudal.Scenes.Initial
 
     public class ViewRefreshManager
     {
-        private Dictionary<Type, Action<UIView, Session>> dict = new Dictionary<Type, Action<UIView, Session>>();
+        private Dictionary<Type, Action<RightMain, Session>> dict = new Dictionary<Type, Action<RightMain, Session>>();
 
         internal void Refresh(Session session)
         {
-            var views = UnityEngine.Object.FindObjectsOfType<UIView>(false);
+            var views = UnityEngine.Object.FindObjectsOfType<RightMain>(false);
 
             foreach (var view in views)
             {
@@ -89,7 +89,7 @@ namespace Feudal.Scenes.Initial
 
                 var parmeters = method.GetParameters();
                 if (parmeters.Length == 2 
-                    && typeof(UIView).IsAssignableFrom(parmeters[0].ParameterType)
+                    && typeof(RightMain).IsAssignableFrom(parmeters[0].ParameterType)
                     && typeof(Session).IsAssignableFrom(parmeters[1].ParameterType))
                 {
                     dict.Add(parmeters[0].ParameterType, (view, session) =>
@@ -131,20 +131,16 @@ namespace Feudal.Scenes.Initial
         [RefreshProcess]
         public static void Refresh_TerrainDetail(TerrainDetailPanel view, Session session)
         {
-            var position = ((int x, int y))view.ObjId;
-            var terrainItem = session.terrainItems[position];
+            var terrainItem = session.terrainItems[view.Position];
 
             view.title.text = terrainItem.Terrain.ToString();
 
-            view.SetWorkHoodNull();
+            view.workDetail.gameObject.SetActive(false);
 
             if (!terrainItem.IsDiscovered)
             {
-                var disoverWorkHood = view.SetWorkHood<DisoverWorkHood>();
-                disoverWorkHood.position = position;
-
-                Refresh_DisoverWorkHood(disoverWorkHood, session);
-                return;
+                view.workDetail.SetCurrentWorkHood<DisoverWorkHood>();
+                Refresh_WorkDetail(view.workDetail, session, view.Position);
             }
 
             //else if(session.estates.TryGetValue(position, out IEstate estate))
@@ -163,39 +159,44 @@ namespace Feudal.Scenes.Initial
             //    }
             //}
 
-            if(workHood == null)
-            {
-                return;
-            }
+            //if(workHood == null)
+            //{
+            //    return;
+            //}
 
+        }
+
+        private static void Refresh_WorkDetail(TerrainWorkDetail workDetail, Session session, (int x, int y) position)
+        {
             var task = session.tasks.SingleOrDefault(x => x.Position == position);
-            if(task == null)
+            if (task == null)
             {
-                workHood.laborPanel.SetActive(false);
+                workDetail.laborPanel.SetActive(false);
             }
             else
             {
-                workHood.laborPanel.SetActive(true);
+                workDetail.laborPanel.SetActive(true);
                 var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
-                workHood.laborTitle.text = clan.Name;
+                workDetail.laborTitle.text = clan.Name;
             }
-        }
 
-        private static void Refresh_DisoverWorkHood(DisoverWorkHood disoverWorkHood, Session session)
-        {
-            var task = session.tasks.SingleOrDefault(x => x.Position == disoverWorkHood.position);
-            if(task == null)
+            switch(workDetail.CurrentWorkHood)
             {
-                disoverWorkHood.percent.enabled = false;
-                return;
+                case DisoverWorkHood disoverWorkHood:
+                    {
+                        if (task == null)
+                        {
+                            disoverWorkHood.percent.enabled = false;
+                        }
+                        else
+                        {
+                            disoverWorkHood.percent.value = task.Percent;
+                        }
+                    }
+                    break;
+                default:
+                    throw new Exception();
             }
-
-            disoverWorkHood.percent.value = task.Percent;
-
-            Refresh_WorkHoodLabor(disoverWorkHood.labor, session);
-
-            var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
-
         }
 
         public static void RefreshData_DataItem(DataItem item, Session session)

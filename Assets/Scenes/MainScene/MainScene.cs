@@ -2,40 +2,27 @@ using KleioSim.Tilemaps;
 using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 
 namespace Feudal.Scenes.Main
 {
     class MainScene : MonoBehaviour
     {
-        public TerrainMap terrainMap;
+        public TilemapObservable terrainMap;
         public RightPanel rightPanel;
 
         void Awake()
         {
-            terrainMap.ObjId = "";
-            terrainMap.OnTerrainClick.AddListener(OnTerrainMapClick);
+            terrainMap.OnClickTile.AddListener(OnTerrainMapClick);
         }
 
         public void OnTerrainMapClick(DataItem item)
         {
-            var terrainDetail = rightPanel.SetCurrent<TerrainDetailPanel>();
-            terrainDetail.ObjId = (item.Position.x, item.Position.y);
+            var terrainDetail = rightPanel.SetCurrentMain<TerrainDetailPanel>();
+            terrainDetail.Position = (item.Position.x, item.Position.y);
 
-            UIView.ExecUICmd?.Invoke(new UpdateViewCommand());
+            UIView.ExecUICmd(new UpdateViewCommand());
         }
-    }
-
-    public class WorkHood : MonoBehaviour
-    {
-        public (int x, int y) position { get; set; }
-    }
-
-    public class DisoverWorkHood : WorkHood
-    {
-        public Text title;
-        public Slider percent;
     }
 }
 
