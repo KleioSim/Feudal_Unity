@@ -67,6 +67,8 @@ namespace Feudal.Scenes.Initial
             dict.Add(typeof(TerrainMap), new Present_TerrainMap());
             dict.Add(typeof(TerrainDetailPanel), new Present_TerrainDetailPanel());
             dict.Add(typeof(LaborWorkDetail), new Present_LaborWorkDetail());
+            dict.Add(typeof(LaborSelector), new Present_LaborSelector());
+            dict.Add(typeof(LaborSelectorItem), new Present_LaborSelectorItem());
         }
 
         internal void RefreshMonoBehaviour(UIView2 uiview)
@@ -196,8 +198,27 @@ namespace Feudal.Scenes.Initial
         }
     }
 
+    public class Present_LaborSelector : Present<LaborSelector>
+    {
+        public override void Refresh(LaborSelector view)
+        {
+            view.SetLaborItems(session.clans.Select(x=>x.Id).ToArray());
+        }
+    }
 
+    public class Present_LaborSelectorItem : Present<LaborSelectorItem>
+    {
+        public override void Refresh(LaborSelectorItem view)
+        {
+            var clan = session.clans.Single(x => x.Id == view.Id);
+            var tasks = session.tasks.Where(x => x.ClanId == view.Id);
 
+            view.laborName.text = clan.Name;
+            view.CountInfo.text = $"{tasks.Count()}/{clan.TotalLaborCount}";
+
+            view.toggle.interactable = clan.TotalLaborCount > tasks.Count();
+        }
+    }
 
     public static class EnumHelper
     {

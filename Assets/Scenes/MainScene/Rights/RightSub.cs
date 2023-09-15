@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RightSub : MonoBehaviour
+public class RightSub : UIView2
 {
 
 }
