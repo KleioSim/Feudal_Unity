@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RightMain : MonoBehaviour
+public class RightMain : UIView2
 {
 
 }

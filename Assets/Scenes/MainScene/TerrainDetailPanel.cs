@@ -8,26 +8,30 @@ using UnityEngine.UI;
 
 public class TerrainDetailPanel : RightMain
 {
-    public TerrainWorkDetail workDetail;
     public Text title;
+
+    public GameObject workDetailPanel;
 
     public (int x, int y) Position { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
+    internal T SetCurrentWorkHood<T>() where T : WorkHood
     {
+        workDetailPanel.SetActive(true);
+
+        var workHoods = workDetailPanel.GetComponentsInChildren<WorkHood>(true);
         
-    }
+        var currentWorkHood = workHoods.Single(x => x is T) as T;
+        currentWorkHood.gameObject.SetActive(true);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        foreach (var workHood in workHoods.Where(x => x != currentWorkHood))
+        {
+            workHood.gameObject.SetActive(false);
+        }
 
-    public void OnShowLaborSelector()
-    {
+        var laborWork = workDetailPanel.GetComponentsInChildren<LaborWorkDetail>().Single();
+        laborWork.Position = Position;
 
+        return currentWorkHood;
     }
 }
 

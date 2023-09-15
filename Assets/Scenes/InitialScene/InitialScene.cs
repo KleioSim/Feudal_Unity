@@ -29,16 +29,175 @@ namespace Feudal.Scenes.Initial
 
             var session = new Session();
 
-            var refreshMgr = new ViewRefreshManager();
-            refreshMgr.Refresh(session);
+            //var refreshMgr = new ViewRefreshManager();
+            //refreshMgr.Refresh(session);
+
+            //UIView.ExecUICmd = (obj) =>
+            //{
+            //    session.ExecUICmd(obj);
+            //    refreshMgr.Refresh(session);
+            //};
+            var presentMgr = new PresentManager();
+            presentMgr.session = session;
+
+            var mainScene = SceneManager.GetActiveScene().GetRootGameObjects()
+                .Select(obj => obj.GetComponent<MainScene>())
+                .Single(x => x != null);
 
             UIView.ExecUICmd = (obj) =>
             {
                 session.ExecUICmd(obj);
-                refreshMgr.Refresh(session);
+
+                presentMgr.RefreshMonoBehaviour(mainScene);
             };
+
+            //presentMgr[mainScene.GetType()].Initialize(mainScene);
+            presentMgr.RefreshMonoBehaviour(mainScene);
         }
     }
+
+    public class PresentManager
+    {
+        public Dictionary<Type, IPresent> dict = new Dictionary<Type, IPresent>();
+
+        public Session session { get; set; }
+
+        public PresentManager()
+        {
+            dict.Add(typeof(TerrainMap), new Present_TerrainMap());
+            dict.Add(typeof(TerrainDetailPanel), new Present_TerrainDetailPanel());
+            dict.Add(typeof(LaborWorkDetail), new Present_LaborWorkDetail());
+        }
+
+        internal void RefreshMonoBehaviour(UIView2 uiview)
+        {
+            if(dict.TryGetValue(uiview.GetType(), out IPresent present))
+            {
+                present.session = session;
+                present.RefreshMonoBehaviour(uiview);
+            }
+
+            foreach(var view in IteratorChildren(uiview.transform))
+            {
+                RefreshMonoBehaviour(view);
+            }
+        }
+
+        private IEnumerable<UIView2> IteratorChildren(Transform transform)
+        {
+            for(int i=0; i<transform.childCount; i++)
+            {
+                var child = transform.GetChild(i);
+                var childUIView = child.GetComponent<UIView2>();
+                if (childUIView != null)
+                {
+                    yield return childUIView;
+                }
+                else
+                {
+                    foreach(var nextUIView in IteratorChildren(child))
+                    {
+                        yield return nextUIView;
+                    }
+                }
+            }
+        }
+    }
+
+
+    public interface IPresent
+    {
+        Session session { get; set; }
+        void RefreshMonoBehaviour(UIView2 mono);
+    }
+
+    public abstract class Present<T> : IPresent 
+        where T : UIView2
+    {
+        public Session session { get; set; }
+
+        public abstract void Refresh(T view);
+
+        public void RefreshMonoBehaviour(UIView2 mono) 
+        {
+            Refresh(mono as T);
+        }
+    }
+
+    class Present_TerrainMap : Present<TerrainMap>
+    {
+        public override void Refresh(TerrainMap view)
+        {
+            var dataItemDict = view.terrainItems.ToDictionary(item => (item.Position.x, item.Position.y), item => item);
+
+            var needRemoveKeys = dataItemDict.Keys.Except(session.terrainItems.Keys).ToArray();
+            var needAddKeys = session.terrainItems.Keys.Except(dataItemDict.Keys).ToArray();
+
+            foreach (var key in needRemoveKeys)
+            {
+                view.terrainItems.Remove(dataItemDict[key]);
+            }
+
+            foreach (var key in needAddKeys)
+            {
+                view.terrainItems.Add(new DataItem()
+                {
+                    Position = new Vector3Int(key.x, key.y),
+                    TileKey = session.terrainItems[key].GetTerrainDataType()
+                });
+            }
+
+            foreach (var item in view.terrainItems)
+            {
+                RefreshData_DataItem(item);
+            }
+        }
+
+        public void RefreshData_DataItem(DataItem item)
+        {
+            var terrain = session.terrainItems[(item.Position.x, item.Position.y)];
+            item.TileKey = terrain.GetTerrainDataType();
+        }
+    }
+
+    class Present_TerrainDetailPanel : Present<TerrainDetailPanel>
+    {
+        public override void Refresh(TerrainDetailPanel view)
+        {
+            var terrainItem = session.terrainItems[view.Position];
+
+            view.title.text = terrainItem.Terrain.ToString();
+
+            view.workDetailPanel.SetActive(false);
+
+            if (!terrainItem.IsDiscovered)
+            {
+                view.SetCurrentWorkHood<DisoverWorkHood>();
+            }
+        }
+    }
+
+    public class Present_LaborWorkDetail : Present<LaborWorkDetail>
+    {
+        public override void Refresh(LaborWorkDetail view)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Position == view.Position);
+            if(task == null)
+            {
+                view.laborPanel.SetActive(false);
+            }
+            else
+            {
+                view.laborPanel.SetActive(true);
+
+                var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
+                view.laborTitle.text = clan.Name;
+            }
+        }
+    }
+
+
+
 
     public static class EnumHelper
     {
@@ -131,17 +290,17 @@ namespace Feudal.Scenes.Initial
         [RefreshProcess]
         public static void Refresh_TerrainDetail(TerrainDetailPanel view, Session session)
         {
-            var terrainItem = session.terrainItems[view.Position];
+            //var terrainItem = session.terrainItems[view.Position];
 
-            view.title.text = terrainItem.Terrain.ToString();
+            //view.title.text = terrainItem.Terrain.ToString();
 
-            view.workDetail.gameObject.SetActive(false);
+            //view.workDetail.gameObject.SetActive(false);
 
-            if (!terrainItem.IsDiscovered)
-            {
-                view.workDetail.SetCurrentWorkHood<DisoverWorkHood>();
-                Refresh_WorkDetail(view.workDetail, session, view.Position);
-            }
+            //if (!terrainItem.IsDiscovered)
+            //{
+            //    view.workDetail.SetCurrentWorkHood<DisoverWorkHood>();
+            //    Refresh_WorkDetail(view.workDetail, session, view.Position);
+            //}
 
             //else if(session.estates.TryGetValue(position, out IEstate estate))
             //{
@@ -166,38 +325,38 @@ namespace Feudal.Scenes.Initial
 
         }
 
-        private static void Refresh_WorkDetail(TerrainWorkDetail workDetail, Session session, (int x, int y) position)
-        {
-            var task = session.tasks.SingleOrDefault(x => x.Position == position);
-            if (task == null)
-            {
-                workDetail.laborPanel.SetActive(false);
-            }
-            else
-            {
-                workDetail.laborPanel.SetActive(true);
-                var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
-                workDetail.laborTitle.text = clan.Name;
-            }
+        //private static void Refresh_WorkDetail(TerrainWorkDetail workDetail, Session session, (int x, int y) position)
+        //{
+        //    var task = session.tasks.SingleOrDefault(x => x.Position == position);
+        //    if (task == null)
+        //    {
+        //        workDetail.laborPanel.SetActive(false);
+        //    }
+        //    else
+        //    {
+        //        workDetail.laborPanel.SetActive(true);
+        //        var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
+        //        workDetail.laborTitle.text = clan.Name;
+        //    }
 
-            switch(workDetail.CurrentWorkHood)
-            {
-                case DisoverWorkHood disoverWorkHood:
-                    {
-                        if (task == null)
-                        {
-                            disoverWorkHood.percent.enabled = false;
-                        }
-                        else
-                        {
-                            disoverWorkHood.percent.value = task.Percent;
-                        }
-                    }
-                    break;
-                default:
-                    throw new Exception();
-            }
-        }
+        //    switch(workDetail.CurrentWorkHood)
+        //    {
+        //        case DisoverWorkHood disoverWorkHood:
+        //            {
+        //                if (task == null)
+        //                {
+        //                    disoverWorkHood.percent.enabled = false;
+        //                }
+        //                else
+        //                {
+        //                    disoverWorkHood.percent.value = task.Percent;
+        //                }
+        //            }
+        //            break;
+        //        default:
+        //            throw new Exception();
+        //    }
+        //}
 
         public static void RefreshData_DataItem(DataItem item, Session session)
         {
