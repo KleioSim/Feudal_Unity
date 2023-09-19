@@ -195,6 +195,7 @@ namespace Feudal.Scenes.Initial
 
                 var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
                 view.laborTitle.text = clan.Name;
+                view.taskId = task.Id;
             }
         }
     }

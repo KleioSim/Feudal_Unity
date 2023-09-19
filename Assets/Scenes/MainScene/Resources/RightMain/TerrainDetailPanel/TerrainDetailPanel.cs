@@ -14,12 +14,31 @@ public class TerrainDetailPanel : RightMain
     
     public (int x, int y) Position { get; set; }
 
+    private WorkHood[] workHoods => workDetailPanel.GetComponentsInChildren<WorkHood>(true);
+    private LaborWorkDetail laborWork => workDetailPanel.GetComponentsInChildren<LaborWorkDetail>(true).Single();
+
+    void Start()
+    {
+        var laborWork = workDetailPanel.GetComponentsInChildren<LaborWorkDetail>(true).Single();
+        
+
+        laborWork.AddLaborButton.onClick.AddListener(() =>
+        {
+            showSub.Invoke(typeof(LaborSelector), OnSelectWorkHoodLabor);
+        });
+
+        laborWork.RemoveLaborButton.onClick.AddListener(() =>
+        {
+            ExecUICmd(new CancelTaskCommand(laborWork.taskId));
+        });
+    }
+
     internal T SetCurrentWorkHood<T>() where T : WorkHood
     {
         workDetailPanel.SetActive(true);
 
         var workHoods = workDetailPanel.GetComponentsInChildren<WorkHood>(true);
-        
+
         var currentWorkHood = workHoods.Single(x => x is T) as T;
         currentWorkHood.gameObject.SetActive(true);
 
@@ -28,12 +47,7 @@ public class TerrainDetailPanel : RightMain
             workHood.gameObject.SetActive(false);
         }
 
-        var laborWork = workDetailPanel.GetComponentsInChildren<LaborWorkDetail>().Single();
         laborWork.Position = Position;
-        laborWork.button.onClick.AddListener(() =>
-        {
-            showSub.Invoke(typeof(LaborSelector), OnSelectWorkHoodLabor);
-        });
 
         return currentWorkHood;
     }

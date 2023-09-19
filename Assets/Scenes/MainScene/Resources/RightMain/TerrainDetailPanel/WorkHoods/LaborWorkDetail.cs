@@ -5,7 +5,11 @@ public class LaborWorkDetail : UIView
 {
     public GameObject laborPanel;
     public Text laborTitle;
-    public Button button;
+
+    public Button AddLaborButton;
+    public Button RemoveLaborButton;
+
+    public string taskId { get; set; }
 
     public (int x, int y) Position { get; set; }
 }

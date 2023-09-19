@@ -469,7 +469,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laborPanel: {fileID: 9004649959083335654}
   laborTitle: {fileID: 9004649957790012030}
-  button: {fileID: 9004649959422626980}
+  AddLaborButton: {fileID: 9004649959422626980}
+  RemoveLaborButton: {fileID: 9004649958784534715}
 --- !u!1 &9004649958610597647
 GameObject:
   m_ObjectHideFlags: 0
