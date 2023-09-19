@@ -5,6 +5,6 @@ namespace Feudal.Scenes.Main
 {
     public class WorkHood : UIView
     {
-        public (int x, int y) position { get; set; }
+        public (int x, int y) Position { get; set; }
     }
 }

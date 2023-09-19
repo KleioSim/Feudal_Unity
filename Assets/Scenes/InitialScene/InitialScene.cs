@@ -29,14 +29,6 @@ namespace Feudal.Scenes.Initial
 
             var session = new Session();
 
-            //var refreshMgr = new ViewRefreshManager();
-            //refreshMgr.Refresh(session);
-
-            //UIView.ExecUICmd = (obj) =>
-            //{
-            //    session.ExecUICmd(obj);
-            //    refreshMgr.Refresh(session);
-            //};
             var presentMgr = new PresentManager();
             presentMgr.session = session;
 
@@ -51,7 +43,6 @@ namespace Feudal.Scenes.Initial
                 presentMgr.RefreshMonoBehaviour(mainScene);
             };
 
-            //presentMgr[mainScene.GetType()].Initialize(mainScene);
             presentMgr.RefreshMonoBehaviour(mainScene);
         }
     }
@@ -69,6 +60,7 @@ namespace Feudal.Scenes.Initial
             dict.Add(typeof(LaborWorkDetail), new Present_LaborWorkDetail());
             dict.Add(typeof(LaborSelector), new Present_LaborSelector());
             dict.Add(typeof(LaborSelectorItem), new Present_LaborSelectorItem());
+            dict.Add(typeof(DisoverWorkHood), new Present_DisoverWorkHood());
         }
 
         internal void RefreshMonoBehaviour(UIView uiview)
@@ -175,7 +167,8 @@ namespace Feudal.Scenes.Initial
 
             if (!terrainItem.IsDiscovered)
             {
-                view.SetCurrentWorkHood<DisoverWorkHood>();
+                var workHood = view.SetCurrentWorkHood<DisoverWorkHood>();
+                workHood.Position = view.Position;
             }
         }
     }
@@ -219,6 +212,22 @@ namespace Feudal.Scenes.Initial
             view.CountInfo.text = $"{tasks.Count()}/{clan.TotalLaborCount}";
 
             view.toggle.interactable = clan.TotalLaborCount > tasks.Count();
+        }
+    }
+
+    class Present_DisoverWorkHood : Present<DisoverWorkHood>
+    {
+        public override void Refresh(DisoverWorkHood view)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Position == view.Position);
+            if (task == null)
+            {
+                view.percent.value = 0;
+            }
+            else
+            {
+                view.percent.value = task.Percent;
+            }
         }
     }
 

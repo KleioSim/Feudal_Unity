@@ -23,6 +23,11 @@ namespace Feudal.Scenes.Main
 
             ExecUICmd(new UpdateViewCommand());
         }
+
+        public void OnNextTurn()
+        {
+            ExecUICmd(new NexTurnCommand());
+        }
     }
 }
 
