@@ -11,7 +11,7 @@ public class TerrainDetailPanel : RightMain
     public Text title;
 
     public GameObject workDetailPanel;
-
+    
     public (int x, int y) Position { get; set; }
 
     internal T SetCurrentWorkHood<T>() where T : WorkHood
@@ -30,12 +30,21 @@ public class TerrainDetailPanel : RightMain
 
         var laborWork = workDetailPanel.GetComponentsInChildren<LaborWorkDetail>().Single();
         laborWork.Position = Position;
+        laborWork.button.onClick.AddListener(() =>
+        {
+            showSub.Invoke(typeof(LaborSelector), OnSelectWorkHoodLabor);
+        });
 
         return currentWorkHood;
     }
-}
 
-public class UIView : MonoBehaviour
-{
-    public static Action<UICommand> ExecUICmd;
+    private void OnSelectWorkHoodLabor(object obj)
+    {
+        if(!(obj is string laborId))
+        {
+            throw new Exception();
+        }
+
+        ExecUICmd(new DiscoverCommand(laborId, Position));
+    }
 }

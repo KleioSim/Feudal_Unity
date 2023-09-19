@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-public class LaborSelectorItem : UIView2
+public class LaborSelectorItem : UIView
 {
     public string Id { get; internal set; }
 

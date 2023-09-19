@@ -6,7 +6,7 @@ using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 
 namespace Feudal.Scenes.Main
 {
-    class MainScene : UIView2
+    class MainScene : UIView
     {
         public TilemapObservable terrainMap;
         public RightPanel rightPanel;
@@ -18,17 +18,20 @@ namespace Feudal.Scenes.Main
 
         public void OnTerrainMapClick(DataItem item)
         {
-            var terrainDetail = rightPanel.SetCurrentMain<TerrainDetailPanel>();
+            var terrainDetail = rightPanel.OnShowMainView<TerrainDetailPanel>();
             terrainDetail.Position = (item.Position.x, item.Position.y);
 
-            UIView.ExecUICmd(new UpdateViewCommand());
+            ExecUICmd(new UpdateViewCommand());
         }
     }
 }
 
-public class UIView2 : MonoBehaviour
+public class UIView : MonoBehaviour
 {
-
+    public static Action<UICommand> ExecUICmd = (command) =>
+    {
+        Debug.Log($"trigger command:{command}");
+    };
 }
 
 [TileSetEnum]

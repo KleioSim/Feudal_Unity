@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
-public class RightSub : UIView2
+public class RightSub : UIView
 {
-
+    public UnityEvent<object> confirm;
 }

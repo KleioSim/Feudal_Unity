@@ -71,7 +71,7 @@ namespace Feudal.Scenes.Initial
             dict.Add(typeof(LaborSelectorItem), new Present_LaborSelectorItem());
         }
 
-        internal void RefreshMonoBehaviour(UIView2 uiview)
+        internal void RefreshMonoBehaviour(UIView uiview)
         {
             if(dict.TryGetValue(uiview.GetType(), out IPresent present))
             {
@@ -85,12 +85,13 @@ namespace Feudal.Scenes.Initial
             }
         }
 
-        private IEnumerable<UIView2> IteratorChildren(Transform transform)
+        private IEnumerable<UIView> IteratorChildren(Transform transform)
         {
-            for(int i=0; i<transform.childCount; i++)
+            for (int i=0; i<transform.childCount; i++)
             {
                 var child = transform.GetChild(i);
-                var childUIView = child.GetComponent<UIView2>();
+                Debug.Log($"IteratorChildren {child} {i}");
+                var childUIView = child.GetComponent<UIView>();
                 if (childUIView != null)
                 {
                     yield return childUIView;
@@ -110,17 +111,17 @@ namespace Feudal.Scenes.Initial
     public interface IPresent
     {
         Session session { get; set; }
-        void RefreshMonoBehaviour(UIView2 mono);
+        void RefreshMonoBehaviour(UIView mono);
     }
 
     public abstract class Present<T> : IPresent 
-        where T : UIView2
+        where T : UIView
     {
         public Session session { get; set; }
 
         public abstract void Refresh(T view);
 
-        public void RefreshMonoBehaviour(UIView2 mono) 
+        public void RefreshMonoBehaviour(UIView mono) 
         {
             Refresh(mono as T);
         }

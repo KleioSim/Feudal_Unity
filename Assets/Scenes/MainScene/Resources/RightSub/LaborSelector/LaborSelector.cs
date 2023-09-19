@@ -11,7 +11,10 @@ public class LaborSelector : RightSub
 
     private void Start()
     {
-
+        confrimButton.onClick.AddListener(() =>
+        {
+            confirm.Invoke(selectedLaborId);
+        });
     }
 
     internal void SetLaborItems(string[] keys)
@@ -44,11 +47,6 @@ public class LaborSelector : RightSub
 
     public void OnSelectLaborItemChanged(bool flag)
     {
-        if(!flag)
-        {
-            return;
-        }
-
         selectedLaborId = GetComponentsInChildren<LaborSelectorItem>()
             .SingleOrDefault(x => x.toggle.isOn)?.Id;
 

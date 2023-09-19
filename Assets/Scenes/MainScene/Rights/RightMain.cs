@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
-public class RightMain : UIView2
+public class RightMain : UIView
 {
-
+    public UnityEvent<Type, UnityAction<object>> showSub;
 }
