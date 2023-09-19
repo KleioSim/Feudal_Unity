@@ -21,7 +21,6 @@ public class TerrainDetailPanel : RightMain
     {
         var laborWork = workDetailPanel.GetComponentsInChildren<LaborWorkDetail>(true).Single();
         
-
         laborWork.AddLaborButton.onClick.AddListener(() =>
         {
             showSub.Invoke(typeof(LaborSelector), OnSelectWorkHoodLabor);
@@ -36,8 +35,6 @@ public class TerrainDetailPanel : RightMain
     internal T SetCurrentWorkHood<T>() where T : WorkHood
     {
         workDetailPanel.SetActive(true);
-
-        var workHoods = workDetailPanel.GetComponentsInChildren<WorkHood>(true);
 
         var currentWorkHood = workHoods.Single(x => x is T) as T;
         currentWorkHood.gameObject.SetActive(true);

@@ -34,7 +34,7 @@ public class LaborSelector : RightSub
         currItems = GetComponentsInChildren<LaborSelectorItem>(true);
         for (int i = 0; i<currItems.Length; i++)
         {
-            if(i > keys.Count())
+            if(i+1 > keys.Count())
             {
                 currItems[i].gameObject.SetActive(false);
                 continue;

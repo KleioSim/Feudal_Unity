@@ -61,6 +61,8 @@ namespace Feudal.Scenes.Initial
             dict.Add(typeof(LaborSelector), new Present_LaborSelector());
             dict.Add(typeof(LaborSelectorItem), new Present_LaborSelectorItem());
             dict.Add(typeof(DisoverWorkHood), new Present_DisoverWorkHood());
+            dict.Add(typeof(TaskContainer), new Present_TaskContainer());
+            dict.Add(typeof(TaskItem), new Present_TaskItem());
         }
 
         internal void RefreshMonoBehaviour(UIView uiview)
@@ -82,6 +84,11 @@ namespace Feudal.Scenes.Initial
             for (int i=0; i<transform.childCount; i++)
             {
                 var child = transform.GetChild(i);
+                if(!child.gameObject.activeInHierarchy)
+                {
+                    continue;
+                }
+
                 Debug.Log($"IteratorChildren {child} {i}");
                 var childUIView = child.GetComponent<UIView>();
                 if (childUIView != null)
@@ -228,6 +235,30 @@ namespace Feudal.Scenes.Initial
             {
                 view.percent.value = task.Percent;
             }
+        }
+    }
+
+    class Present_TaskContainer : Present<TaskContainer>
+    {
+        public override void Refresh(TaskContainer view)
+        {
+            view.defaultItem.gameObject.SetActive(false);
+            view.SetTaskItems(session.tasks.Select(x => x.Id).ToArray());
+        }
+    }
+
+    class Present_TaskItem : Present<TaskItem>
+    {
+        public override void Refresh(TaskItem view)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Id == view.Id);
+            if (task == null)
+            {
+                throw new Exception();
+            }
+
+            view.title.text = task.Desc;
+            view.percent.value = task.Percent;
         }
     }
 
