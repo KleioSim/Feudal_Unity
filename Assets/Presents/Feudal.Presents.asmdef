@@ -4,6 +4,7 @@
     "references": [
         "Scenes.Main",
         "Models.Sessions",
+        "Models.Tasks",
         "Models.Interfaces",
         "KleioSim.TilemapObservable"
     ],

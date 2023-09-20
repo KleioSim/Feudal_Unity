@@ -1,5 +1,6 @@
 using Feudal.Interfaces;
 using Feudal.Scenes.Main;
+using Feudal.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,6 @@ using static KleioSim.Tilemaps.TilemapObservable;
 
 static class MainViewModelExtensions
 {
-
     public static TerrainDataType GetTerrainDataType(this ITerrainItem terrainItem)
     {
         switch (terrainItem.Terrain)
@@ -29,7 +29,7 @@ static class MainViewModelExtensions
     }
 }
 
-public class PresentManager
+    public class PresentManager
     {
         public Dictionary<Type, IPresent> dict = new Dictionary<Type, IPresent>();
 
@@ -45,6 +45,7 @@ public class PresentManager
             dict.Add(typeof(DisoverWorkHood), new Present_DisoverWorkHood());
             dict.Add(typeof(TaskContainer), new Present_TaskContainer());
             dict.Add(typeof(TaskItem), new Present_TaskItem());
+            dict.Add(typeof(EstateWorkHood), new Present_EstateWorkHood());
         }
 
         public void RefreshMonoBehaviour(UIView uiview)
@@ -158,6 +159,16 @@ public class PresentManager
             {
                 var workHood = view.SetCurrentWorkHood<DisoverWorkHood>();
                 workHood.Position = view.Position;
+                return;
+            }
+
+            var estate = session.estates[view.Position];
+            if(estate != null)
+            {
+                var workHood = view.SetCurrentWorkHood<EstateWorkHood>();
+                workHood.Position = view.Position;
+                workHood.estateId = estate.Id;
+                return;
             }
         }
     }
@@ -243,3 +254,18 @@ public class PresentManager
             view.percent.value = task.Percent;
         }
     }
+
+class Present_EstateWorkHood : Present<EstateWorkHood>
+{
+    public override void Refresh(EstateWorkHood view)
+    {
+        var estate = session.estates[view.Position];
+
+        view.title.text = estate.Type.ToString();
+        view.productType.text = estate.ProductType.ToString();
+        view.productValue.text = estate.ProductValue.ToString();
+
+        var task = session.tasks.OfType<EstateWorkTask>().SingleOrDefault(x => x.estateId == estate.Id);
+        view.disableMask.SetActive(task == null);
+    }
+}

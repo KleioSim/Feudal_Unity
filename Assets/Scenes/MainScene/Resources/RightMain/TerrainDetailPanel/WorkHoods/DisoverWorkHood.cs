@@ -7,5 +7,10 @@ namespace Feudal.Scenes.Main
     {
         public Text title;
         public Slider percent;
+
+        public override void SetLabor(string labor)
+        {
+            ExecUICmd.Invoke(new DiscoverCommand(labor, Position));
+        }
     }
 }

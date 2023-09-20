@@ -14,7 +14,9 @@ public class TerrainDetailPanel : RightMain
     
     public (int x, int y) Position { get; set; }
 
+    private WorkHood currentWorkHood => workHoods.SingleOrDefault(x => x.isActiveAndEnabled);
     private WorkHood[] workHoods => workDetailPanel.GetComponentsInChildren<WorkHood>(true);
+
     private LaborWorkDetail laborWork => workDetailPanel.GetComponentsInChildren<LaborWorkDetail>(true).Single();
 
     void Start()
@@ -23,7 +25,10 @@ public class TerrainDetailPanel : RightMain
         
         laborWork.AddLaborButton.onClick.AddListener(() =>
         {
-            showSub.Invoke(typeof(LaborSelector), OnSelectWorkHoodLabor);
+            showSub.Invoke(typeof(LaborSelector), (obj) =>
+            {
+                currentWorkHood.SetLabor(obj as string);
+            });
         });
 
         laborWork.RemoveLaborButton.onClick.AddListener(() =>
@@ -36,26 +41,16 @@ public class TerrainDetailPanel : RightMain
     {
         workDetailPanel.SetActive(true);
 
-        var currentWorkHood = workHoods.Single(x => x is T) as T;
-        currentWorkHood.gameObject.SetActive(true);
+        var current = workHoods.Single(x => x is T) as T;
+        current.gameObject.SetActive(true);
 
-        foreach (var workHood in workHoods.Where(x => x != currentWorkHood))
+        foreach (var workHood in workHoods.Where(x => x != current))
         {
             workHood.gameObject.SetActive(false);
         }
 
         laborWork.Position = Position;
 
-        return currentWorkHood;
-    }
-
-    private void OnSelectWorkHoodLabor(object obj)
-    {
-        if(!(obj is string laborId))
-        {
-            throw new Exception();
-        }
-
-        ExecUICmd(new DiscoverCommand(laborId, Position));
+        return current;
     }
 }
