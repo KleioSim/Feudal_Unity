@@ -1,18 +1,17 @@
 using Feudal.Scenes.Main;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TerrainDetailPanel : RightMain
 {
-    public Text title;
-
-    public GameObject workDetailPanel;
-    
     public (int x, int y) Position { get; set; }
+
+    public Text title;
+    public GameObject workDetailPanel;
+
+    public TraitContainer traitContainer;
 
     private WorkHood currentWorkHood => workHoods.SingleOrDefault(x => x.isActiveAndEnabled);
     private WorkHood[] workHoods => workDetailPanel.GetComponentsInChildren<WorkHood>(true);
