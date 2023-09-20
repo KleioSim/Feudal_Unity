@@ -46,7 +46,7 @@ namespace Feudal.Clans
 
             TotalLaborCount = 3;
 
-            PopCount = 0;
+            PopCount = 1000;
 
             productMgr = Enum.GetValues(typeof(ProductType)).OfType<ProductType>().ToDictionary(k => k, v=> new ProductData());
             ProductMgr = productMgr.ToDictionary(k => k.Key, v => v.Value as IProductData);
