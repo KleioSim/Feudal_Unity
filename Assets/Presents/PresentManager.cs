@@ -4,6 +4,7 @@ using Feudal.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using static KleioSim.Tilemaps.TilemapObservable;
 
@@ -37,15 +38,13 @@ static class MainViewModelExtensions
 
         public PresentManager()
         {
-            dict.Add(typeof(TerrainMap), new Present_TerrainMap());
-            dict.Add(typeof(TerrainDetailPanel), new Present_TerrainDetailPanel());
-            dict.Add(typeof(LaborWorkDetail), new Present_LaborWorkDetail());
-            dict.Add(typeof(LaborSelector), new Present_LaborSelector());
-            dict.Add(typeof(LaborSelectorItem), new Present_LaborSelectorItem());
-            dict.Add(typeof(DisoverWorkHood), new Present_DisoverWorkHood());
-            dict.Add(typeof(TaskContainer), new Present_TaskContainer());
-            dict.Add(typeof(TaskItem), new Present_TaskItem());
-            dict.Add(typeof(EstateWorkHood), new Present_EstateWorkHood());
+            var presents = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(type => type.BaseType != null
+                    && type.BaseType.IsGenericType 
+                    && type.BaseType.GetGenericTypeDefinition() == typeof(Present<>))
+                .ToArray();
+
+            dict = presents.ToDictionary(type => type.BaseType.GetGenericArguments()[0], type => Activator.CreateInstance(type) as IPresent);
         }
 
         public void RefreshMonoBehaviour(UIView uiview)
@@ -162,8 +161,7 @@ static class MainViewModelExtensions
                 return;
             }
 
-            var estate = session.estates[view.Position];
-            if(estate != null)
+            if(session.estates.TryGetValue(view.Position, out IEstate estate))
             {
                 var workHood = view.SetCurrentWorkHood<EstateWorkHood>();
                 workHood.Position = view.Position;
