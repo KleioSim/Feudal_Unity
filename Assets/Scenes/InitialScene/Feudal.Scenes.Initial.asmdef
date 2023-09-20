@@ -1,7 +1,11 @@
 {
-    "name": "UICommands",
-    "rootNamespace": "Feudal.UICommands",
+    "name": "Scenes.Initial",
+    "rootNamespace": "",
     "references": [
+        "Scenes.Main",
+        "Models.Sessions",
+        "UICommands",
+        "Presents"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

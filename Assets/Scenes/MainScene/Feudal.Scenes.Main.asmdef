@@ -1,7 +1,10 @@
 {
-    "name": "UICommands",
-    "rootNamespace": "Feudal.UICommands",
+    "name": "Scenes.Main",
+    "rootNamespace": "",
     "references": [
+        "KleioSim.TilemapObservable",
+        "KleioSim.UI.CameraControl",
+        "UICommands"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,7 +1,11 @@
 {
-    "name": "UICommands",
-    "rootNamespace": "Feudal.UICommands",
+    "name": "Presents",
+    "rootNamespace": "Feudal.Presents",
     "references": [
+        "Scenes.Main",
+        "Models.Sessions",
+        "Models.Interfaces",
+        "KleioSim.TilemapObservable"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,6 +1,6 @@
 {
-    "name": "UICommands",
-    "rootNamespace": "Feudal.UICommands",
+    "name": "Models.MessageBuses",
+    "rootNamespace": "Feudal.Models.MessageBuses",
     "references": [
     ],
     "includePlatforms": [],

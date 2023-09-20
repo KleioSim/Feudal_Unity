@@ -7,7 +7,7 @@ public class TaskContainer : UIView
 {
     public TaskItem defaultItem;
 
-    internal void SetTaskItems(string[] keys)
+    public void SetTaskItems(string[] keys)
     {
         var currItems = GetComponentsInChildren<TaskItem>(true);
 

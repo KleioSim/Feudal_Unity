@@ -1,7 +1,14 @@
 {
-    "name": "UICommands",
-    "rootNamespace": "Feudal.UICommands",
+    "name": "Models.Sessions",
+    "rootNamespace": "",
     "references": [
+        "UICommands",
+        "Models.MessageBuses",
+        "Models.Interfaces",
+        "Models.Terrains",
+        "Models.Tasks",
+        "Models.Clans",
+        "Models.Estates"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

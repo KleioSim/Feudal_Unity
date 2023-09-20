@@ -1,7 +1,9 @@
 {
-    "name": "UICommands",
-    "rootNamespace": "Feudal.UICommands",
+    "name": "Models.Tasks",
+    "rootNamespace": "Feudal.Models.Tasks",
     "references": [
+        "Models.MessageBuses",
+        "Models.Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

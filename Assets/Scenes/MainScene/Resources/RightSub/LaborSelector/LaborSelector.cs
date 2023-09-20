@@ -17,7 +17,7 @@ public class LaborSelector : RightSub
         });
     }
 
-    internal void SetLaborItems(string[] keys)
+    public void SetLaborItems(string[] keys)
     {
         var currItems = GetComponentsInChildren<LaborSelectorItem>(true);
 

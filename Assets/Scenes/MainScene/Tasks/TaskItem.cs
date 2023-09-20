@@ -9,4 +9,9 @@ public class TaskItem : UIView
     public Slider percent;
 
     public string Id { get; set; }
+
+    public void OnCancel()
+    {
+        ExecUICmd(new CancelTaskCommand(Id));
+    }
 }

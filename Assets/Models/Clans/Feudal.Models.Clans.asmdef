@@ -1,7 +1,9 @@
 {
-    "name": "UICommands",
-    "rootNamespace": "Feudal.UICommands",
+    "name": "Models.Clans",
+    "rootNamespace": "Feudal.Models.Clans",
     "references": [
+        "Models.Interfaces",
+        "Models.MessageBuses"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

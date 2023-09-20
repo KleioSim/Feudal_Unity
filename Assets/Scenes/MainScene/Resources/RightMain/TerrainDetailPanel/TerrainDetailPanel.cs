@@ -32,7 +32,7 @@ public class TerrainDetailPanel : RightMain
         });
     }
 
-    internal T SetCurrentWorkHood<T>() where T : WorkHood
+    public T SetCurrentWorkHood<T>() where T : WorkHood
     {
         workDetailPanel.SetActive(true);
 
