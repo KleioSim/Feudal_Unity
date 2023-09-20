@@ -3264,6 +3264,8 @@ MonoBehaviour:
   mainContent: {fileID: 1963728493}
   subPanel: {fileID: 1742077666}
   subContent: {fileID: 1696657685}
+  PrevMainViewButton: {fileID: 373756540}
+  NextMainViewButton: {fileID: 328377861}
 --- !u!114 &1503614689
 MonoBehaviour:
   m_ObjectHideFlags: 0
