@@ -44,20 +44,35 @@ public class RightPanel : UIView
         mainCaches.Clear();
     }
 
-    internal T OnShowMainView<T>() where T : RightMain
+    internal T OnShowMainView<T>(params object[] parameters) where T : RightMain
     {
-        mainPanel.SetActive(true);
-        foreach (var oldMainView in mainCaches)
-        {
-            oldMainView.gameObject.SetActive(false);
-        }
 
         CloseSubView();
 
+        foreach (var mainView in mainCaches)
+        {
+            mainView.gameObject.SetActive(false);
+        }
+
+        mainPanel.SetActive(true);
+
+        var existView = mainCaches.SingleOrDefault(x => x.GetType() == typeof(T) && Enumerable.SequenceEqual(x.Parameters, parameters));
+        if(existView != null)
+        {
+            mainCaches.Remove(existView);
+            mainCaches.Add(existView);
+            existView.gameObject.SetActive(true);
+
+            currMainViewIndex = mainCaches.Count - 1;
+
+            UpdateNextPreButton();
+            return existView as T;
+        }
+
         var prefab = mainPrefabs.Single(x => x is T);
 
-        var mainView = Instantiate(prefab, mainContent.transform);
-        mainView.showSub.AddListener((subType, OnSubConfirm) =>
+        var newView = Instantiate(prefab, mainContent.transform);
+        newView.showSub.AddListener((subType, OnSubConfirm) =>
         {
             subPanel.gameObject.SetActive(true);
 
@@ -73,12 +88,14 @@ public class RightPanel : UIView
             ExecUICmd(new UpdateViewCommand());
         });
 
-        mainCaches.Add(mainView);
+        newView.Parameters = parameters;
+
+        mainCaches.Add(newView);
         currMainViewIndex = mainCaches.Count - 1;
 
         UpdateNextPreButton();
 
-        return mainView as T;
+        return newView as T;
     }
 
     public void CloseMainView()

@@ -18,8 +18,20 @@ namespace Feudal.Scenes.Main
 
         public void OnTerrainMapClick(DataItem item)
         {
-            var terrainDetail = rightPanel.OnShowMainView<TerrainDetailPanel>();
-            terrainDetail.Position = (item.Position.x, item.Position.y);
+            var position = (item.Position.x, item.Position.y);
+            var terrainDetail = rightPanel.OnShowMainView<TerrainDetailPanel>(position);
+
+            ExecUICmd(new UpdateViewCommand());
+        }
+
+        public void OnShowEstates()
+        {
+            var estateStaticsPanel = rightPanel.OnShowMainView<EstateStaticsPanel>();
+            estateStaticsPanel.onClickEstateItem = (position) =>
+            {
+                var terrainDetail = rightPanel.OnShowMainView<TerrainDetailPanel>(position);
+                ExecUICmd(new UpdateViewCommand());
+            };
 
             ExecUICmd(new UpdateViewCommand());
         }
