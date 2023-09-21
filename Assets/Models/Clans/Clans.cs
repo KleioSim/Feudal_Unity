@@ -36,8 +36,12 @@ namespace Feudal.Clans
 
         public int PopCount { get; set; }
 
+
+        public ClanType ClanType { get; internal set; }
+
         internal Dictionary<ProductType, ProductData> productMgr;
         public IReadOnlyDictionary<ProductType, IProductData> ProductMgr { get; }
+
 
         public Clan()
         {

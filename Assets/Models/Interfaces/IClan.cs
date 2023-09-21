@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Feudal.Interfaces
 {
@@ -6,6 +7,7 @@ namespace Feudal.Interfaces
     {
         public string Id { get; }
         public string Name { get; }
+        public ClanType ClanType { get; }
 
         public int PopCount { get; }
         public int TotalLaborCount { get; }
@@ -24,7 +26,22 @@ namespace Feudal.Interfaces
         public IReadOnlyDictionary<string, decimal> EstateWorkOuputs { get; }
     }
 
+    public enum ClanType
+    {
+        [CountryClan]
+        Guo,
+
+        [CountryClan]
+        Ye,
+
+        Rong
+    }
     
+    public class CountryClanAttribute : Attribute
+    {
+
+    }
+
     public enum EstateType
     {
         Farm,

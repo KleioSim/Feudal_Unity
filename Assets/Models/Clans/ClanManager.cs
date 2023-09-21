@@ -43,8 +43,10 @@ namespace Feudal.Clans
             Player = new Clan();
 
             list.Add(Player);
-            list.Add(new Clan());
-            list.Add(new Clan());
+            list.Add(new Clan() { ClanType = ClanType.Guo });
+            list.Add(new Clan() { ClanType = ClanType.Guo });
+            list.Add(new Clan() { ClanType = ClanType.Ye });
+            list.Add(new Clan() { ClanType = ClanType.Rong });
         }
 
         [MessageProcess]

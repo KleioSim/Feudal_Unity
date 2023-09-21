@@ -36,6 +36,18 @@ namespace Feudal.Scenes.Main
             ExecUICmd(new UpdateViewCommand());
         }
 
+        public void OnShowClans()
+        {
+            var clanStaticsPanel = rightPanel.OnShowMainView<ClanStaticsPanel>();
+            //estateStaticsPanel.onClickEstateItem = (position) =>
+            //{
+            //    var terrainDetail = rightPanel.OnShowMainView<TerrainDetailPanel>(position);
+            //    ExecUICmd(new UpdateViewCommand());
+            //};
+
+            ExecUICmd(new UpdateViewCommand());
+        }
+
         public void OnNextTurn()
         {
             ExecUICmd(new NexTurnCommand());
