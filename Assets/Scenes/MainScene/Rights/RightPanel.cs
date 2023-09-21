@@ -49,6 +49,13 @@ public class RightPanel : UIView
 
         CloseSubView();
 
+        var needRemoveViews = mainCaches.Skip(currMainViewIndex + 1).ToArray();
+        foreach (var needRemoveView in needRemoveViews)
+        {
+            mainCaches.Remove(needRemoveView);
+            Destroy(needRemoveView);
+        }
+
         foreach (var mainView in mainCaches)
         {
             mainView.gameObject.SetActive(false);
