@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ClanStaticsPanel : RightMain
 {
+    public Action<string> onClickClanItem;
+
     public void SetClanItems(string[] keys)
     {
         var items = GetComponentsInChildren<ClanStaticsItem>(true);
@@ -38,7 +40,7 @@ public class ClanStaticsPanel : RightMain
             currItem.button.onClick.RemoveAllListeners();
             currItem.button.onClick.AddListener(() =>
             {
-                //onClickEstateItem.Invoke(currItem.Position);
+                onClickClanItem.Invoke(currItem.ClanId);
             });
         }
     }

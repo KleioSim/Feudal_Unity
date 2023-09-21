@@ -2,6 +2,7 @@ using KleioSim.Tilemaps;
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using DataItem = KleioSim.Tilemaps.TilemapObservable.DataItem;
 
 namespace Feudal.Scenes.Main
@@ -39,11 +40,16 @@ namespace Feudal.Scenes.Main
         public void OnShowClans()
         {
             var clanStaticsPanel = rightPanel.OnShowMainView<ClanStaticsPanel>();
-            //estateStaticsPanel.onClickEstateItem = (position) =>
-            //{
-            //    var terrainDetail = rightPanel.OnShowMainView<TerrainDetailPanel>(position);
-            //    ExecUICmd(new UpdateViewCommand());
-            //};
+            clanStaticsPanel.onClickClanItem = (clanId) =>
+            {
+                var terrainDetail = rightPanel.OnShowMainView<ClanDetailPanel>(clanId);
+                foreach(var toggle in terrainDetail.GetComponentsInChildren<Toggle>())
+                {
+                    toggle.isOn = false;
+                }
+
+                ExecUICmd(new UpdateViewCommand());
+            };
 
             ExecUICmd(new UpdateViewCommand());
         }
