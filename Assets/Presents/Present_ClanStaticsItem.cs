@@ -20,6 +20,9 @@ namespace Feudal.Presents
             }
 
             view.popCount.text = clan.PopCount.ToString();
+
+            var estates = session.estates.Values.Where(x => x.OwnerId == view.ClanId);
+            view.estateCount.text = estates.Count().ToString();
         }
     }
 }
