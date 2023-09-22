@@ -9,14 +9,12 @@ public class LaborSelector : RightSub
 
     private string selectedLaborId = null;
 
-    protected override void Start()
+    protected void Start()
     {
         confrimButton.onClick.AddListener(() =>
         {
             confirm.Invoke(selectedLaborId);
         });
-
-        base.Start();
     }
 
     public void SetLaborItems(string[] keys)

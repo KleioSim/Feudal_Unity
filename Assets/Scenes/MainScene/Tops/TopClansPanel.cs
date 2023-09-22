@@ -10,8 +10,6 @@ public class TopClansPanel : UIView
         {
             item.gameObject.SetActive(false);
         }
-
-        base.Start();
     }
 
     public void SetClanItems(Enum[] keys)

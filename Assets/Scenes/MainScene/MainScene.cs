@@ -69,23 +69,23 @@ public class UIView : MonoBehaviour
 
     public static Action<UIView> OnEnableAction;
 
+    private bool firstUpdate = true;
 
-    protected virtual void OnEnable()
+    protected virtual void Update()
     {
-        if(didStart)
+        if(firstUpdate)
         {
             OnEnableAction?.Invoke(this);
+
+            firstUpdate = false;
         }
     }
 
-    //TODO show replace with buildin didStart in Untiy2023.1
-    private bool didStart;
-    protected virtual void Start()
+    protected virtual void OnDisable()
     {
-        didStart = true;
-
-        OnEnableAction?.Invoke(this);
+        firstUpdate = true;
     }
+
 }
 
 [TileSetEnum]

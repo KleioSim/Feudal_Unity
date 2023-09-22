@@ -34,7 +34,7 @@ public class TerrainDetailPanel : RightMain
         }
     }
 
-    protected override void Start()
+    protected  void Start()
     {
         laborWork.AddLaborButton.onClick.AddListener(() =>
         {
@@ -48,8 +48,6 @@ public class TerrainDetailPanel : RightMain
         {
             ExecUICmd(new CancelTaskCommand(laborWork.taskId));
         });
-
-        base.Start();
     }
 
     public T SetCurrentWorkHood<T>() where T : WorkHood

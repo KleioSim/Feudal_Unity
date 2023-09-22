@@ -13,8 +13,6 @@ public class TopProductsPanel : UIView
         {
             item.gameObject.SetActive(false);
         }
-
-        base.Start();
     }
 
     public void SetProductItems(Enum[] keys)

@@ -23,7 +23,7 @@ public class RightPanel : UIView
     private int currMainViewIndex;
     private List<RightMain> mainCaches;
 
-    protected override void Start()
+    protected void Start()
     {
         mainPanel.SetActive(false);
 
@@ -37,8 +37,6 @@ public class RightPanel : UIView
 
         PrevMainViewButton.interactable = false;
         NextMainViewButton.interactable = false;
-
-        base.Start();
     }
 
     void OnDestroy()
