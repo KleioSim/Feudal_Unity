@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class EstateStaticsItem : UIView
+public class EstateItemInClanDetail : UIView
 {
     public Text title;
     public Text worker;
@@ -13,5 +13,5 @@ public class EstateStaticsItem : UIView
     public GameObject outputDisableMask;
 
     public string EstateId { get; internal set; }
-    public (int x, int y) Position { get;  set; }
+    public (int x, int y) Position { get; set; }
 }

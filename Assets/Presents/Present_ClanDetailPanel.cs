@@ -3,9 +3,18 @@ using System.Linq;
 
 namespace Feudal.Presents
 {
-    class Present_EstateStaticItem : Present<EstateStaticsItem>
+
+    class Present_ClanDetailPanel : Present<ClanDetailPanel>
     {
-        public override void Refresh(EstateStaticsItem view)
+        public override void Refresh(ClanDetailPanel view)
+        {
+            view.SetEstateItems(session.estates.Values.Where(x=>x.OwnerId == view.ClanId).Select(x => x.Id).ToArray());
+        }
+    }
+
+    class Present_EstateItemInClanDetail : Present<EstateItemInClanDetail>
+    {
+        public override void Refresh(EstateItemInClanDetail view)
         {
             var estate = session.estates.Values.Single(x => x.Id == view.EstateId);
             view.Position = estate.Position;
@@ -15,7 +24,7 @@ namespace Feudal.Presents
             view.outputValue.text = estate.ProductValue.ToString();
 
             var task = session.tasks.OfType<EstateWorkTask>().SingleOrDefault(x => x.estateId == estate.Id);
-            if(task == null)
+            if (task == null)
             {
                 view.worker.text = "--";
                 view.outputDisableMask.SetActive(true);
@@ -26,6 +35,17 @@ namespace Feudal.Presents
 
             var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
             view.worker.text = clan.Name;
+        }
+    }
+
+    class Present_TotalEstateView : Present<TotalEstateView>
+    {
+        public override void Refresh(TotalEstateView view)
+        {
+            var clanId = view.GetComponentInParent<ClanDetailPanel>().ClanId;
+
+            var estates = session.estates.Values.Where(x => x.OwnerId == clanId);
+            view.count.text = estates.Count().ToString();
         }
     }
 }

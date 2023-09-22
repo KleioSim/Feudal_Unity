@@ -33,6 +33,11 @@ namespace Feudal.Scenes.Initial
                 .Select(obj => obj.GetComponent<MainScene>())
                 .Single(x => x != null);
 
+            UIView.OnEnableAction = (view) =>
+            {
+                presentMgr.RefreshMonoBehaviour(view);
+            };
+
             UIView.ExecUICmd = (obj) =>
             {
                 session.ExecUICmd(obj);

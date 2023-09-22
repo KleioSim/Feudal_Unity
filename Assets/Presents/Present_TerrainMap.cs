@@ -1,4 +1,6 @@
-﻿using Feudal.Scenes.Main;
+﻿using Feudal.Interfaces;
+using Feudal.Scenes.Main;
+using System;
 using System.Linq;
 using UnityEngine;
 using static KleioSim.Tilemaps.TilemapObservable;
@@ -38,6 +40,28 @@ namespace Feudal.Presents
         {
             var terrain = session.terrainItems[(item.Position.x, item.Position.y)];
             item.TileKey = terrain.GetTerrainDataType();
+        }
+    }
+
+    static class MainViewModelExtensions
+    {
+        public static TerrainDataType GetTerrainDataType(this ITerrainItem terrainItem)
+        {
+            switch (terrainItem.Terrain)
+            {
+                case Feudal.Interfaces.Terrain.Hill:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Hill : TerrainDataType.Hill_Unknown;
+                case Feudal.Interfaces.Terrain.Plain:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Plain : TerrainDataType.Plain_Unknown;
+                case Feudal.Interfaces.Terrain.Mountion:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Mountion : TerrainDataType.Mountion_Unknown;
+                case Feudal.Interfaces.Terrain.Lake:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Lake : TerrainDataType.Lake_Unknown;
+                case Feudal.Interfaces.Terrain.Marsh:
+                    return terrainItem.IsDiscovered ? TerrainDataType.Marsh : TerrainDataType.Marsh_Unknown;
+                default:
+                    throw new Exception();
+            }
         }
     }
 }

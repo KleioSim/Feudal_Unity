@@ -34,10 +34,8 @@ public class TerrainDetailPanel : RightMain
         }
     }
 
-    void Start()
+    protected override void Start()
     {
-        var laborWork = workDetailPanel.GetComponentsInChildren<LaborWorkDetail>(true).Single();
-        
         laborWork.AddLaborButton.onClick.AddListener(() =>
         {
             showSub.Invoke(typeof(LaborSelector), (obj) =>
@@ -50,6 +48,8 @@ public class TerrainDetailPanel : RightMain
         {
             ExecUICmd(new CancelTaskCommand(laborWork.taskId));
         });
+
+        base.Start();
     }
 
     public T SetCurrentWorkHood<T>() where T : WorkHood

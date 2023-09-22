@@ -5,28 +5,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-static class MainViewModelExtensions
-{
-    public static TerrainDataType GetTerrainDataType(this ITerrainItem terrainItem)
-    {
-        switch (terrainItem.Terrain)
-        {
-            case Feudal.Interfaces.Terrain.Hill:
-                return terrainItem.IsDiscovered ? TerrainDataType.Hill : TerrainDataType.Hill_Unknown;
-            case Feudal.Interfaces.Terrain.Plain:
-                return terrainItem.IsDiscovered ? TerrainDataType.Plain : TerrainDataType.Plain_Unknown;
-            case Feudal.Interfaces.Terrain.Mountion:
-                return terrainItem.IsDiscovered ? TerrainDataType.Mountion : TerrainDataType.Mountion_Unknown;
-            case Feudal.Interfaces.Terrain.Lake:
-                return terrainItem.IsDiscovered ? TerrainDataType.Lake : TerrainDataType.Lake_Unknown;
-            case Feudal.Interfaces.Terrain.Marsh:
-                return terrainItem.IsDiscovered ? TerrainDataType.Marsh : TerrainDataType.Marsh_Unknown;
-            default:
-                throw new Exception();
-        }
-    }
-}
-
 namespace Feudal.Presents
 {
     public class PresentManager

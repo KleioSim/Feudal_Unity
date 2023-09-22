@@ -12,6 +12,8 @@ namespace Feudal.Scenes.Main
         public TilemapObservable terrainMap;
         public RightPanel rightPanel;
 
+        public string PlayerClanId { get; set; }
+
         void Awake()
         {
             terrainMap.OnClickTile.AddListener(OnTerrainMapClick);
@@ -20,21 +22,15 @@ namespace Feudal.Scenes.Main
         public void OnTerrainMapClick(DataItem item)
         {
             var position = (item.Position.x, item.Position.y);
-            var terrainDetail = rightPanel.OnShowMainView<TerrainDetailPanel>(position);
-
-            ExecUICmd(new UpdateViewCommand());
+            rightPanel.OnShowMainView<TerrainDetailPanel>(position);
         }
 
         public void OnShowEstates()
         {
-            var estateStaticsPanel = rightPanel.OnShowMainView<EstateStaticsPanel>();
-            estateStaticsPanel.onClickEstateItem = (position) =>
-            {
-                var terrainDetail = rightPanel.OnShowMainView<TerrainDetailPanel>(position);
-                ExecUICmd(new UpdateViewCommand());
-            };
+            var clanDetail = ShowClanDetailPanel(PlayerClanId);
+            clanDetail.CollapseAll();
 
-            ExecUICmd(new UpdateViewCommand());
+            clanDetail.GetComponentInChildren<TotalEstateView>().toggle.isOn = true;
         }
 
         public void OnShowClans()
@@ -42,16 +38,19 @@ namespace Feudal.Scenes.Main
             var clanStaticsPanel = rightPanel.OnShowMainView<ClanStaticsPanel>();
             clanStaticsPanel.onClickClanItem = (clanId) =>
             {
-                var terrainDetail = rightPanel.OnShowMainView<ClanDetailPanel>(clanId);
-                foreach(var toggle in terrainDetail.GetComponentsInChildren<Toggle>())
-                {
-                    toggle.isOn = false;
-                }
+                ShowClanDetailPanel(clanId);
+            };
+        }
 
-                ExecUICmd(new UpdateViewCommand());
+        private ClanDetailPanel ShowClanDetailPanel(string clanId)
+        {
+            var clanDetail = rightPanel.OnShowMainView<ClanDetailPanel>(clanId);
+            clanDetail.onClickEstateItem = (position) =>
+            {
+                rightPanel.OnShowMainView<TerrainDetailPanel>(position);
             };
 
-            ExecUICmd(new UpdateViewCommand());
+            return clanDetail;
         }
 
         public void OnNextTurn()
@@ -67,6 +66,26 @@ public class UIView : MonoBehaviour
     {
         Debug.Log($"trigger command:{command}");
     };
+
+    public static Action<UIView> OnEnableAction;
+
+
+    protected virtual void OnEnable()
+    {
+        if(didStart)
+        {
+            OnEnableAction?.Invoke(this);
+        }
+    }
+
+    //TODO show replace with buildin didStart in Untiy2023.1
+    private bool didStart;
+    protected virtual void Start()
+    {
+        didStart = true;
+
+        OnEnableAction?.Invoke(this);
+    }
 }
 
 [TileSetEnum]
