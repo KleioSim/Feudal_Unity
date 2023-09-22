@@ -3,7 +3,7 @@
     public interface IPresent
     {
         Session session { get; set; }
-        void RefreshMonoBehaviour(UIView mono);
+        void RefreshUIView(UIView mono);
     }
 
     public abstract class Present<T> : IPresent
@@ -13,7 +13,7 @@
 
         public abstract void Refresh(T view);
 
-        public void RefreshMonoBehaviour(UIView mono)
+        public void RefreshUIView(UIView mono)
         {
             Refresh(mono as T);
         }

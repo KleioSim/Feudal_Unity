@@ -1,5 +1,6 @@
 ﻿using Feudal.Interfaces;
 using Feudal.Scenes.Main;
+using Feudal.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,41 +50,78 @@ namespace Feudal.Presents
                 }
             }
         }
-
-        //private void RefreshTraits(GameObject traitsPanel, ITerrainItem terrain)
-        //{
-        //    if (!terrain.IsDiscovered)
-        //    {
-        //        traitsPanel.SetActive(false);
-        //        return;
-        //    }
-
-        //    traitsPanel.SetActive(true);
-
-        //    var traitViews = traitsPanel.GetComponentsInChildren<TerrainTraitView>(true).ToList();
-
-        //    var needAddCount = terrain.Traits.Count() - traitViews.Count;
-        //    if (needAddCount > 0)
-        //    {
-        //        for(int i=0; i<needAddCount; i++)
-        //        {
-        //            traitViews.Add(UnityEngine.Object.Instantiate(traitViews.First(), traitViews.First().transform.parent));
-        //        }
-        //    }
-
-        //    for(int i=0; i < traitViews.Count; i++)
-        //    {
-        //        if(i > terrain.Traits.Count()-1)
-        //        {
-        //            traitViews[i].gameObject.SetActive(false);
-        //            continue;
-        //        }
-
-        //        traitViews[i].title.text = terrain.Traits.ElementAt(i).ToString();
-        //    }
-        //}
     }
 
+    public class Present_LaborWorkDetail : Present<LaborWorkDetail>
+    {
+        public override void Refresh(LaborWorkDetail view)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Position == view.Position);
+            if (task == null)
+            {
+                view.laborPanel.SetActive(false);
+            }
+            else
+            {
+                view.laborPanel.SetActive(true);
+
+                var clan = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
+                view.laborTitle.text = clan.Name;
+                view.taskId = task.Id;
+            }
+        }
+    }
+
+    class Present_DisoverWorkHood : Present<DisoverWorkHood>
+    {
+        public override void Refresh(DisoverWorkHood view)
+        {
+            var task = session.tasks.SingleOrDefault(x => x.Position == view.Position);
+            if (task == null)
+            {
+                view.percent.value = 0;
+            }
+            else
+            {
+                view.percent.value = task.Percent;
+            }
+        }
+    }
+
+    class Present_EstateWorkHood : Present<EstateWorkHood>
+    {
+        public override void Refresh(EstateWorkHood view)
+        {
+            var estate = session.estates[view.Position];
+
+            view.title.text = estate.Type.ToString();
+            view.productType.text = estate.ProductType.ToString();
+            view.productValue.text = estate.ProductValue.ToString();
+
+            var task = session.tasks.OfType<EstateWorkTask>().SingleOrDefault(x => x.estateId == estate.Id);
+            view.disableMask.SetActive(task == null);
+        }
+    }
+
+    public class Present_BuildingWorkHood : Present<BuildingWorkHood>
+    {
+        public override void Refresh(BuildingWorkHood view)
+        {
+            view.title.text = view.estateType.ToString();
+
+            var task = session.tasks.OfType<EstateBuildTask>().SingleOrDefault(x => x.Position == view.Position);
+            if (task == null)
+            {
+                view.percent.value = 0;
+            }
+            else
+            {
+                view.percent.value = task.Percent;
+            }
+
+            view.disableMask.SetActive(task == null);
+        }
+    }
     public static class EnumHelper
     {
         /// <summary>

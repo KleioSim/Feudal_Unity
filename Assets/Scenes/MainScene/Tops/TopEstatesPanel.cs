@@ -6,6 +6,17 @@ using UnityEngine;
 
 public class TopEstatesPanel : UIView
 {
+    void Awake()
+    {
+        var currItems = GetComponentsInChildren<TopEstateItem>(true);
+        foreach (var item in currItems)
+        {
+            item.gameObject.SetActive(false);
+        }
+
+        base.Start();
+    }
+
     public void SetProductItems(Enum[] keys)
     {
         var currItems = GetComponentsInChildren<TopEstateItem>(true);

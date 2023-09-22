@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Feudal.Interfaces;
+using System;
 using System.Linq;
 
 namespace Feudal.Presents
@@ -11,6 +12,15 @@ namespace Feudal.Presents
                 .Select(x => (Enum)x.Type)
                 .Distinct()
                 .ToArray());
+        }
+    }
+
+    class Present_TopEstateItem : Present<TopEstateItem>
+    {
+        public override void Refresh(TopEstateItem view)
+        {
+            view.title.text = view.EstateType.ToString();
+            view.count.text = session.playerClan.estates.Count(x => x.Type == (EstateType)view.EstateType).ToString();
         }
     }
 }

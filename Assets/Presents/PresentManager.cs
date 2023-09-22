@@ -24,17 +24,20 @@ namespace Feudal.Presents
             dict = presents.ToDictionary(type => type.BaseType.GetGenericArguments()[0], type => Activator.CreateInstance(type) as IPresent);
         }
 
-        public void RefreshMonoBehaviour(UIView uiview)
+        public void RefreshUIView(UIView uiview, bool isRecursion = false)
         {
             if (dict.TryGetValue(uiview.GetType(), out IPresent present))
             {
                 present.session = session;
-                present.RefreshMonoBehaviour(uiview);
+                present.RefreshUIView(uiview);
             }
 
-            foreach (var view in IteratorChildren(uiview.transform))
+            if(isRecursion)
             {
-                RefreshMonoBehaviour(view);
+                foreach (var view in IteratorChildren(uiview.transform))
+                {
+                    RefreshUIView(view, isRecursion);
+                }
             }
         }
 

@@ -3,6 +3,17 @@ using System.Linq;
 
 public class TopClansPanel : UIView
 {
+    void Awake()
+    {
+        var currItems = GetComponentsInChildren<TopClanItem>(true);
+        foreach (var item in currItems)
+        {
+            item.gameObject.SetActive(false);
+        }
+
+        base.Start();
+    }
+
     public void SetClanItems(Enum[] keys)
     {
         var currItems = GetComponentsInChildren<TopClanItem>(true);

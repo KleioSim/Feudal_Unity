@@ -35,17 +35,15 @@ namespace Feudal.Scenes.Initial
 
             UIView.OnEnableAction = (view) =>
             {
-                presentMgr.RefreshMonoBehaviour(view);
+                presentMgr.RefreshUIView(view);
             };
 
             UIView.ExecUICmd = (obj) =>
             {
                 session.ExecUICmd(obj);
 
-                presentMgr.RefreshMonoBehaviour(mainScene);
+                presentMgr.RefreshUIView(mainScene, true);
             };
-
-            presentMgr.RefreshMonoBehaviour(mainScene);
         }
     }
 }
