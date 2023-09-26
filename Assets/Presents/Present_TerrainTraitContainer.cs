@@ -20,4 +20,16 @@ namespace Feudal.Presents
             view.title.text = session.terrainItems[view.Position].Traits.First().ToString();
         }
     }
+
+    class Present_Pawn_TerrainPawnContainer : Present<TerrainPawnContainer>
+    {
+        public override void Refresh(TerrainPawnContainer view)
+        {
+            view.SetTraitItems(session.terrainItems.Values
+                .Where(x => x.IsDiscovered && x.Traits.Any())
+                .Select(x => x.Position)
+                .ToArray());
+        }
+    }
+
 }
