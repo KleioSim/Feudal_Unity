@@ -8,6 +8,7 @@ public class TerrainPawn : UIView
 {
     public Tilemap terrainMap;
     public Text title;
+    public Grid grid;
 
     private (int x, int y) position;
     public (int x, int y) Position
@@ -17,7 +18,7 @@ public class TerrainPawn : UIView
         {
             position = value;
 
-            this.transform.position = terrainMap.GetCellCenterWorld(new Vector3Int(position.x, position.y));
+            this.transform.position = grid.GetCellCenterWorld(new Vector3Int(position.x, position.y));
         }
     }
 }

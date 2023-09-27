@@ -58,13 +58,16 @@ namespace Feudal.Terrains
 
             var center = (x: 0, y: 0);
 
-            for(int i = -1; i <= 1; i++)
+            //var item = new TerrainItem(center, Terrain.Plain);
+            //dict.Add(item.Position, item);
+
+            for (int i = -1; i <= 1; i++)
             {
                 for (int j = -1; j <= 1; j++)
                 {
                     var position = (center.x + i, center.y + j);
 
-                    if(position == center)
+                    if (position == center)
                     {
                         var item = new TerrainItem(position, Terrain.Plain);
                         dict.Add(item.Position, item);
@@ -79,9 +82,9 @@ namespace Feudal.Terrains
                 }
             }
 
-            for(int i=2; i<=initSize; i++)
+            for (int i = 2; i <= initSize; i++)
             {
-                for(int j=(i*-1)+1; j<i; j++)
+                for (int j = (i * -1) + 1; j < i; j++)
                 {
                     var position = (center.x + i, center.y + j);
                     dict.Add(position, new TerrainItem(position, CalcTerrainType(position)));
@@ -121,9 +124,9 @@ namespace Feudal.Terrains
             dict[center].IsDiscovered = true;
             dict[center].AddTraits(TerrainTrait.FatSoil);
 
-            dict[(center.x+1, center.y)].AddTraits(TerrainTrait.FatSoil);
+            dict[(center.x + 1, center.y)].AddTraits(TerrainTrait.FatSoil);
 
-            dict[(center.x, center.y+1)].AddTraits(TerrainTrait.CopperLode);
+            dict[(center.x, center.y + 1)].AddTraits(TerrainTrait.CopperLode);
         }
 
         [MessageProcess]
