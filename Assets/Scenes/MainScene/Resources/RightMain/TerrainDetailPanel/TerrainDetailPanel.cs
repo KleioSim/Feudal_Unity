@@ -11,6 +11,8 @@ public class TerrainDetailPanel : RightMain
     public Text title;
     public GameObject workDetailPanel;
 
+    //public GameObject resourceTrait;
+    //public GameObject traitContainer;
     public TraitContainer traitContainer;
 
     private WorkHood currentWorkHood => workHoods.SingleOrDefault(x => x.isActiveAndEnabled);

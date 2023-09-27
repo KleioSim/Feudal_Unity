@@ -11,10 +11,12 @@ namespace Feudal.Terrains
         private Terrain terrain;
         public Terrain Terrain => terrain;
 
-        public bool IsDiscovered { get; set; }
+        public bool IsDiscovered { get; internal set; }
 
-        private List<TerrainTrait> traits = new List<TerrainTrait>();
-        public IEnumerable<TerrainTrait> Traits => traits;
+        //private List<TerrainTrait> traits = new List<TerrainTrait>();
+        //public IEnumerable<TerrainTrait> Traits => traits;
+
+        public TerrainResource? resource { get; internal set; }
 
         public TerrainItem((int, int) position, Terrain terrain)
         {
@@ -22,17 +24,17 @@ namespace Feudal.Terrains
             this.terrain = terrain;
         }
 
-        public void AddTraits(params TerrainTrait[] traits)
-        {
-            foreach(var trait in traits)
-            {
-                if(this.traits.Contains(trait))
-                {
-                    continue;
-                }
+        //public void AddTraits(params TerrainTrait[] traits)
+        //{
+        //    foreach(var trait in traits)
+        //    {
+        //        if(this.traits.Contains(trait))
+        //        {
+        //            continue;
+        //        }
 
-                this.traits.Add(trait);
-            }
-        }
+        //        this.traits.Add(trait);
+        //    }
+        //}
     }
 }

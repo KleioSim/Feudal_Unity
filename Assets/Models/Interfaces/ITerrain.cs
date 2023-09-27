@@ -13,7 +13,16 @@ namespace Feudal.Interfaces
         Marsh
     }
 
-    public enum TerrainTrait
+    //public enum TerrainTrait
+    //{
+    //    [VaildEstate(EstateType.Farm)]
+    //    FatSoil,
+
+    //    [VaildEstate(EstateType.CopperMine)]
+    //    CopperLode
+    //}
+
+    public enum TerrainResource
     {
         [VaildEstate(EstateType.Farm)]
         FatSoil,
@@ -38,7 +47,8 @@ namespace Feudal.Interfaces
         Terrain Terrain { get; }
         bool IsDiscovered { get; }
 
-        IEnumerable<TerrainTrait> Traits { get; }
+        TerrainResource? resource { get; }
+        //IEnumerable<TerrainTrait> Traits { get; }
     }
 
     public class Message_AddTerrainItem : Message

@@ -122,11 +122,15 @@ namespace Feudal.Terrains
             }
 
             dict[center].IsDiscovered = true;
-            dict[center].AddTraits(TerrainTrait.FatSoil);
+            dict[center].resource = TerrainResource.FatSoil;
+            dict[(center.x + 1, center.y)].resource = TerrainResource.FatSoil;
+            dict[(center.x, center.y + 1)].resource = TerrainResource.CopperLode;
 
-            dict[(center.x + 1, center.y)].AddTraits(TerrainTrait.FatSoil);
+            //dict[center].AddTraits(TerrainTrait.FatSoil);
 
-            dict[(center.x, center.y + 1)].AddTraits(TerrainTrait.CopperLode);
+            //dict[(center.x + 1, center.y)].AddTraits(TerrainTrait.FatSoil);
+
+            //dict[(center.x, center.y + 1)].AddTraits(TerrainTrait.CopperLode);
         }
 
         [MessageProcess]

@@ -1700,7 +1700,7 @@ GameObject:
   - component: {fileID: 8140274630056536599}
   - component: {fileID: 3824688737935020729}
   m_Layer: 5
-  m_Name: TraitItem
+  m_Name: Resource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2933,7 +2933,7 @@ MonoBehaviour:
       m_Calls: []
   title: {fileID: 9004649959050502573}
   workDetailPanel: {fileID: 9004649957663026060}
-  traitContainer: {fileID: 4311389592695120237}
+  traitContainer: {fileID: 7188391850780587725}
 --- !u!1 &9004649958923476233
 GameObject:
   m_ObjectHideFlags: 0
@@ -3038,7 +3038,7 @@ GameObject:
   - component: {fileID: 9004649958956401242}
   - component: {fileID: 9004649958956401244}
   - component: {fileID: 9004649958956401243}
-  - component: {fileID: 4311389592695120237}
+  - component: {fileID: 7188391850780587725}
   m_Layer: 5
   m_Name: Traits
   m_TagString: Untagged
@@ -3106,7 +3106,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4311389592695120237
+--- !u!114 &7188391850780587725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3119,6 +3119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Content: {fileID: 3517867609550630203}
+  resource: {fileID: 7518558196208045942}
 --- !u!1 &9004649959037570084
 GameObject:
   m_ObjectHideFlags: 0

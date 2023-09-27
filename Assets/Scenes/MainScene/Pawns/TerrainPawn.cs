@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
 public class TerrainPawn : UIView
 {
-    public Tilemap terrainMap;
-    public Text title;
+    public GameObject resource;
     public Grid grid;
+    public TerrainPawnWorkHood workHood;
 
     private (int x, int y) position;
     public (int x, int y) Position

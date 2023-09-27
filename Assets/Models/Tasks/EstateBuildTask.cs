@@ -6,8 +6,8 @@ namespace Feudal.Tasks
 {
     public class EstateBuildTask : Task
     {
-        private readonly EstateType estateType;
-        private readonly string ownerId;
+        public readonly EstateType estateType;
+        public readonly string ownerId;
 
         public EstateBuildTask(string clanId, object[] parameters) : base(clanId)
         {

@@ -28,7 +28,9 @@ namespace Feudal.Presents
             }
 
             view.traitContainer.SetEnable(true);
-            view.traitContainer.SetTraitItems(terrainItem.Traits.Select(x=>x as Enum));
+            view.traitContainer.SetResource(terrainItem.resource?.ToString());
+
+            //view.traitContainer.SetTraitItems(terrainItem.Traits.Select(x=>x as Enum));
 
             if (session.estates.TryGetValue(view.Position, out IEstate estate))
             {
@@ -38,16 +40,25 @@ namespace Feudal.Presents
                 return;
             }
 
-            foreach(var trait in terrainItem.Traits.Reverse())
+            //foreach(var trait in terrainItem.Traits.Reverse())
+            //{
+            //    var vaildEstate = trait.GetAttributeOfType<VaildEstateAttribute>();
+            //    if (vaildEstate != null)
+            //    {
+            //        var workHood = view.SetCurrentWorkHood<BuildingWorkHood>();
+            //        workHood.Position = view.Position;
+            //        workHood.estateType = vaildEstate.estateType;
+            //        return;
+            //    }
+            //}
+
+            var vaildEstate = terrainItem.resource?.GetAttributeOfType<VaildEstateAttribute>();
+            if (vaildEstate != null)
             {
-                var vaildEstate = trait.GetAttributeOfType<VaildEstateAttribute>();
-                if (vaildEstate != null)
-                {
-                    var workHood = view.SetCurrentWorkHood<BuildingWorkHood>();
-                    workHood.Position = view.Position;
-                    workHood.estateType = vaildEstate.estateType;
-                    return;
-                }
+                var workHood = view.SetCurrentWorkHood<BuildingWorkHood>();
+                workHood.Position = view.Position;
+                workHood.estateType = vaildEstate.estateType;
+                return;
             }
         }
     }
