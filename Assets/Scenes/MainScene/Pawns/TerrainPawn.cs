@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class TerrainPawn : UIView
 {
@@ -19,5 +21,23 @@ public class TerrainPawn : UIView
 
             this.transform.position = grid.GetCellCenterWorld(new Vector3Int(position.x, position.y));
         }
+    }
+
+    void OnEnable()
+    {
+        resource.SetActive(false);
+        workHood.gameObject.SetActive(false);
+    }
+
+    public void SetResource(string resourceDesc)
+    {
+        if (resourceDesc == null)
+        {
+            resource.SetActive(false);
+            return;
+        }
+
+        resource.SetActive(true);
+        resource.GetComponentInChildren<Text>().text = resourceDesc;
     }
 }

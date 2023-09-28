@@ -10,11 +10,15 @@ namespace Feudal.Presents
         public override void Refresh(TerrainPawnContainer view)
         {
             view.SetTraitItems(session.terrainItems.Values
-                .Where(x => 
-                    (x.IsDiscovered && x.resource != null)
-                    || session.tasks.Any(task => x.Position == task.Position))
+                .Where(x =>IsNeedPawn(x))
                 .Select(x => x.Position)
                 .ToArray());
+        }
+
+        private bool IsNeedPawn(ITerrainItem x)
+        {
+            return (x.IsDiscovered && x.resource != null)
+                                || session.tasks.Any(task => x.Position == task.Position);
         }
     }
 
@@ -24,52 +28,42 @@ namespace Feudal.Presents
         {
             var terrain = session.terrainItems[view.Position];
 
-            if (terrain.resource == null)
+            if (!terrain.IsDiscovered)
             {
-                view.resource.SetActive(false);
+                view.SetResource(null);
             }
             else
             {
-                view.resource.GetComponentInChildren<Text>().text = terrain.resource.ToString();
-                view.resource.SetActive(terrain.IsDiscovered);
+                view.SetResource(terrain.resource?.ToString());
             }
-
-            view.workHood.gameObject.SetActive(false);
 
             if(session.estates.TryGetValue(view.Position, out IEstate estate))
             {
-                view.workHood.gameObject.SetActive(true);
-
-                view.workHood.productType.text = estate.ProductType.ToString();
-                view.workHood.productValue.text = estate.ProductValue.ToString();
+                view.workHood.SetProduct((estate.ProductType.ToString(), estate.ProductValue));
+            }
+            else
+            {
+                view.workHood.SetProduct(null);
             }
 
-            view.workHood.clanLabor.SetActive(false);
-            view.workHood.productMask.SetActive(true);
             var task = session.tasks.SingleOrDefault(x => x.Position == view.Position);
-            if(task != null)
+            if (task == null)
             {
-                view.workHood.clanLabor.SetActive(true);
-                view.workHood.gameObject.SetActive(true);
-
-                view.workHood.productMask.SetActive(false);
+                view.workHood.SetLabor(null);
+            }
+            else
+            {
 
                 var clanLabor = session.clans.SingleOrDefault(x => x.Id == task.ClanId);
-                view.workHood.clanLabor.GetComponentInChildren<Text>().text = clanLabor.Name;
+                view.workHood.SetLabor(clanLabor.Name);
 
-                switch(task)
+                switch (task)
                 {
                     case DiscoverTask discoverTask:
-                        {
-                            view.workHood.productType.text = "探索";
-                            view.workHood.productValue.text = discoverTask.Percent.ToString();
-                        }
+                        view.workHood.SetProduct(("探索", discoverTask.Percent));
                         break;
                     case EstateBuildTask estateBuildTask:
-                        {
-                            view.workHood.productType.text = $"建设{estateBuildTask.estateType}";
-                            view.workHood.productValue.text = estateBuildTask.Percent.ToString();
-                        }
+                        view.workHood.SetProduct(($"建设{estateBuildTask.estateType}", estateBuildTask.Percent));
                         break;
                     case EstateWorkTask:
                         break;
@@ -77,7 +71,6 @@ namespace Feudal.Presents
                         throw new System.Exception();
                 }
             }
-    
         }
     }
 }
