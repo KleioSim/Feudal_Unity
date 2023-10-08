@@ -26,7 +26,9 @@ namespace Feudal.Presents
     {
         public override void Refresh(TerrainPawn view)
         {
-            var terrain = session.terrainItems[view.Position];
+            var position = (view.Position.x, view.Position.y);
+
+            var terrain = session.terrainItems[position];
 
             if (!terrain.IsDiscovered)
             {
@@ -37,16 +39,12 @@ namespace Feudal.Presents
                 view.SetResource(terrain.resource?.ToString());
             }
 
-            if(session.estates.TryGetValue(view.Position, out IEstate estate))
+            if(session.estates.TryGetValue(position, out IEstate estate))
             {
                 view.workHood.SetProduct((estate.ProductType.ToString(), estate.ProductValue));
             }
-            else
-            {
-                view.workHood.SetProduct(null);
-            }
 
-            var task = session.tasks.SingleOrDefault(x => x.Position == view.Position);
+            var task = session.tasks.SingleOrDefault(x => x.Position == position);
             if (task == null)
             {
                 view.workHood.SetLabor(null);

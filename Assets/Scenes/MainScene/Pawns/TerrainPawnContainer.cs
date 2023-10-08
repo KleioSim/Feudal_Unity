@@ -29,7 +29,7 @@ public class TerrainPawnContainer : UIView
             }
 
             currItems[i].gameObject.SetActive(true);
-            currItems[i].Position = positions[i];
+            currItems[i].Position = new Vector3Int(positions[i].x, positions[i].y);
         }
     }
 }

@@ -16,17 +16,10 @@ public class TerrainPawnWorkHood : UIView
         clanLabor.SetActive(false);
     }
 
-    public void SetProduct((string Type, decimal Count)? productInfo)
+    public void SetProduct((string Type, decimal Count) productInfo)
     {
-        if(productInfo == null)
-        {
-            this.gameObject.SetActive(false);
-            return;
-        }
-
-        this.gameObject.SetActive(true);
-        productType.text = productInfo.Value.Type;
-        productValue.text = productInfo.Value.Count.ToString();
+        productType.text = productInfo.Type;
+        productValue.text = productInfo.Count.ToString();
     }
 
     public void SetLabor(string laborName)

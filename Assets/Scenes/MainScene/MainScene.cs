@@ -16,13 +16,12 @@ namespace Feudal.Scenes.Main
 
         void Awake()
         {
-            terrainMap.OnClickTile.AddListener(OnTerrainMapClick);
+            terrainMap.OnClickTile.AddListener(item=>OnTerrainMapClick(item.Position));
         }
 
-        public void OnTerrainMapClick(DataItem item)
+        public void OnTerrainMapClick(Vector3Int position)
         {
-            var position = (item.Position.x, item.Position.y);
-            rightPanel.OnShowMainView<TerrainDetailPanel>(position);
+            rightPanel.OnShowMainView<TerrainDetailPanel>((position.x, position.y));
         }
 
         public void OnShowEstates()
